@@ -1,16 +1,24 @@
 package es.ucm.fdi.model;
-import java.util.*;
-import java.io.*;
+
 
 import es.ucm.fdi.util.*;
 public class Road {
+	//No estamos muy seguras de si se necesita el primer y el segundo atributo
+	private int simulationTime;
 	private String roadId;
 	private int length;
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
 	private MultiTreeMap <Integer, Vehicle> vehicleList; 
-	
+
+
+	int getLength () {
+		return length;
+	}
+	String getID() {
+		return roadId;
+	}
 	public void pushVehicle(Vehicle v){
 		vehicleList.putValue(0, v);
 	}
@@ -20,8 +28,8 @@ public class Road {
 	}
 	
 	public void moveForward(){
-		long baseSpeed;
-		long maxVehicles;
+		int baseSpeed;
+		int maxVehicles;
 		if (vehicleList.sizeOfValues() > 1)
 			maxVehicles = vehicleList.sizeOfValues();
 		else 
@@ -32,12 +40,23 @@ public class Road {
 		else 
 			baseSpeed = maxSpeed;
 
+		boolean faultycar = false;
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b)->(a-b));
 		for (Vehicle v: vehicleList.innerValues()){
-			//MultiTreeMap updated = new MultiTreeMap ((a, b) -> a-b);
+			if (v.getFaulty () > 0) faultycar= true;
+			if (faultycar) v.setActualSpeed(baseSpeed/2);
+			else v.setActualSpeed(baseSpeed);
+			v.moveForward();
+			updated.putValue(v.getroadLocation(), v);
 		}
+		vehicleList = updated;
 	}
-	public void generateInform(){
-		
-		
+	public String generateInform(){
+		String report;
+		report = "[road_report]" + "id = " + roadId + "time = " + simulationTime + "state = ";
+		for (Vehicle v: vehicleList.innerValues()) {
+			report += "(" + v.getvehicleId() + "," + v.getroadLocation() + ") , ";
+		}
+		return report;
 	}
 }

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  * that is, newer values with the same key will be stored after any other values
  * with the same key.
  */
+@SuppressWarnings({ "serial", "unused" })
 public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
 
     public MultiTreeMap() {}
@@ -48,8 +49,8 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
     /**
      * Returns the total number of values stored in this multimap
      */
-    public long sizeOfValues() {
-        long total = 0;
+    public int sizeOfValues() {
+        int total = 0;
         for (List<V> l : values()) {
             total += l.size();
         }
