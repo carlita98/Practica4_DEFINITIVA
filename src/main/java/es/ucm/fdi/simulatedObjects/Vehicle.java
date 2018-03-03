@@ -1,12 +1,14 @@
-package es.ucm.fdi.model;
+package es.ucm.fdi.simulatedObjects;
 
 import java.util.*;
 
-public class Vehicle {
+import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.ini.SimulatedObject;
+
+public class Vehicle extends SimulatedObject{
 	//No estamos muy seguras de si se necesita el primer y el segundo atributo
 	private int simulationTime;
 	private int kilometrage;
-	private String vehicleId;
 	private int faulty;
 	private Road actualRoad;
 	private int roadLocation;
@@ -20,9 +22,6 @@ public class Vehicle {
 	}
 	public int getFaulty () {
 		return faulty;
-	}
-	public String getvehicleId() {
-		return vehicleId;
 	}
 	public int getroadLocation () {
 		return roadLocation;
@@ -68,13 +67,19 @@ public class Vehicle {
 			arrived = true;
 		}
 	}
-	
+	protected  String getReportHeader() {
+		
+	}
+	protected void fillReportDetails (Map <String, String> out) {
+		
+	}
+	/*
 	public String generateInform (){
 		String report;
-		report = "[vehicle_report]"+ "id = " + vehicleId + "time = " + simulationTime + "speed = " 
+		report = "[vehicle_report]"+ "id = " + Id + "time = " + simulationTime + "speed = " 
 				+ actualSpeed + "kilometrage = " + kilometrage + "faulty = " + faulty + "location = ";
 		if (!arrived) report += "(" + actualRoad.getID() + roadLocation + ")";
 		else report += "arrived";
 		return report;
-	}
+	}*/
 }

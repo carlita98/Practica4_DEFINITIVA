@@ -1,9 +1,10 @@
-package es.ucm.fdi.model;
+package es.ucm.fdi.simulatedObjects;
 import java.util.*;
 
-public class Junction {
+import es.ucm.fdi.ini.SimulatedObject;
+
+public class Junction  extends SimulatedObject{
 	private int simulationTime;
-	private String junctionId;
 	public class IR{
 		boolean light;
 		ArrayList <Vehicle> vehicleListIR;
@@ -48,10 +49,16 @@ public class Junction {
 		}
 	}
 	
-
+	protected  String getReportHeader() {
+		
+	}
+	protected void fillReportDetails (Map <String, String> out) {
+		
+	}
+	/*
 	public String generateInform() {
 		String report;
-		report = "[junction_report]" + "id = " + junctionId + "time = " + simulationTime + "queues = ";
+		report = "[junction_report]" + "id = " + Id + "time = " + simulationTime + "queues = ";
 		Iterator <Map.Entry<Road, IR>> it = RoadQueue.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Road, IR> entry = it.next();
@@ -60,10 +67,10 @@ public class Junction {
 			else report += "red,";
 			report += "[";
 			for (Vehicle v: entry.getValue().vehicleListIR) {
-				report += v.getvehicleId() + ",";
+				report += v.getID() + ",";
 			}
 			report += "]";
 		}
 		return report;
-	}
+	}*/
 }

@@ -1,24 +1,24 @@
-package es.ucm.fdi.model;
+package es.ucm.fdi.simulatedObjects;
 
 
+import java.util.Map;
+
+import es.ucm.fdi.ini.SimulatedObject;
 import es.ucm.fdi.util.*;
-public class Road {
+public class Road  extends SimulatedObject{
 	//No estamos muy seguras de si se necesita el primer y el segundo atributo
 	private int simulationTime;
-	private String roadId;
 	private int length;
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
 	private MultiTreeMap <Integer, Vehicle> vehicleList; 
-
+	//Juntion donde termina la carretera
 
 	int getLength () {
 		return length;
 	}
-	String getID() {
-		return roadId;
-	}
+
 	public void pushVehicle(Vehicle v){
 		vehicleList.putValue(0, v);
 	}
@@ -51,12 +51,20 @@ public class Road {
 		}
 		vehicleList = updated;
 	}
+	
+	protected  String getReportHeader() {
+		
+	}
+	protected void fillReportDetails (Map <String, String> out) {
+		
+	}
+	/*
 	public String generateInform(){
 		String report;
-		report = "[road_report]" + "id = " + roadId + "time = " + simulationTime + "state = ";
+		report = "[road_report]" + "id = " + Id + "time = " + simulationTime + "state = ";
 		for (Vehicle v: vehicleList.innerValues()) {
-			report += "(" + v.getvehicleId() + "," + v.getroadLocation() + ") , ";
+			report += "(" + v.getID() + "," + v.getroadLocation() + ") , ";
 		}
 		return report;
-	}
+	}*/
 }
