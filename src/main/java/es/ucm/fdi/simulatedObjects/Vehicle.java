@@ -13,23 +13,6 @@ public class Vehicle extends SimulatedObject{
 	private ArrayList<Junction> itinerary;
 	private boolean arrived;
 	
-	/*public Vehicle (int t, String id, int duracion){
-		time = t;
-		Id = id;
-		faulty = duracion;
-	}
-	public Vehicle(int t, String id, int mS, ArrayList<Junction> i) {
-		time = t;
-		Id = id;
-		maxSpeed = mS;
-		itinerary = i;
-		//
-		kilometrage = 0;
-		roadLocation = 0;
-		actualSpeed = 0;
-		faulty = 0;
-		arrived = false;
-	}*/
 	
 	public Road getActualRoad() {
 		return actualRoad;
@@ -101,8 +84,10 @@ public class Vehicle extends SimulatedObject{
 		for (Road r: itinerary.get(0).getOutgoingRoadList()) {
 			for (Road r2: itinerary.get(1).getIncomingRoadList()) {
 				if (r == r2) {
+					actualRoad.popVehicle(this);
 					actualRoad = r;
 					itinerary.remove(0);
+					actualRoad.pushVehicle(this);
 					roadLocation = 0;
 					break;
 				}

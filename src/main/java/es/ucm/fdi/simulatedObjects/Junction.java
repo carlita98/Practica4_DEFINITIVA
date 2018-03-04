@@ -51,9 +51,12 @@ public class Junction  extends SimulatedObject{
 				Map.Entry<Road, IR> aux = it.next();
 				aux.setValue(new IR(true, aux.getValue().vehicleListIR));
 					entry.getValue().vehicleListIR.get(0).moveForward();
+					//Si no está averiado
+					if (entry.getValue().vehicleListIR.get(0).getFaulty() == 0) {
 					entry.getValue().vehicleListIR.get(0).moveToNextRoad();
 					entry.getValue().vehicleListIR.remove(0);
-				
+					}
+					//Poner el semáforo en rojo de la carretera 
 				entry.setValue(new IR(false, entry.getValue().vehicleListIR));
 				break;
 			}
