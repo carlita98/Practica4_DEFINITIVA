@@ -3,7 +3,7 @@ import es.ucm.fdi.events.Event;
 import es.ucm.fdi.events.NewFaultyVehicleEvent;
 import es.ucm.fdi.ini.IniSection;
 
-public class NewFaultyVehicleEventBuilder {
+public class NewFaultyVehicleEventBuilder implements EventBuilder{
 	
 	public Event parse(IniSection sec) {
 		if( ! sec.getTag().equals("make_vehicle_faulty")) return null;

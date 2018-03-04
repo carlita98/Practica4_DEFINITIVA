@@ -66,7 +66,7 @@ public class Junction  extends SimulatedObject{
 	protected  String getReportHeader() {
 		return "junction_report";
 	}
-	protected void fillReportDetails (Map <String, Object> out) {
+	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
 		Iterator <Map.Entry<Road, IR>> it = RoadQueue.entrySet().iterator();
 		while (it.hasNext()) {

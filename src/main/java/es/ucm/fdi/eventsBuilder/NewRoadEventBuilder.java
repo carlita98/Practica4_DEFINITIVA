@@ -4,7 +4,7 @@ import es.ucm.fdi.events.Event;
 import es.ucm.fdi.events.NewRoadEvent;
 import es.ucm.fdi.ini.IniSection;
 
-public class NewRoadEventBuilder {
+public class NewRoadEventBuilder implements EventBuilder{
 	
 	public Event parse(IniSection sec) {
 		if( ! sec.getTag().equals("new_road")) return null;

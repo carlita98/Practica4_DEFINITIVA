@@ -9,14 +9,14 @@ abstract public class SimulatedObject {
 		return Id;
 	}
 	
-	public void report (Map <String, Object> out) {
+	public void report (Map <String, String> out) {
 		out.put("", getReportHeader());
 		out.put("id", Id);
-		out.put("time", time);
+		out.put("time", String.valueOf(time));
 		fillReportDetails (out);
 	}
 	protected abstract String getReportHeader();
-	protected abstract void fillReportDetails (Map <String, Object> out);
+	protected abstract void fillReportDetails (Map <String, String> out);
 	public abstract void moveForward();
 
 	@Override

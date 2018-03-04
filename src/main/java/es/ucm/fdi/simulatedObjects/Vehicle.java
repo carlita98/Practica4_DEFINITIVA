@@ -103,10 +103,10 @@ public class Vehicle extends SimulatedObject{
 	protected  String getReportHeader() {
 		return "vehicle_report";
 	}
-	protected void fillReportDetails (Map <String, Object> out) {
-		out.put("speed", actualSpeed);
-		out.put("kilometrage", kilometrage);
-		out.put("faulty", faulty);
+	protected void fillReportDetails (Map <String, String> out) {
+		out.put("speed", String.valueOf(actualSpeed));
+		out.put("kilometrage", String.valueOf(kilometrage));
+		out.put("faulty", String.valueOf(faulty));
 		if (!arrived)
 			out.put("location","(" + actualRoad.getID() + roadLocation + ")" );
 		else

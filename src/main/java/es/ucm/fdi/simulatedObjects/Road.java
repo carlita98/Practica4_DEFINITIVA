@@ -69,7 +69,7 @@ public class Road  extends SimulatedObject{
 	protected  String getReportHeader() {
 		return "road_report";
 	}
-	protected void fillReportDetails (Map <String, Object> out) {
+	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
 		for (Vehicle v: vehicleList.innerValues()) {
 			report += "(" + v.getID() + "," + v.getRoadLocation() + ") , ";
