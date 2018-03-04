@@ -3,11 +3,9 @@ package es.ucm.fdi.simulatedObjects;
 
 import java.util.Map;
 
-import es.ucm.fdi.ini.SimulatedObject;
 import es.ucm.fdi.util.*;
 public class Road  extends SimulatedObject{
-	//No estamos muy seguras de si se necesita el primer y el segundo atributo
-	private int simulationTime;
+
 	private int length;
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
@@ -17,6 +15,21 @@ public class Road  extends SimulatedObject{
 
 	int getLength () {
 		return length;
+	}
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+	public MultiTreeMap<Integer, Vehicle> getVehicleList() {
+		return vehicleList;
+	}
+	public void setVehicleList(MultiTreeMap<Integer, Vehicle> vehicleList) {
+		this.vehicleList = vehicleList;
+	}
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public void pushVehicle(Vehicle v){
@@ -47,24 +60,21 @@ public class Road  extends SimulatedObject{
 			if (faultycar) v.setActualSpeed(baseSpeed/2);
 			else v.setActualSpeed(baseSpeed);
 			v.moveForward();
-			updated.putValue(v.getroadLocation(), v);
+			updated.putValue(v.getRoadLocation(), v);
 		}
 		vehicleList = updated;
 	}
 	
+
 	protected  String getReportHeader() {
-		
+		return "road_report";
 	}
-	protected void fillReportDetails (Map <String, String> out) {
-		
-	}
-	/*
-	public String generateInform(){
-		String report;
-		report = "[road_report]" + "id = " + Id + "time = " + simulationTime + "state = ";
+	protected void fillReportDetails (Map <String, Object> out) {
+		String report = "";
 		for (Vehicle v: vehicleList.innerValues()) {
-			report += "(" + v.getID() + "," + v.getroadLocation() + ") , ";
+			report += "(" + v.getID() + "," + v.getRoadLocation() + ") , ";
 		}
-		return report;
-	}*/
+		out.put("state", report);
+	}
+
 }

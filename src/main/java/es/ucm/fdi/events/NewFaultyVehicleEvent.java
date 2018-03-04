@@ -1,7 +1,9 @@
 package es.ucm.fdi.events;
 
-abstract public class NewFaultyVehicleEvent extends Event {
-	public NewFaultyVehicleEvent(int time, String id, int duracion) {
-		
+import es.ucm.fdi.simulatedObjects.Vehicle;
+
+public class NewFaultyVehicleEvent extends Event {
+	public NewFaultyVehicleEvent(String time, String id, String duration) {
+		//EventList.add(new Vehicle(Integer.parseInt(time), id, Integer.parseInt(duration)));
 	}
 }

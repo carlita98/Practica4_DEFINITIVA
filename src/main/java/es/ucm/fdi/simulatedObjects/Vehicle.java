@@ -2,12 +2,8 @@ package es.ucm.fdi.simulatedObjects;
 
 import java.util.*;
 
-import es.ucm.fdi.ini.IniSection;
-import es.ucm.fdi.ini.SimulatedObject;
-
 public class Vehicle extends SimulatedObject{
-	//No estamos muy seguras de si se necesita el primer y el segundo atributo
-	private int simulationTime;
+
 	private int kilometrage;
 	private int faulty;
 	private Road actualRoad;
@@ -17,14 +13,29 @@ public class Vehicle extends SimulatedObject{
 	private ArrayList<Junction> itinerary;
 	private boolean arrived;
 	
+	/*public Vehicle (int t, String id, int duracion){
+		time = t;
+		Id = id;
+		faulty = duracion;
+	}
+	public Vehicle(int t, String id, int mS, ArrayList<Junction> i) {
+		time = t;
+		Id = id;
+		maxSpeed = mS;
+		itinerary = i;
+		//
+		kilometrage = 0;
+		roadLocation = 0;
+		actualSpeed = 0;
+		faulty = 0;
+		arrived = false;
+	}*/
+	
 	public Road getActualRoad() {
 		return actualRoad;
 	}
 	public int getFaulty () {
 		return faulty;
-	}
-	public int getroadLocation () {
-		return roadLocation;
 	}
 	public void setFaultyTime (int t) {
 		faulty += t;
@@ -33,8 +44,44 @@ public class Vehicle extends SimulatedObject{
 		if (s > maxSpeed) actualSpeed = maxSpeed;
 		else actualSpeed = s;
 	}
-	
-	public boolean moveForward () {
+	public int getKilometrage() {
+		return kilometrage;
+	}
+	public void setKilometrage(int kilometrage) {
+		this.kilometrage = kilometrage;
+	}
+	public int getRoadLocation() {
+		return roadLocation;
+	}
+	public void setRoadLocation(int roadLocation) {
+		this.roadLocation = roadLocation;
+	}
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+	public ArrayList<Junction> getItinerary() {
+		return itinerary;
+	}
+	public void setItinerary(ArrayList<Junction> itinerary) {
+		this.itinerary = itinerary;
+	}
+	public boolean isArrived() {
+		return arrived;
+	}
+	public void setArrived(boolean arrived) {
+		this.arrived = arrived;
+	}
+	public int getActualSpeed() {
+		return actualSpeed;
+	}
+	public void setActualRoad(Road actualRoad) {
+		this.actualRoad = actualRoad;
+	}
+
+	public void moveForward () {
 		if (faulty == 0) {
 			roadLocation += actualSpeed;
 			if (roadLocation >= actualRoad.getLength()){
@@ -43,13 +90,12 @@ public class Vehicle extends SimulatedObject{
 				itinerary.get(0).carIntoIR(this);
 			}
 			else kilometrage += actualSpeed;
-			return true;
 		}
 		else {
 			faulty --;
-			return false;
 		}
 	}
+
 	public void moveToNextRoad() {
 		if (itinerary.size() > 0) {
 		for (Road r: itinerary.get(0).getOutgoingRoadList()) {
@@ -57,6 +103,7 @@ public class Vehicle extends SimulatedObject{
 				if (r == r2) {
 					actualRoad = r;
 					itinerary.remove(0);
+					roadLocation = 0;
 					break;
 				}
 			}
@@ -64,22 +111,20 @@ public class Vehicle extends SimulatedObject{
 		}
 		else {
 			itinerary.remove(0);
+			roadLocation = 0;
 			arrived = true;
 		}
 	}
 	protected  String getReportHeader() {
-		
+		return "vehicle_report";
 	}
-	protected void fillReportDetails (Map <String, String> out) {
-		
+	protected void fillReportDetails (Map <String, Object> out) {
+		out.put("speed", actualSpeed);
+		out.put("kilometrage", kilometrage);
+		out.put("faulty", faulty);
+		if (!arrived)
+			out.put("location","(" + actualRoad.getID() + roadLocation + ")" );
+		else
+			out.put("location", "arrived");
 	}
-	/*
-	public String generateInform (){
-		String report;
-		report = "[vehicle_report]"+ "id = " + Id + "time = " + simulationTime + "speed = " 
-				+ actualSpeed + "kilometrage = " + kilometrage + "faulty = " + faulty + "location = ";
-		if (!arrived) report += "(" + actualRoad.getID() + roadLocation + ")";
-		else report += "arrived";
-		return report;
-	}*/
 }

@@ -1,7 +1,7 @@
 package es.ucm.fdi.events;
 
-abstract public class NewRoadEvent extends Event{
-	public NewRoadEvent(int time, String idRoad, String idJuntionIni, String idJuntionDest, int maxSpeed, int legth) {
+public class NewRoadEvent extends Event{
+	public NewRoadEvent(String time, String idRoad, String idJuntionIni, String idJuntionDest, String maxSpeed, String legth) {
 		
 	}
 }

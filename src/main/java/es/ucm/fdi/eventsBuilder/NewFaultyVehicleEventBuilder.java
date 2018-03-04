@@ -1,5 +1,6 @@
 package es.ucm.fdi.eventsBuilder;
 import es.ucm.fdi.events.Event;
+import es.ucm.fdi.events.NewFaultyVehicleEvent;
 import es.ucm.fdi.ini.IniSection;
 
 public class NewFaultyVehicleEventBuilder {
