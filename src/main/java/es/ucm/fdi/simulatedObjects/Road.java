@@ -13,6 +13,12 @@ public class Road  extends SimulatedObject{
 	private MultiTreeMap <Integer, Vehicle> vehicleList; 
 	//Juntion donde termina la carretera
 
+	public Road(int length, int maxSpeed, MultiTreeMap<Integer, Vehicle> vehicleList) {
+		super();
+		this.length = length;
+		this.maxSpeed = maxSpeed;
+		this.vehicleList = vehicleList;
+	}
 	int getLength () {
 		return length;
 	}
