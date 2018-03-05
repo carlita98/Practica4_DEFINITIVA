@@ -11,22 +11,13 @@ import es.ucm.fdi.simulatedObjects.*;
 public class Simulator {
 	//Ordenada por tiempo
 	private TreeMap <Integer, Event> eventList;
-
 	int simulatorTime;
-	/*
-	void insertVehicle (Vehicle v) {
-		vehicleList.add(v);
-	}
-	void insertRoad(Road r) {
-		roadList.add(r);
-	}
-	void insertJunction (Junction j) {
-		junctionList.add(j);
-	}*/
+
 	void insertEvent(Event e) {
 		if (e.getTime() >= simulatorTime)
 			eventList.put(e.getTime(), e);
 	}
+	
 	void writeReport(Map<String, String> report, OutputStream file) {
 		if (file != null) {
 			Iterator <Map.Entry <String, String>> it = report.entrySet().iterator();
@@ -38,7 +29,6 @@ public class Simulator {
 			try {
 				sec.store(file);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

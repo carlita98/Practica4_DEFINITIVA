@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import es.ucm.fdi.events.Event;
 import es.ucm.fdi.ini.IniSection;
-import es.ucm.fdi.launcher.RoadMap;
 
 public interface EventBuilder {
 	EventBuilder []bs = new EventBuilder[] {new NewVehicleEventBuilder(), new NewRoadEventBuilder(),
-	new NewFaultyVehicleEventBuilder(), new NewJunctionEventBuilder ()};
+	new MakeFaultyVehicleEventBuilder(), new NewJunctionEventBuilder ()};
 	
 	public Event parse(IniSection sec);
 	public default Event parseSection (IniSection sec) {
@@ -38,7 +37,6 @@ public interface EventBuilder {
 			else return n;
 		}catch(NumberFormatException e ){
 			e = new NumberFormatException ("The value of the attribute is not a digit");
-			e.getMessage();
 		}
 		return -1;
 		

@@ -1,12 +1,15 @@
 package es.ucm.fdi.events;
 
+import es.ucm.fdi.launcher.RoadMap;
 import es.ucm.fdi.simulatedObjects.*;
 
 public class NewJunctionEvent extends Event {
-	public NewJunctionEvent(String time, String id) {
-		
+	private String id;
+	public NewJunctionEvent(int t, String i) {
+		time = t;
+		id = i;
 	}
-	public void execute() {
-	
+	public void execute(RoadMap m) {
+		
 	}
 } 

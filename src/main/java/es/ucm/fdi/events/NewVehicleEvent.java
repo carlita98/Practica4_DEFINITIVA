@@ -1,16 +1,26 @@
 package es.ucm.fdi.events;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.launcher.RoadMap;
-import es.ucm.fdi.simulatedObjects.Vehicle;
+import es.ucm.fdi.simulatedObjects.*;
 
 public class NewVehicleEvent extends Event{
-	
-	public NewVehicleEvent (String time, String id, String maxSpeed, String itinerary) {
-		//EventList.add(new Vehicle (Integer.parseInt(time), id, Integer.parseInt (maxSpeed), ));
+	private String id;
+	private int maxSpeed;
+	private ArrayList <String>itinerary = new ArrayList<>();
+	public NewVehicleEvent (int t, String i, int maxSpeed, ArrayList<String> it) {
+		time = t;
+		id = i;
+		itinerary = it;
 	}
 	
 	public void execute(RoadMap m) {
-		//Hay que comprobar que no existe ningún objeto con ese identificador 
-		m.addVehicle (new Vehicle ())
+		ArrayList <Junction> jList = new ArrayList <>();
+		for (int i = 0; i < itinerary.size(); i++){
+			jList.add(m.getJunction(itinerary.get(i))) ;
+		}
+		m.addVehicle(new Vehicle (time, id, maxSpeed, jList));
+		
 	}
 }

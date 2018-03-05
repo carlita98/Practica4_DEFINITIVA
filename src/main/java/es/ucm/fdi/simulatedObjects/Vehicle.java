@@ -64,6 +64,19 @@ public class Vehicle extends SimulatedObject{
 		this.currentRoad = actualRoad;
 	}
 
+	public Vehicle (int t, String i, int mS, ArrayList <Junction> j){
+		time = t;
+		Id = i;
+		maxSpeed = mS;
+		itinerary = j;
+		faulty = 0;
+		kilometrage = 0;
+		junctionCounter = 0;
+		roadLocation = 0;
+		arrived = false;
+		this.moveToNextRoad();
+		actualSpeed = 0;
+	}
 	public void moveForward () {
 		if (faulty == 0) {
 			roadLocation += actualSpeed;
