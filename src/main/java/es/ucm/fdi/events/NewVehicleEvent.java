@@ -1,5 +1,6 @@
 package es.ucm.fdi.events;
 
+import es.ucm.fdi.launcher.RoadMap;
 import es.ucm.fdi.simulatedObjects.Vehicle;
 
 public class NewVehicleEvent extends Event{
@@ -8,7 +9,8 @@ public class NewVehicleEvent extends Event{
 		//EventList.add(new Vehicle (Integer.parseInt(time), id, Integer.parseInt (maxSpeed), ));
 	}
 	
-	public void execute() {
+	public void execute(RoadMap m) {
 		//Hay que comprobar que no existe ningún objeto con ese identificador 
+		m.addVehicle (new Vehicle ())
 	}
 }

@@ -2,6 +2,7 @@ package es.ucm.fdi.eventsBuilder;
 
 import es.ucm.fdi.events.Event;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.launcher.RoadMap;
 
 public interface EventBuilder {
 	EventBuilder []bs = new EventBuilder[] {new NewVehicleEventBuilder(), new NewRoadEventBuilder(),
@@ -18,4 +19,7 @@ public interface EventBuilder {
 		}
 		return e;
 	}
+	
+	boolean isValidId (RoadMap m, String id);
+	
 }

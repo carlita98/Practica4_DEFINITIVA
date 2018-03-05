@@ -1,5 +1,6 @@
 package es.ucm.fdi.events;
 
+import es.ucm.fdi.launcher.RoadMap;
 import es.ucm.fdi.simulatedObjects.Vehicle;
 
 public class NewFaultyVehicleEvent extends Event {
@@ -7,7 +8,7 @@ public class NewFaultyVehicleEvent extends Event {
 		//EventList.add(new Vehicle(Integer.parseInt(time), id, Integer.parseInt(duration)));
 	}
 	
-	public void execute() {
-		
+	public void execute(RoadMap m) {
+	
 	}
 }

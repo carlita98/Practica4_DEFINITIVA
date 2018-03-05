@@ -2,6 +2,7 @@ package es.ucm.fdi.events;
 
 import java.util.ArrayList;
 
+import es.ucm.fdi.launcher.RoadMap;
 import es.ucm.fdi.simulatedObjects.*;
 
 abstract public class Event {
@@ -15,5 +16,5 @@ abstract public class Event {
 		this.time = time;
 	}
 	
-	public abstract void execute();
+	public abstract void execute(RoadMap m);
 }
