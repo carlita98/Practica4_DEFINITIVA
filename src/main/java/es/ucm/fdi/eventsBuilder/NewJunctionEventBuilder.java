@@ -10,8 +10,5 @@ public class NewJunctionEventBuilder implements EventBuilder{
 		if( ! sec.getTag().equals("new_junction")) return null;
 		return new NewJunctionEvent(sec.getValue("time"), sec.getValue("id"));
 	}
-	public boolean isValidId (RoadMap m, String id){
-		if (m.getVehicle (id) == null && m.getJunction(id)== null && m.getRoad(id)== null) return true;
-		else throw new IllegalArgumentException ("This ID already exist");
-	}
+
 }

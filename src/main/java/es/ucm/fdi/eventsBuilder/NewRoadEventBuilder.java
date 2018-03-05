@@ -12,8 +12,5 @@ public class NewRoadEventBuilder implements EventBuilder{
 		return new NewRoadEvent(sec.getValue("time"), sec.getValue("id"), sec.getValue("src"),
 				sec.getValue("dest"), sec.getValue("max_speed"), sec.getValue("lenght"));
 	}
-	public boolean isValidId (RoadMap m, String id){
-		if (m.getVehicle (id) == null && m.getJunction(id)== null && m.getRoad(id)== null) return true;
-		else throw new IllegalArgumentException ("This ID already exist");
-	}
+
 }

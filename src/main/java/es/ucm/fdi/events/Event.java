@@ -6,7 +6,7 @@ import es.ucm.fdi.launcher.RoadMap;
 import es.ucm.fdi.simulatedObjects.*;
 
 abstract public class Event {
-	private int time;
+	protected int time;
 
 	public int getTime() {
 		return time;
