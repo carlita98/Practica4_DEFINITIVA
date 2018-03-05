@@ -12,7 +12,7 @@ abstract public class SimulatedObject {
 	public void report (Map <String, String> out) {
 		out.put("", getReportHeader());
 		out.put("id", Id);
-		out.put("time", String.valueOf(time));
+		out.put("time", " " + time);
 		fillReportDetails (out);
 	}
 	protected abstract String getReportHeader();

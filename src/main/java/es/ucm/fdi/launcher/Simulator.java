@@ -11,9 +11,7 @@ import es.ucm.fdi.simulatedObjects.*;
 public class Simulator {
 	//Ordenada por tiempo
 	private TreeMap <Integer, Event> eventList;
-	private ArrayList <Vehicle> vehicleList;
-	private ArrayList <Road> roadList;
-	private ArrayList <Junction> junctionList;
+
 	int simulatorTime;
 	
 	void insertVehicle (Vehicle v) {

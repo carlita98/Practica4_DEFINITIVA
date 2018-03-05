@@ -6,7 +6,8 @@ public class Vehicle extends SimulatedObject{
 
 	private int kilometrage;
 	private int faulty;
-	private Road actualRoad;
+	private Road currentRoad;
+	private int junctionCounter;
 	private int roadLocation;
 	private int maxSpeed;
 	private int actualSpeed;
@@ -19,7 +20,7 @@ public class Vehicle extends SimulatedObject{
 		super();
 		this.kilometrage = kilometrage;
 		this.faulty = faulty;
-		this.actualRoad = actualRoad;
+		this.currentRoad = actualRoad;
 		this.roadLocation = roadLocation;
 		this.maxSpeed = maxSpeed;
 		this.actualSpeed = actualSpeed;
@@ -27,7 +28,7 @@ public class Vehicle extends SimulatedObject{
 		this.arrived = arrived;
 	}
 	public Road getActualRoad() {
-		return actualRoad;
+		return currentRoad;
 	}
 	public int getFaulty () {
 		return faulty;
@@ -73,15 +74,15 @@ public class Vehicle extends SimulatedObject{
 		return actualSpeed;
 	}
 	public void setActualRoad(Road actualRoad) {
-		this.actualRoad = actualRoad;
+		this.currentRoad = actualRoad;
 	}
 
 	public void moveForward () {
 		if (faulty == 0) {
 			roadLocation += actualSpeed;
-			if (roadLocation >= actualRoad.getLength()){
-				kilometrage += actualRoad.getLength();
-				roadLocation = actualRoad.getLength();
+			if (roadLocation >= currentRoad.getLength()){
+				kilometrage += currentRoad.getLength();
+				roadLocation = currentRoad.getLength();
 				itinerary.get(0).carIntoIR(this);
 			}
 			else kilometrage += actualSpeed;
@@ -93,21 +94,20 @@ public class Vehicle extends SimulatedObject{
 
 	public void moveToNextRoad() {
 		if (itinerary.size() > 0) {
-		for (Road r: itinerary.get(0).getOutgoingRoadList()) {
-			for (Road r2: itinerary.get(1).getIncomingRoadList()) {
+		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
+			for (Road r2: itinerary.get(junctionCounter).getIncomingRoadList()) {
 				if (r == r2) {
-					actualRoad.popVehicle(this);
-					actualRoad = r;
-					itinerary.remove(0);
-					actualRoad.pushVehicle(this);
+					currentRoad.popVehicle(this);
+					currentRoad = r;
+					currentRoad.pushVehicle(this);
 					roadLocation = 0;
+					junctionCounter++;
 					break;
 				}
 			}
 		}
 		}
 		else {
-			itinerary.remove(0);
 			roadLocation = 0;
 			arrived = true;
 		}
@@ -116,11 +116,11 @@ public class Vehicle extends SimulatedObject{
 		return "vehicle_report";
 	}
 	protected void fillReportDetails (Map <String, String> out) {
-		out.put("speed", String.valueOf(actualSpeed));
-		out.put("kilometrage", String.valueOf(kilometrage));
-		out.put("faulty", String.valueOf(faulty));
+		out.put("speed", "" + actualSpeed);
+		out.put("kilometrage", "" + kilometrage);
+		out.put("faulty", "" + faulty);
 		if (!arrived)
-			out.put("location","(" + actualRoad.getID() + roadLocation + ")" );
+			out.put("location","(" + currentRoad.getID() + roadLocation + ")" );
 		else
 			out.put("location", "arrived");
 	}
