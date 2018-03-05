@@ -2,7 +2,7 @@ package es.ucm.fdi.simulatedObjects;
 
 import java.util.Map;
 
-abstract public class SimulatedObject {
+public abstract class SimulatedObject {
 	protected String Id;
 	protected int time;
 	public String getID() {
@@ -18,6 +18,7 @@ abstract public class SimulatedObject {
 	protected abstract String getReportHeader();
 	protected abstract void fillReportDetails (Map <String, String> out);
 	public abstract void moveForward();
+
 
 	@Override
 	public int hashCode() {

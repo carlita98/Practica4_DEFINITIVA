@@ -9,6 +9,6 @@ public class NewVehicleEvent extends Event{
 	}
 	
 	public void execute() {
-		
+		//Hay que comprobar que no existe ningún objeto con ese identificador 
 	}
 }

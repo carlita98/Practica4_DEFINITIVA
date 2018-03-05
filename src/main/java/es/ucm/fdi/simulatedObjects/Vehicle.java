@@ -11,22 +11,9 @@ public class Vehicle extends SimulatedObject{
 	private int roadLocation;
 	private int maxSpeed;
 	private int actualSpeed;
-	private ArrayList<Junction> itinerary;
+	private ArrayList<Junction> itinerary = new ArrayList <>();
 	private boolean arrived;
 	
-	
-	public Vehicle(int kilometrage, int faulty, Road actualRoad, int roadLocation, int maxSpeed, int actualSpeed,
-			ArrayList<Junction> itinerary, boolean arrived) {
-		super();
-		this.kilometrage = kilometrage;
-		this.faulty = faulty;
-		this.currentRoad = actualRoad;
-		this.roadLocation = roadLocation;
-		this.maxSpeed = maxSpeed;
-		this.actualSpeed = actualSpeed;
-		this.itinerary = itinerary;
-		this.arrived = arrived;
-	}
 	public Road getActualRoad() {
 		return currentRoad;
 	}

@@ -4,27 +4,24 @@ import java.util.*;
 public class Junction  extends SimulatedObject{
 	
 	public class IR{
-		boolean light;
-		ArrayList <Vehicle> vehicleListIR;
-		IR (){
-			light = false;
-			vehicleListIR = new ArrayList <Vehicle>();
-		}
-		IR(boolean b, ArrayList<Vehicle> vl) {
-			// TODO Auto-generated method stub
-			light = b;
-			vehicleListIR = vl;
-		}
+		protected boolean isGreen;
+		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
 	}
-	private Map <Road, IR> RoadQueue;
-	private List <Road> IncomingRoadList;
-	private List <Road> OutgoingRoadList;
-
+	
+	private int currentIncoming;
+	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
+	private List <Road> IncomingRoadList = new ArrayList<>();
+	private List <Road> OutgoingRoadList = new ArrayList<>();
+	
+	private IR currentIR() {
+		return incomingQueues.get(IncomingRoadList.get(currentIncoming));
+	}
+	
 	public Map<Road, IR> getRoadQueue() {
-		return RoadQueue;
+		return incomingQueues;
 	}
 	public void setRoadQueue(Map<Road, IR> roadQueue) {
-		RoadQueue = roadQueue;
+		incomingQueues = roadQueue;
 	}
 	public List<Road> getIncomingRoadList() {
 		return IncomingRoadList;
@@ -40,42 +37,37 @@ public class Junction  extends SimulatedObject{
 	}
 
 	public void carIntoIR(Vehicle v) {
-		RoadQueue.get(v.getActualRoad()).vehicleListIR.add(v);
+		incomingQueues.get(v.getActualRoad()).queue.add(v);
 	}
 	
 	public void moveForward () {
-		Iterator <Map.Entry<Road, IR>> it = RoadQueue.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Road, IR> entry = it.next();
-			if(entry.getValue().light) {
-				Map.Entry<Road, IR> aux = it.next();
-				aux.setValue(new IR(true, aux.getValue().vehicleListIR));
-					entry.getValue().vehicleListIR.get(0).moveForward();
-					//Si no está averiado
-					if (entry.getValue().vehicleListIR.get(0).getFaulty() == 0) {
-					entry.getValue().vehicleListIR.get(0).moveToNextRoad();
-					entry.getValue().vehicleListIR.remove(0);
-					}
-					//Poner el semáforo en rojo de la carretera 
-				entry.setValue(new IR(false, entry.getValue().vehicleListIR));
-				break;
-			}
+		IR ir = currentIR();
+
+		// move car
+		Vehicle v = ir.queue.peek();
+		v.moveForward();
+		if (v.getFaulty() == 0){
+			v.moveToNextRoad();
+			ir.queue.remove (0);
 		}
+		
+		// advance to next
+		ir.isGreen = false;
+		currentIncoming = (currentIncoming + 1) % IncomingRoadList.size();
 	}
 	
 	protected  String getReportHeader() {
 		return "junction_report";
 	}
 	protected void fillReportDetails (Map <String, String> out) {
+		
 		String report = "";
-		Iterator <Map.Entry<Road, IR>> it = RoadQueue.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Road, IR> entry = it.next();
+		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
 			report += "(" + entry.getKey().getID() + "," ;
-			if(entry.getValue().light) report += "green,";
+			if(entry.getValue().isGreen) report += "green,";
 			else report += "red,";
 			report += "[";
-			for (Vehicle v: entry.getValue().vehicleListIR) {
+			for (Vehicle v: entry.getValue().queue) {
 				report += v.getID() + ",";
 			}
 			report += "]";

@@ -10,7 +10,7 @@ public class Road  extends SimulatedObject{
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
-	private MultiTreeMap <Integer, Vehicle> vehicleList; 
+	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b)->(a-b));
 	//Juntion donde termina la carretera
 
 	public Road(int length, int maxSpeed, MultiTreeMap<Integer, Vehicle> vehicleList) {

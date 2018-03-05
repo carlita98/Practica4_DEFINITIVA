@@ -13,7 +13,7 @@ public class Simulator {
 	private TreeMap <Integer, Event> eventList;
 
 	int simulatorTime;
-	
+	/*
 	void insertVehicle (Vehicle v) {
 		vehicleList.add(v);
 	}
@@ -22,7 +22,7 @@ public class Simulator {
 	}
 	void insertJunction (Junction j) {
 		junctionList.add(j);
-	}
+	}*/
 	void insertEvent(Event e) {
 		if (e.getTime() >= simulatorTime)
 			eventList.put(e.getTime(), e);
