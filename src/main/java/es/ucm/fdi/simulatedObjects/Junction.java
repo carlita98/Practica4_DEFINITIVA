@@ -40,6 +40,13 @@ public class Junction  extends SimulatedObject{
 		incomingQueues.get(v.getActualRoad()).queue.add(v);
 	}
 	
+	public Junction(int t, String i){
+		time = t;
+		Id = i;
+		
+		currentIncoming = 0;	
+	}
+	
 	public void moveForward () {
 		IR ir = currentIR();
 

@@ -11,17 +11,12 @@ public class MakeFaultyVehicleEventBuilder implements EventBuilder{
 		try{
 			int t = parseInt (sec, "time", 0);
 			int duracion = parseInt (sec, "duration", 1);
-			try{
-				ArrayList <String> idList = parseIdList (sec, "vehicles");
-				return new MakeFaultyVehicleEvent(t, idList, duracion);
-				
-			}catch(IllegalArgumentException i){
-				i.getMessage();
-			}
-		}catch(NumberFormatException e){
-			e.getMessage();
+			ArrayList <String> idList = parseIdList (sec, "vehicles");
+			return new MakeFaultyVehicleEvent(t, idList, duracion);
+			
+		}catch(IllegalArgumentException i){
+			throw new IllegalArgumentException("There has been a problem creating MakeFaultyVehicleEvent", i);
 		}
-		return null;
 	}
 	
 	

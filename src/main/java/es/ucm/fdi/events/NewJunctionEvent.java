@@ -10,6 +10,10 @@ public class NewJunctionEvent extends Event {
 		id = i;
 	}
 	public void execute(RoadMap m) {
-		
+		try{
+			m.addJunction(new Junction(time, id));
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
 	}
 } 

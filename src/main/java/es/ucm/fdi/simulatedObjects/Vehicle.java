@@ -69,6 +69,7 @@ public class Vehicle extends SimulatedObject{
 		Id = i;
 		maxSpeed = mS;
 		itinerary = j;
+		
 		faulty = 0;
 		kilometrage = 0;
 		junctionCounter = 0;

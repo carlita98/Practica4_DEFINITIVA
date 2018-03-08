@@ -13,15 +13,14 @@ public class NewVehicleEventBuilder implements EventBuilder {
 		try{
 			int t = parseInt (sec,"time", 0);
 			int mS = parseInt (sec, "max_speed", 1);
-			try{
-				String id = sec.getValue("id");
-				ArrayList <String> idList = parseIdList (sec, "itinerary");
-				return new NewVehicleEvent(t, id, mS, idList);
-			}catch (IllegalArgumentException i){
-				i.getMessage();
+		
+			String id = sec.getValue("id");
+			if(isValidId(id)){
+			ArrayList <String> idList = parseIdList (sec, "itinerary");
+			return new NewVehicleEvent(t, id, mS, idList);
 			}
-		}catch(NumberFormatException e){
-			e.getMessage();
+		}catch (IllegalArgumentException i){
+			throw new IllegalArgumentException("There has been a problem creating NewVehicleEvent", i);
 		}
 		return null;
 	}

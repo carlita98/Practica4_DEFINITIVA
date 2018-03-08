@@ -1,6 +1,7 @@
 package es.ucm.fdi.events;
 
 import es.ucm.fdi.launcher.RoadMap;
+import es.ucm.fdi.simulatedObjects.Road;
 
 public class NewRoadEvent extends Event{
 	private String id;
@@ -17,6 +18,13 @@ public class NewRoadEvent extends Event{
 		length = l;
 	}
 	public void execute(RoadMap m) {
-		
+		try{
+			Road r = new Road(time, id, maxSpeed, length);
+			m.addRoad(r);
+			m.getJunction(idJunctionIni).getOutgoingRoadList().add(r);
+			m.getJunction(idJunctionDest).getIncomingRoadList().add(r);
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
 	}
 }

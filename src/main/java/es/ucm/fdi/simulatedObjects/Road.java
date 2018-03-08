@@ -14,6 +14,13 @@ public class Road  extends SimulatedObject{
 	//Juntion donde termina la carretera
 
 	
+	public Road(int t, String i, int ms, int l){
+		time = t;
+		Id = i;
+		maxSpeed = ms;
+		length = l;
+	}
+	
 	int getLength () {
 		return length;
 	}

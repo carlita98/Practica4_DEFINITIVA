@@ -20,7 +20,10 @@ public class NewVehicleEvent extends Event{
 		for (int i = 0; i < itinerary.size(); i++){
 			jList.add(m.getJunction(itinerary.get(i))) ;
 		}
-		m.addVehicle(new Vehicle (time, id, maxSpeed, jList));
-		
+		try{
+			m.addVehicle(new Vehicle (time, id, maxSpeed, jList));
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
 	}
 }

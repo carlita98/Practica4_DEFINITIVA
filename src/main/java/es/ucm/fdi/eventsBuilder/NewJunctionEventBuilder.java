@@ -9,16 +9,14 @@ public class NewJunctionEventBuilder implements EventBuilder{
 		if( ! sec.getTag().equals("new_junction")) return null;
 		try{
 			int t = parseInt (sec, "time", 0);
-			try{
-				String id = sec.getValue("id");
-				 if (isValidId (id)) return new NewJunctionEvent (t, id);
-			}catch(IllegalArgumentException i){
-				i.getMessage();
-			}
-		}catch(NumberFormatException e){
-			e.getMessage();
+			String id = sec.getValue("id");
+			if (isValidId (id)) return new NewJunctionEvent (t, id);
+		}catch(IllegalArgumentException i){
+			throw new IllegalArgumentException("There has been a problem creating NewJunctionEvent", i);
 		}
+	
 		return null;
 	}
+		
 
 }

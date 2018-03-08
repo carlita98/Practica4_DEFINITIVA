@@ -14,8 +14,12 @@ public interface EventBuilder {
 		Event e = null;
 		for (EventBuilder eb: bs){
 			if (eb.parse(sec) != null) {
-				e = eb.parse(sec);
-				break;
+				try{
+					e = eb.parse(sec);
+					break;
+				}catch (IllegalArgumentException i){
+				  i.printStackTrace();
+				}
 			}
 		}
 		return e;
@@ -33,10 +37,10 @@ public interface EventBuilder {
 	public default int parseInt (IniSection sec, String key, int min){
 		try{
 			int n = Integer.parseInt(sec.getValue(key));
-			if (n < min) throw new NumberFormatException ("The value of the attribute is out of range");
+			if (n < min) throw new IllegalArgumentException ("The value of the attribute is out of range");
 			else return n;
-		}catch(NumberFormatException e ){
-			e = new NumberFormatException ("The value of the attribute is not a digit");
+		}catch(IllegalArgumentException e ){
+			e = new IllegalArgumentException ("The value of the attribute is not a digit");
 		}
 		return -1;
 		
