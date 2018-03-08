@@ -1,6 +1,7 @@
-package es.ucm.fdi.events;
+package es.ucm.fdi.model.events;
 
-import es.ucm.fdi.launcher.RoadMap;
+import es.ucm.fdi.model.RoadMap.RoadMap;
+import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.simulatedObjects.*;
 
 public class NewJunctionEvent extends Event {

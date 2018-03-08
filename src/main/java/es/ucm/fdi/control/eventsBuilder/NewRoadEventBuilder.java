@@ -1,8 +1,8 @@
-package es.ucm.fdi.eventsBuilder;
+package es.ucm.fdi.control.eventsBuilder;
 
-import es.ucm.fdi.events.Event;
-import es.ucm.fdi.events.NewRoadEvent;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.model.events.Event;
+import es.ucm.fdi.model.events.NewRoadEvent;
 
 public class NewRoadEventBuilder implements EventBuilder{
 	

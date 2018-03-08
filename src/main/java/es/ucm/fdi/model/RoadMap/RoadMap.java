@@ -1,7 +1,11 @@
-package es.ucm.fdi.launcher;
+package es.ucm.fdi.model.RoadMap;
 
 import java.util.*;
 
+import es.ucm.fdi.model.simulatedObjects.Junction;
+import es.ucm.fdi.model.simulatedObjects.Road;
+import es.ucm.fdi.model.simulatedObjects.SimulatedObject;
+import es.ucm.fdi.model.simulatedObjects.Vehicle;
 import es.ucm.fdi.simulatedObjects.*;
 
 public class RoadMap {
@@ -47,7 +51,9 @@ public class RoadMap {
 	public List <Vehicle> getVehicles(){
 		return vehicles;
 	}
-	
+	public Map <String, SimulatedObject> getMap (){
+		return simObjects;
+	}
 	public void addJunction (Junction j){
 		if (simObjects.containsKey (j.getID())){
 			throw new IllegalArgumentException ("This ID already exist");

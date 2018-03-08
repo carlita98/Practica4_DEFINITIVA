@@ -1,10 +1,10 @@
-package es.ucm.fdi.eventsBuilder;
+package es.ucm.fdi.control.eventsBuilder;
 
 import java.util.ArrayList;
 
-import es.ucm.fdi.events.Event;
-import es.ucm.fdi.events.NewVehicleEvent;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.model.events.Event;
+import es.ucm.fdi.model.events.NewVehicleEvent;
 
 public class NewVehicleEventBuilder implements EventBuilder {
 	

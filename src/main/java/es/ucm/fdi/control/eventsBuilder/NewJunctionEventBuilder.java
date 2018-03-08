@@ -1,8 +1,8 @@
-package es.ucm.fdi.eventsBuilder;
+package es.ucm.fdi.control.eventsBuilder;
 
-import es.ucm.fdi.events.Event;
-import es.ucm.fdi.events.NewJunctionEvent;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.model.events.Event;
+import es.ucm.fdi.model.events.NewJunctionEvent;
 
 public class NewJunctionEventBuilder implements EventBuilder{
 	public Event parse(IniSection sec) {

@@ -1,7 +1,7 @@
-package es.ucm.fdi.events;
+package es.ucm.fdi.model.events;
 
-import es.ucm.fdi.launcher.RoadMap;
-import es.ucm.fdi.simulatedObjects.Road;
+import es.ucm.fdi.model.RoadMap.RoadMap;
+import es.ucm.fdi.model.simulatedObjects.Road;
 
 public class NewRoadEvent extends Event{
 	private String id;

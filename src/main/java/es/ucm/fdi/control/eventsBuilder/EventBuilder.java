@@ -1,9 +1,9 @@
-package es.ucm.fdi.eventsBuilder;
+package es.ucm.fdi.control.eventsBuilder;
 import java.lang.Character;
 import java.util.ArrayList;
 
-import es.ucm.fdi.events.Event;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.model.events.Event;
 
 public interface EventBuilder {
 	EventBuilder []bs = new EventBuilder[] {new NewVehicleEventBuilder(), new NewRoadEventBuilder(),

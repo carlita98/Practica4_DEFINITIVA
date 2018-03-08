@@ -1,8 +1,10 @@
-package es.ucm.fdi.events;
+package es.ucm.fdi.model.events;
 
 import java.util.ArrayList;
 
-import es.ucm.fdi.launcher.RoadMap;
+import es.ucm.fdi.model.RoadMap.RoadMap;
+import es.ucm.fdi.model.simulatedObjects.Junction;
+import es.ucm.fdi.model.simulatedObjects.Vehicle;
 import es.ucm.fdi.simulatedObjects.*;
 
 public class NewVehicleEvent extends Event{

@@ -1,4 +1,4 @@
-package es.ucm.fdi.simulatedObjects;
+package es.ucm.fdi.model.simulatedObjects;
 
 import java.util.Map;
 

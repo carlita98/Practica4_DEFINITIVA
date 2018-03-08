@@ -1,9 +1,9 @@
-package es.ucm.fdi.eventsBuilder;
+package es.ucm.fdi.control.eventsBuilder;
 import java.util.ArrayList;
 
-import es.ucm.fdi.events.Event;
-import es.ucm.fdi.events.MakeFaultyVehicleEvent;
 import es.ucm.fdi.ini.IniSection;
+import es.ucm.fdi.model.events.Event;
+import es.ucm.fdi.model.events.MakeFaultyVehicleEvent;
 public class MakeFaultyVehicleEventBuilder implements EventBuilder{
 	
 	public Event parse(IniSection sec) {
