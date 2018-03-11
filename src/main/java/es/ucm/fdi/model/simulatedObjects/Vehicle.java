@@ -80,7 +80,7 @@ public class Vehicle extends SimulatedObject{
 		actualSpeed = 0;
 	}
 	public void moveForward () {
-		if (faulty == 0 && !arrived) {
+		if (faulty == 0 && !arrived ) {
 			int previousK = roadLocation;
 			roadLocation += actualSpeed;
 			if (roadLocation >= currentRoad.getLength()){
@@ -96,7 +96,7 @@ public class Vehicle extends SimulatedObject{
 	}
 
 	public void moveToNextRoad() {
-		if (itinerary.size() > junctionCounter + 1) {
+		if (itinerary.size() > junctionCounter +1) {
 		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
 			for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
 				if (r == r2) {
@@ -111,9 +111,9 @@ public class Vehicle extends SimulatedObject{
 		}
 		}
 		else {
-			roadLocation = 0;
 			arrived = true;
 			actualSpeed = 0;
+			currentRoad.popVehicle(this);		
 		}
 	}
 	protected  String getReportHeader() {

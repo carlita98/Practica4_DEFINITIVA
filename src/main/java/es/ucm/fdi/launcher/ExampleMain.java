@@ -174,8 +174,9 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
-		Controller control = new Controller (_timeLimit,_inFile, _outFile);
+		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
 		control.controlExecute();
+		//test("00_helloWorld", "output.ini", "00_helloWorld.ini.eout", _timeLimit);
 	}
 
 }

@@ -8,7 +8,7 @@ public class Junction  extends SimulatedObject{
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
 		
 		public IR() {
-			isGreen = false;
+			isGreen = true;
 		}
 	}
 	
@@ -60,13 +60,14 @@ public class Junction  extends SimulatedObject{
 			Vehicle v = ir.queue.peek();
 			if (v.getFaulty() == 0){
 				v.moveToNextRoad();
-				ir.queue.remove (0);
+				ir.queue.removeFirst();
 			}
 			else v.setFaultyTime(v.getFaulty()-1);
 		}
 		// advance to next
 		ir.isGreen = false;
 		currentIncoming = (currentIncoming + 1) % IncomingRoadList.size();
+		incomingQueues.get(IncomingRoadList.get(currentIncoming)).isGreen = true;
 	}
 	
 	protected  String getReportHeader() {
@@ -80,12 +81,13 @@ public class Junction  extends SimulatedObject{
 			if(entry.getValue().isGreen) report += "green,";
 			else report += "red,";
 			report += "[";
-			int counter =0;
+			int counter = 0;
 			for (Vehicle v: entry.getValue().queue) {
 				if(counter != entry.getValue().queue.size() -1)report += v.getID() + ",";
 				else report += v.getID();
 				counter ++;
 			}
+	
 			report += "])";
 		}
 		out.put("queues", report);

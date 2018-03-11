@@ -24,9 +24,9 @@ public class Controller implements EventBuilder{
 		for (IniSection sec: read.getSections()) {
 			Event newEvent = parseSection(sec);
 			if (newEvent != null)sim.insertEvent(newEvent);
-			sec.store(new FileOutputStream("salida.ini"));
 		}
-		sim.execute(time, new FileOutputStream(outputFile));
+		if (outputFile == null) sim.execute(time, System.out);
+		else sim.execute(time, new FileOutputStream(outputFile));
 	}
 
 	@Override

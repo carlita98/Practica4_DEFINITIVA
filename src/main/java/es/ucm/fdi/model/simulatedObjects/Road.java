@@ -45,7 +45,7 @@ public class Road  extends SimulatedObject{
 	}
 	
 	public void popVehicle(Vehicle v){
-		vehicleList.remove(v.getRoadLocation(),  v);
+		vehicleList.removeValue(v.getRoadLocation(), v);
 	}
 	
 	public void moveForward(){
