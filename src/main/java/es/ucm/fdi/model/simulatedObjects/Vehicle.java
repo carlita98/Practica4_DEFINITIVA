@@ -101,7 +101,7 @@ public class Vehicle extends SimulatedObject{
 			for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
 				if (r == r2) {
 					if (currentRoad != null) currentRoad.popVehicle(this);
-					currentRoad = r;
+					currentRoad = r;   
 					currentRoad.pushVehicle(this);
 					roadLocation = 0;
 					junctionCounter++;
