@@ -11,7 +11,7 @@ public class NewRoadEventBuilder implements EventBuilder{
 		try{
 			int t = parseInt (sec, "time", 0);
 			int mS = parseInt (sec, "max_speed", 1);
-			int l = parseInt (sec, "lenght", 1);
+			int l = parseInt (sec, "length", 1);
 
 			String id = sec.getValue("id");
 			String idJI = sec.getValue("src");

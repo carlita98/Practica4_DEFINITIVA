@@ -1,11 +1,7 @@
 package es.ucm.fdi.util;
 
-import java.util.ArrayList;
 
 import org.junit.Test;
-
-import es.ucm.fdi.simulatedObjects.*;
-import es.ucm.fdi.util.MultiTreeMapTest.*;
 
 public class VehicleTest {
 	@Test

@@ -13,13 +13,11 @@ public interface EventBuilder {
 	public default Event parseSection (IniSection sec) {
 		Event e = null;
 		for (EventBuilder eb: bs){
-			if (eb.parse(sec) != null) {
-				try{
-					e = eb.parse(sec);
-					break;
-				}catch (IllegalArgumentException i){
-				  i.printStackTrace();
-				}
+			try{
+				e = eb.parse(sec);
+				if (e != null)break;
+			}catch (IllegalArgumentException i){
+				i.printStackTrace();
 			}
 		}
 		return e;
@@ -35,25 +33,29 @@ public interface EventBuilder {
 	}
 	
 	public default int parseInt (IniSection sec, String key, int min){
+		int n = 0;
 		try{
-			int n = Integer.parseInt(sec.getValue(key));
+			n = Integer.parseInt(sec.getValue(key));
 			if (n < min) throw new IllegalArgumentException ("The value of the attribute is out of range");
 			else return n;
 		}catch(IllegalArgumentException e ){
 			e = new IllegalArgumentException ("The value of the attribute is not a digit");
 		}
-		return -1;
+		return n;
 		
 	}
 	
 	public default ArrayList <String> parseIdList (IniSection sec, String key){
 		
 		String string = sec.getValue(key);
-		int index =0;
+		int index = 0;
 		String[]  stringArray = string.split(",");
 		ArrayList <String> idList = new ArrayList<>();
-		for (int i =0; i < stringArray.length; i++){
-			if (isValidId(stringArray[i])) idList.add(index, stringArray[i]);
+		for (int i = 0; i < stringArray.length; i++){
+			if (isValidId(stringArray[i])) {
+				idList.add(index, stringArray[i]);
+				index++;
+			}
 			else {
 				throw new IllegalArgumentException ("Invalid ID");
 			}

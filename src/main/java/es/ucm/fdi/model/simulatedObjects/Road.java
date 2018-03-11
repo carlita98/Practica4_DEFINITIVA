@@ -41,17 +41,17 @@ public class Road  extends SimulatedObject{
 	}
 
 	public void pushVehicle(Vehicle v){
-		vehicleList.putValue(0, v);
+		vehicleList.putValue(v.getRoadLocation(), v);
 	}
 	
 	public void popVehicle(Vehicle v){
-		vehicleList.remove(0, v);
+		vehicleList.remove(v.getRoadLocation(),  v);
 	}
 	
 	public void moveForward(){
 		int baseSpeed;
 		int maxVehicles;
-		if (vehicleList.sizeOfValues() > 1)
+		if (vehicleList.sizeOfValues() > 0)
 			maxVehicles = vehicleList.sizeOfValues();
 		else 
 			maxVehicles = 1;
@@ -79,8 +79,11 @@ public class Road  extends SimulatedObject{
 	}
 	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
+		int counter =0;
 		for (Vehicle v: vehicleList.innerValues()) {
-			report += "(" + v.getID() + "," + v.getRoadLocation() + ") , ";
+			if (counter < vehicleList.size() -1)report += "(" + v.getID() + "," + v.getRoadLocation() + ") , ";
+			else report += "(" + v.getID() + "," + v.getRoadLocation() + ")";
+			counter++;
 		}
 		out.put("state", report);
 	}

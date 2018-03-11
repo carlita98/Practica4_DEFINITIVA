@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.model.simulatedObjects.Vehicle;
-import es.ucm.fdi.simulatedObjects.*;
 
 public class NewVehicleEvent extends Event{
 	private String id;
 	private int maxSpeed;
 	private ArrayList <String>itinerary = new ArrayList<>();
-	public NewVehicleEvent (int t, String i, int maxSpeed, ArrayList<String> it) {
+	public NewVehicleEvent (int t, String i, int mS, ArrayList<String> it) {
 		time = t;
 		id = i;
 		itinerary = it;
+		maxSpeed = mS;
 	}
 	
 	public void execute(RoadMap m) {

@@ -6,7 +6,6 @@ import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.simulatedObjects.SimulatedObject;
 import es.ucm.fdi.model.simulatedObjects.Vehicle;
-import es.ucm.fdi.simulatedObjects.*;
 
 public class RoadMap {
 	private Map <String, SimulatedObject> simObjects = new HashMap <String, SimulatedObject>();;

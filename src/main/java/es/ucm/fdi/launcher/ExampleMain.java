@@ -14,6 +14,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import es.ucm.fdi.control.eventsBuilder.Controller;
 import es.ucm.fdi.ini.Ini;
 
 public class ExampleMain {
@@ -173,7 +174,8 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
-
+		Controller control = new Controller (_timeLimit,_inFile, _outFile);
+		control.controlExecute();
 	}
 
 }

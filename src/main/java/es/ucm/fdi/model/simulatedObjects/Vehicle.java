@@ -75,30 +75,32 @@ public class Vehicle extends SimulatedObject{
 		junctionCounter = 0;
 		roadLocation = 0;
 		arrived = false;
+		currentRoad = null;
 		this.moveToNextRoad();
 		actualSpeed = 0;
 	}
 	public void moveForward () {
-		if (faulty == 0) {
+		if (faulty == 0 && !arrived) {
+			int previousK = roadLocation;
 			roadLocation += actualSpeed;
 			if (roadLocation >= currentRoad.getLength()){
-				kilometrage += currentRoad.getLength();
+				kilometrage += (currentRoad.getLength() - previousK);
 				roadLocation = currentRoad.getLength();
-				itinerary.get(0).carIntoIR(this);
+				itinerary.get(junctionCounter).carIntoIR(this); 
 			}
 			else kilometrage += actualSpeed;
 		}
-		else {
+		else if (faulty != 0 && !arrived){
 			faulty --;
 		}
 	}
 
 	public void moveToNextRoad() {
-		if (itinerary.size() > 0) {
+		if (itinerary.size() > junctionCounter + 1) {
 		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
-			for (Road r2: itinerary.get(junctionCounter).getIncomingRoadList()) {
+			for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
 				if (r == r2) {
-					currentRoad.popVehicle(this);
+					if (currentRoad != null) currentRoad.popVehicle(this);
 					currentRoad = r;
 					currentRoad.pushVehicle(this);
 					roadLocation = 0;
@@ -111,6 +113,7 @@ public class Vehicle extends SimulatedObject{
 		else {
 			roadLocation = 0;
 			arrived = true;
+			actualSpeed = 0;
 		}
 	}
 	protected  String getReportHeader() {
@@ -121,7 +124,7 @@ public class Vehicle extends SimulatedObject{
 		out.put("kilometrage", "" + kilometrage);
 		out.put("faulty", "" + faulty);
 		if (!arrived)
-			out.put("location","(" + currentRoad.getID() + roadLocation + ")" );
+			out.put("location","(" + currentRoad.getID() +","+ roadLocation + ")" );
 		else
 			out.put("location", "arrived");
 	}
