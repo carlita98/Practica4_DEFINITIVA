@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
-import es.ucm.fdi.model.simulatedObjects.Vehicle;
 
 public class MakeFaultyVehicleEvent extends Event {
 	private ArrayList<String> id = new ArrayList<>();
 	private int duration;
-	public MakeFaultyVehicleEvent(int t, ArrayList<String> i, int d) {
-		time = t;
-		id = i;
-		duration = d;
+	public MakeFaultyVehicleEvent(int time, ArrayList<String> id, int duration) {
+		super(time);
+		this.id = id;
+		this.duration = duration;
 	}
 	
 	public void execute(RoadMap m) {

@@ -1,7 +1,5 @@
 package es.ucm.fdi.model.simulatedObjects;
 
-
-import java.util.Collections;
 import java.util.Map;
 
 import es.ucm.fdi.util.*;
@@ -11,8 +9,8 @@ public class Road  extends SimulatedObject{
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
-	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b) -> a-b /*Collections.reverseOrder()*/);
-	//Juntion donde termina la carretera
+	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>(/*Comparator.comparing(Integer::intValue).reversed()*/
+			(a,b) -> a-b /*Collections.reverseOrder()*/);
 
 	
 	public Road(String id, int maxSpeed, int length){

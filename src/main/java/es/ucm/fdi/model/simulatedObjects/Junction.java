@@ -9,13 +9,16 @@ public class Junction  extends SimulatedObject{
 	
 	private int currentIncoming;
 	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
-	private List <Road> IncomingRoadList = new ArrayList<>();
-	private List <Road> OutgoingRoadList = new ArrayList<>();
+	private List <Road> incomingRoadList = new ArrayList<>();
+	private List <Road> outgoingRoadList = new ArrayList<>();
 
-	
+	public Junction(String id){
+		super(id);		
+		this.currentIncoming = 0;	
+	}
 	private IR currentIR() {
 		//Devuelve la IR de la carretera que tiene el semáforo en verde
-		return incomingQueues.get(IncomingRoadList.get(currentIncoming));
+		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
 	
 	public Map<Road, IR> getRoadQueue() {
@@ -25,16 +28,16 @@ public class Junction  extends SimulatedObject{
 		incomingQueues = roadQueue;
 	}
 	public List<Road> getIncomingRoadList() {
-		return IncomingRoadList;
+		return incomingRoadList;
 	}
 	public void setIncomingRoadList(List<Road> incomingRoadList) {
-		IncomingRoadList = incomingRoadList;
+		this.incomingRoadList = incomingRoadList;
 	}
 	public List<Road> getOutgoingRoadList() {
-		return OutgoingRoadList;
+		return outgoingRoadList;
 	}
 	public void setOutgoingRoadList(List<Road> outgoingRoadList) {
-		OutgoingRoadList = outgoingRoadList;
+		this.outgoingRoadList = outgoingRoadList;
 	}
 
 	public void carIntoIR(Vehicle v) {
@@ -42,20 +45,17 @@ public class Junction  extends SimulatedObject{
 			incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
 	
-	public Junction(String id){
-		super(id);		
-		currentIncoming = 0;	
-	}
+	
 	
 	public void moveForward () {
 		// advance to next
 		try{
-			currentIncoming = (currentIncoming + 1) % IncomingRoadList.size();
+			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
 		}catch (ArithmeticException e){
 			currentIncoming = 0;
 		}
 		// move car
-		if (!IncomingRoadList.isEmpty() && !incomingQueues.get(IncomingRoadList.get(currentIncoming)).queue.isEmpty()) {
+		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
 			IR ir = currentIR();
 			Vehicle v = ir.queue.peek();
 			if (v.getFaulty() == 0){
@@ -76,7 +76,7 @@ public class Junction  extends SimulatedObject{
 		String report = "";
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
 			report += "(" + entry.getKey().getId() + "," ;
-			if(entry.getKey().equals(IncomingRoadList.get((currentIncoming + 1) % IncomingRoadList.size()))) report += "green,";
+			if(entry.getKey().equals(incomingRoadList.get((currentIncoming + 1) % incomingRoadList.size()))) report += "green,";
 			else report += "red,";
 			report += "[";
 			int counter = 0;
@@ -88,7 +88,7 @@ public class Junction  extends SimulatedObject{
 	
 			report += "]),";
 		}
-		if (!IncomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
+		if (!incomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
 		else out.put("queues", report);
 	}
 

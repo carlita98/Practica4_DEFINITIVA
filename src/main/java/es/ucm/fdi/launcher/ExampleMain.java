@@ -175,7 +175,15 @@ public class ExampleMain {
 		// Call start to start the simulator from command line, etc.
 		start(args);
 		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
-		control.controlExecute();
+		try{
+			control.controlExecute();
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
 		test("05_twoVehiclesOneFaulty.ini", "output.ini", "05_twoVehiclesOneFaulty.ini.eout", _timeLimit);
 	}
 

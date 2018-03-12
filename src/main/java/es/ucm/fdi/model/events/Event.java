@@ -4,7 +4,9 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 
 abstract public class Event {
 	protected int time;
-
+	public Event(int time) {
+		this.time = time;
+	}
 	public int getTime() {
 		return time;
 	}
@@ -14,4 +16,6 @@ abstract public class Event {
 	}
 	
 	public abstract void execute(RoadMap m);
+
+	
 }

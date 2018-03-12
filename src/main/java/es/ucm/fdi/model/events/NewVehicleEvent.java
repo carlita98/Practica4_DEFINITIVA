@@ -10,11 +10,11 @@ public class NewVehicleEvent extends Event{
 	private String id;
 	private int maxSpeed;
 	private ArrayList <String>itinerary = new ArrayList<>();
-	public NewVehicleEvent (int t, String i, int mS, ArrayList<String> it) {
-		time = t;
-		id = i;
-		itinerary = it;
-		maxSpeed = mS;
+	public NewVehicleEvent (int time, String id, int maxSpeed, ArrayList<String> itinerary) {
+		super(time);
+		this.id = id;
+		this.maxSpeed = maxSpeed;
+		this.itinerary = itinerary;
 	}
 	
 	public void execute(RoadMap m) {

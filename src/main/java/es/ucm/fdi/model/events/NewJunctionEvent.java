@@ -5,9 +5,9 @@ import es.ucm.fdi.model.simulatedObjects.Junction;
 
 public class NewJunctionEvent extends Event {
 	private String id;
-	public NewJunctionEvent(int t, String i) {
-		time = t;
-		id = i;
+	public NewJunctionEvent(int time, String id) {
+		super(time);
+		this.id = id;
 	}
 	public void execute(RoadMap m) {
 		try{

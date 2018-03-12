@@ -18,7 +18,7 @@ public class Controller implements EventBuilder{
 		this.outputFile = outputFile;
 	}
 	
-	public void controlExecute() throws FileNotFoundException, IOException{
+	public void controlExecute() throws FileNotFoundException, IOException, IllegalArgumentException{
 		Ini read = new Ini ();
 		read.load (new FileInputStream (inputFile));
 		for (IniSection sec: read.getSections()) {

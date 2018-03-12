@@ -14,6 +14,13 @@ public class Vehicle extends SimulatedObject{
 	private ArrayList<Junction> itinerary = new ArrayList <>();
 	private boolean arrived;
 	
+
+	public Vehicle(String id, int maxSpeed, ArrayList<Junction> itinerary) {
+		super(id);
+		this.maxSpeed = maxSpeed;
+		this.itinerary = itinerary;
+		moveToNextRoad();
+	}
 	public Road getActualRoad() {
 		return currentRoad;
 	}
@@ -64,12 +71,6 @@ public class Vehicle extends SimulatedObject{
 		this.currentRoad = actualRoad;
 	}
 
-	public Vehicle(String id, int maxSpeed, ArrayList<Junction> itinerary) {
-		super(id);
-		this.maxSpeed = maxSpeed;
-		this.itinerary = itinerary;
-		moveToNextRoad();
-	}
 	public void moveForward () {
 		
 		if (faulty == 0 && !arrived ) {

@@ -1,10 +1,6 @@
 package es.ucm.fdi.model.events;
 
-import java.util.ArrayDeque;
-
 import es.ucm.fdi.model.RoadMap.RoadMap;
-import es.ucm.fdi.model.simulatedObjects.Junction;
-import es.ucm.fdi.model.simulatedObjects.Junction.IR;
 import es.ucm.fdi.model.simulatedObjects.Road;
 
 public class NewRoadEvent extends Event{
@@ -13,13 +9,13 @@ public class NewRoadEvent extends Event{
 	private String idJunctionDest;
 	private int maxSpeed;
 	private int length;
-	public NewRoadEvent(int t, String i, String idJI, String idJD, int mS, int l) {
-		time = t;
-		id = i;
-		idJunctionIni = idJI;
-		idJunctionDest = idJD;
-		maxSpeed = mS;
-		length = l;
+	public NewRoadEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, int length) {
+		super(time);
+		this.id = id;
+		this.idJunctionIni = idJunctionIni;
+		this.idJunctionDest = idJunctionDest;
+		this.maxSpeed = maxSpeed;
+		this.length = length;
 	}
 	public void execute(RoadMap m) {
 		try{
@@ -33,7 +29,7 @@ public class NewRoadEvent extends Event{
 			
 			m.getJunction(idJunctionDest).getRoadQueue().put(r, m.getJunction(idJunctionDest).new IR());		
 			}catch(IllegalArgumentException e){
-			e.printStackTrace();
+				throw new IllegalArgumentException("While adding Road ", e);
 		}
 	}
 }

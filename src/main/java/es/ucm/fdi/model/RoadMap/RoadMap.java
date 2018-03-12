@@ -14,9 +14,9 @@ public class RoadMap {
 	private List <Vehicle> vehicles = new ArrayList <>();
 	
 	//Lo utilizaremos en la siguiente práctica
-	private List <Junction> junctionsRO = Collections.unmodifiableList(junctions);
-	private List <Road> roadsRO = Collections.unmodifiableList(roads);
-	private List <Vehicle> vehiclesRO = Collections.unmodifiableList (vehicles);
+	//private List <Junction> junctionsRO = Collections.unmodifiableList(junctions);
+	//private List <Road> roadsRO = Collections.unmodifiableList(roads);
+	//private List <Vehicle> vehiclesRO = Collections.unmodifiableList (vehicles);
 	
 	public Junction getJunction (String id){
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Junction){
