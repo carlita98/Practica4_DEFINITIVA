@@ -54,32 +54,32 @@ public class RoadMap {
 		return simObjects;
 	}
 	public void addJunction (Junction j){
-		if (simObjects.containsKey (j.getID())){
+		if (simObjects.containsKey (j.getId())){
 			throw new IllegalArgumentException ("This ID already exist");
 		}
 		else{
 			junctions.add(j);
-			simObjects.put(j.getID(), j);
+			simObjects.put(j.getId(), j);
 		}
 	}
 	
 	public void addRoad (Road r){
-		if (simObjects.containsKey (r.getID())){
+		if (simObjects.containsKey (r.getId())){
 			throw new IllegalArgumentException ("This ID already exist");
 		}
 		else{
 		roads.add(r);
-		simObjects.put(r.getID(), r);
+		simObjects.put(r.getId(), r);
 		}
 	}
 	
 	public void addVehicle (Vehicle v){
-		if (simObjects.containsKey (v.getID())){
+		if (simObjects.containsKey (v.getId())){
 			throw new IllegalArgumentException ("This ID already exist");
 		}
 		else{
 		vehicles.add(v);
-		simObjects.put(v.getID(), v);
+		simObjects.put(v.getId(), v);
 		}
 	}
 }

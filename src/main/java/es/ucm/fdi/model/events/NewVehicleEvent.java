@@ -23,9 +23,9 @@ public class NewVehicleEvent extends Event{
 			jList.add(m.getJunction(itinerary.get(i))) ;
 		}
 		try{
-			m.addVehicle(new Vehicle (time, id, maxSpeed, jList));
+			m.addVehicle(new Vehicle ( id, maxSpeed, jList));
 		}catch(IllegalArgumentException e){
-			e.printStackTrace();
+			throw new IllegalArgumentException("While adding Vehicle ", e);
 		}
 	}
 }

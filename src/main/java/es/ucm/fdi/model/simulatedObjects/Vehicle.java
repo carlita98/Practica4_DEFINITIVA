@@ -64,20 +64,11 @@ public class Vehicle extends SimulatedObject{
 		this.currentRoad = actualRoad;
 	}
 
-	public Vehicle (int t, String i, int mS, ArrayList <Junction> j){
-		time = t;
-		Id = i;
-		maxSpeed = mS;
-		itinerary = j;
-		
-		faulty = 0;
-		kilometrage = 0;
-		junctionCounter = 0;
-		roadLocation = 0;
-		arrived = false;
-		currentRoad = null;
-		this.moveToNextRoad();
-		actualSpeed = 0;
+	public Vehicle(String id, int maxSpeed, ArrayList<Junction> itinerary) {
+		super(id);
+		this.maxSpeed = maxSpeed;
+		this.itinerary = itinerary;
+		moveToNextRoad();
 	}
 	public void moveForward () {
 		if (faulty == 0 && !arrived ) {
@@ -104,6 +95,7 @@ public class Vehicle extends SimulatedObject{
 					currentRoad = r;   
 					currentRoad.pushVehicle(this);
 					roadLocation = 0;
+					actualSpeed = 0;
 					junctionCounter++;
 					break;
 				}
@@ -124,7 +116,7 @@ public class Vehicle extends SimulatedObject{
 		out.put("kilometrage", "" + kilometrage);
 		out.put("faulty", "" + faulty);
 		if (!arrived)
-			out.put("location","(" + currentRoad.getID() +","+ roadLocation + ")" );
+			out.put("location","(" + currentRoad.getId() +","+ roadLocation + ")" );
 		else
 			out.put("location", "arrived");
 	}

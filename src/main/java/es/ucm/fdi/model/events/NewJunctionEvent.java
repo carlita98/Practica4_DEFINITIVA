@@ -11,9 +11,9 @@ public class NewJunctionEvent extends Event {
 	}
 	public void execute(RoadMap m) {
 		try{
-			m.addJunction(new Junction(time, id));
+			m.addJunction(new Junction( id));
 		}catch(IllegalArgumentException e){
-			e.printStackTrace();
+			throw new IllegalArgumentException("While adding Junction ", e);
 		}
 	}
 } 

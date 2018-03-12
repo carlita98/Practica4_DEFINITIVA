@@ -45,10 +45,8 @@ public class Junction  extends SimulatedObject{
 		incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
 	
-	public Junction(int t, String i){
-		time = t;
-		Id = i;
-		
+	public Junction(String id){
+		super(id);		
 		currentIncoming = 0;	
 	}
 	
@@ -77,14 +75,14 @@ public class Junction  extends SimulatedObject{
 		
 		String report = "";
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
-			report += "(" + entry.getKey().getID() + "," ;
+			report += "(" + entry.getKey().getId() + "," ;
 			if(entry.getValue().isGreen) report += "green,";
 			else report += "red,";
 			report += "[";
 			int counter = 0;
 			for (Vehicle v: entry.getValue().queue) {
-				if(counter != entry.getValue().queue.size() -1)report += v.getID() + ",";
-				else report += v.getID();
+				if(counter != entry.getValue().queue.size() -1)report += v.getId() + ",";
+				else report += v.getId();
 				counter ++;
 			}
 	

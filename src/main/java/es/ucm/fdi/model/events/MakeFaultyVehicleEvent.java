@@ -19,8 +19,9 @@ public class MakeFaultyVehicleEvent extends Event {
 		for(int i = 0; i < id.size(); i++){
 			try{
 				m.getVehicle(id.get(i)).setFaultyTime(duration);
+				m.getVehicle(id.get(i)).setActualSpeed(0);
 			}catch(NoSuchElementException e){
-				e.printStackTrace();
+				throw new IllegalArgumentException("While making vehicle faulty ", e);
 			}
 		}
 	}

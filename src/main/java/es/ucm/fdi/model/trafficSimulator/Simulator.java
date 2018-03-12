@@ -71,19 +71,19 @@ public class Simulator {
 		
 			for(Junction j: m.getJunctions()){
 			j.report(map);
-			map.put("time", " " +simulatorTime);
+			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);
 			map.clear();
 		}
 		for(Road r: m.getRoads()){
 			r.report(map);
-			map.put("time", " " +simulatorTime);
+			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);
 			map.clear();
 		}
 		for(Vehicle v: m.getVehicles()){
 			v.report(map);
-			map.put("time", " " +simulatorTime);
+			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);
 			map.clear();
 		}

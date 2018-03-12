@@ -176,7 +176,7 @@ public class ExampleMain {
 		start(args);
 		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
 		control.controlExecute();
-		//test("00_helloWorld", "output.ini", "00_helloWorld.ini.eout", _timeLimit);
+		test("05_twoVehiclesOneFaulty.ini", "output.ini", "05_twoVehiclesOneFaulty.ini.eout", _timeLimit);
 	}
 
 }

@@ -3,16 +3,20 @@ package es.ucm.fdi.model.simulatedObjects;
 import java.util.Map;
 
 public abstract class SimulatedObject {
-	protected String Id;
+	protected String id;
 	protected int time;
-	public String getID() {
-		return Id;
+	public String getId() {
+		return id;
+	}
+	
+	public SimulatedObject(String id) {
+		this.id = id;
 	}
 	
 	public void report (Map <String, String> out) {
 		out.put("", getReportHeader());
-		out.put("id", Id);
-		out.put("time", " " + time);
+		out.put("id", id);
+		out.put("time", "" + time);
 		fillReportDetails (out);
 	}
 	protected abstract String getReportHeader();
@@ -24,7 +28,7 @@ public abstract class SimulatedObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + time;
 		return result;
 	}
@@ -38,10 +42,10 @@ public abstract class SimulatedObject {
 		if (getClass() != obj.getClass())
 			return false;
 		SimulatedObject other = (SimulatedObject) obj;
-		if (Id == null) {
-			if (other.Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!Id.equals(other.Id))
+		} else if (!id.equals(other.id))
 			return false;
 		if (time != other.time)
 			return false;

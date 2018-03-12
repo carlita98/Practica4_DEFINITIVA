@@ -1,6 +1,7 @@
 package es.ucm.fdi.model.simulatedObjects;
 
 
+import java.util.Collections;
 import java.util.Map;
 
 import es.ucm.fdi.util.*;
@@ -10,15 +11,14 @@ public class Road  extends SimulatedObject{
 	private int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
-	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b)->(a-b));
+	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>(Collections.reverseOrder());
 	//Juntion donde termina la carretera
 
 	
-	public Road(int t, String i, int ms, int l){
-		time = t;
-		Id = i;
-		maxSpeed = ms;
-		length = l;
+	public Road(String id, int maxSpeed, int length){
+		super(id);
+		this.maxSpeed = maxSpeed;
+		this.length = length;
 	}
 	
 	int getLength () {
@@ -45,28 +45,29 @@ public class Road  extends SimulatedObject{
 	}
 	
 	public void popVehicle(Vehicle v){
-		vehicleList.removeValue(v.getRoadLocation(), v);
+		if (!vehicleList.isEmpty())vehicleList.removeValue(v.getRoadLocation(), v);
 	}
 	
 	public void moveForward(){
 		int baseSpeed;
-		int maxVehicles;
-		if (vehicleList.sizeOfValues() > 0)
-			maxVehicles = vehicleList.sizeOfValues();
-		else 
-			maxVehicles = 1;
-		
-		if (maxSpeed > ((maxSpeed/maxVehicles) + 1)) 
-			baseSpeed = ((maxSpeed/maxVehicles) + 1);
-		else 
-			baseSpeed = maxSpeed;
+		baseSpeed = Math.min (maxSpeed, (maxSpeed/ Math.max (vehicleList.sizeOfValues(), 1) +1));
 
 		boolean faultycar = false;
-		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b)->(a-b));
+		boolean thisCar = false;
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> (Collections.reverseOrder());
 		for (Vehicle v: vehicleList.innerValues()){
-			if (v.getFaulty () > 0) faultycar= true;
-			if (faultycar) v.setActualSpeed(baseSpeed/2);
-			else v.setActualSpeed(baseSpeed);
+			if (v.getFaulty () > 0){
+				faultycar = true;
+				thisCar = true;
+			}
+			if (faultycar && !thisCar) {
+				v.setActualSpeed(baseSpeed/2);
+				thisCar = false;
+			}
+			else if (!faultycar && !thisCar){
+				v.setActualSpeed(baseSpeed);
+				thisCar = false;
+			}
 			v.moveForward();
 			updated.putValue(v.getRoadLocation(), v);
 		}
@@ -79,13 +80,11 @@ public class Road  extends SimulatedObject{
 	}
 	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
-		int counter =0;
 		for (Vehicle v: vehicleList.innerValues()) {
-			if (counter < vehicleList.size() -1)report += "(" + v.getID() + "," + v.getRoadLocation() + ") , ";
-			else report += "(" + v.getID() + "," + v.getRoadLocation() + ")";
-			counter++;
+			report += "(" + v.getId() + "," + v.getRoadLocation() + "),";
 		}
-		out.put("state", report);
+		if (vehicleList.sizeOfValues()!= 0)out.put("state", report.substring(0, report.length()-1));
+		else out.put("state", report);
 	}
 
 }

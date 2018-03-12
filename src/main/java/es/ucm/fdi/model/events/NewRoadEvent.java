@@ -23,7 +23,7 @@ public class NewRoadEvent extends Event{
 	}
 	public void execute(RoadMap m) {
 		try{
-			Road r = new Road(time, id, maxSpeed, length);
+			Road r = new Road(id, maxSpeed, length);
 			m.addRoad(r);
 			int n = m.getJunction(idJunctionDest).getOutgoingRoadList().size(); 
 			m.getJunction(idJunctionIni).getOutgoingRoadList().add(n, r);
