@@ -60,16 +60,14 @@ public class Road  extends SimulatedObject{
 				faultycar = true;
 				thisCar = true;
 			}
-			if (faultycar && !thisCar) {
+			if (faultycar && !thisCar) 
 				v.setActualSpeed(baseSpeed/2);
-				thisCar = false;
-			}
-			else if (!faultycar && !thisCar){
+			else if (!faultycar && !thisCar)
 				v.setActualSpeed(baseSpeed);
-				thisCar = false;
-			}
+			
 			v.moveForward();
 			updated.putValue(v.getRoadLocation(), v);
+			thisCar = false;
 		}
 		vehicleList = updated;
 	}

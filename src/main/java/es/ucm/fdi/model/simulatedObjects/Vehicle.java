@@ -71,23 +71,29 @@ public class Vehicle extends SimulatedObject{
 		moveToNextRoad();
 	}
 	public void moveForward () {
+		
 		if (faulty == 0 && !arrived ) {
+			
 			int previousK = roadLocation;
 			roadLocation += actualSpeed;
+			
 			if (roadLocation >= currentRoad.getLength()){
 				kilometrage += (currentRoad.getLength() - previousK);
 				roadLocation = currentRoad.getLength();
 				itinerary.get(junctionCounter).carIntoIR(this); 
+				actualSpeed = 0;
 			}
 			else kilometrage += actualSpeed;
+			
 		}
+		
 		else if (faulty != 0 && !arrived){
 			faulty --;
 		}
 	}
 
 	public void moveToNextRoad() {
-		if (itinerary.size() > junctionCounter +1) {
+		if (itinerary.size() - 1 > junctionCounter) {
 		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
 			for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
 				if (r == r2) {
@@ -95,11 +101,11 @@ public class Vehicle extends SimulatedObject{
 					currentRoad = r;   
 					currentRoad.pushVehicle(this);
 					roadLocation = 0;
-					actualSpeed = 0;
 					junctionCounter++;
 					break;
 				}
 			}
+			if (itinerary.size() - 1 <=  junctionCounter) break;
 		}
 		}
 		else {

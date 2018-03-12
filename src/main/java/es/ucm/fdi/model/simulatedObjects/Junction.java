@@ -4,12 +4,7 @@ import java.util.*;
 public class Junction  extends SimulatedObject{
 	
 	public class IR{
-		protected boolean isGreen;
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
-		
-		public IR() {
-			isGreen = true;
-		}
 	}
 	
 	private int currentIncoming;
@@ -19,6 +14,7 @@ public class Junction  extends SimulatedObject{
 
 	
 	private IR currentIR() {
+		//Devuelve la IR de la carretera que tiene el semáforo en verde
 		return incomingQueues.get(IncomingRoadList.get(currentIncoming));
 	}
 	
@@ -42,7 +38,8 @@ public class Junction  extends SimulatedObject{
 	}
 
 	public void carIntoIR(Vehicle v) {
-		incomingQueues.get(v.getActualRoad()).queue.addLast(v);
+		if (!incomingQueues.get(v.getActualRoad()).queue.contains(v))
+			incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
 	
 	public Junction(String id){
@@ -51,10 +48,15 @@ public class Junction  extends SimulatedObject{
 	}
 	
 	public void moveForward () {
-		IR ir = currentIR();
-
+		// advance to next
+		try{
+			currentIncoming = (currentIncoming + 1) % IncomingRoadList.size();
+		}catch (ArithmeticException e){
+			currentIncoming = 0;
+		}
 		// move car
-		if (!ir.queue.isEmpty()) {
+		if (!IncomingRoadList.isEmpty() && !incomingQueues.get(IncomingRoadList.get(currentIncoming)).queue.isEmpty()) {
+			IR ir = currentIR();
 			Vehicle v = ir.queue.peek();
 			if (v.getFaulty() == 0){
 				v.moveToNextRoad();
@@ -62,10 +64,7 @@ public class Junction  extends SimulatedObject{
 			}
 			else v.setFaultyTime(v.getFaulty()-1);
 		}
-		// advance to next
-		ir.isGreen = false;
-		currentIncoming = (currentIncoming + 1) % IncomingRoadList.size();
-		incomingQueues.get(IncomingRoadList.get(currentIncoming)).isGreen = true;
+
 	}
 	
 	protected  String getReportHeader() {
@@ -76,7 +75,7 @@ public class Junction  extends SimulatedObject{
 		String report = "";
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
 			report += "(" + entry.getKey().getId() + "," ;
-			if(entry.getValue().isGreen) report += "green,";
+			if(entry.getKey().equals(IncomingRoadList.get(currentIncoming))) report += "green,";
 			else report += "red,";
 			report += "[";
 			int counter = 0;
