@@ -64,6 +64,7 @@ public class Junction  extends SimulatedObject{
 			}
 			else v.setFaultyTime(v.getFaulty()-1);
 		}
+		
 
 	}
 	
@@ -75,7 +76,7 @@ public class Junction  extends SimulatedObject{
 		String report = "";
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
 			report += "(" + entry.getKey().getId() + "," ;
-			if(entry.getKey().equals(IncomingRoadList.get(currentIncoming))) report += "green,";
+			if(entry.getKey().equals(IncomingRoadList.get((currentIncoming + 1) % IncomingRoadList.size()))) report += "green,";
 			else report += "red,";
 			report += "[";
 			int counter = 0;
@@ -85,9 +86,10 @@ public class Junction  extends SimulatedObject{
 				counter ++;
 			}
 	
-			report += "])";
+			report += "]),";
 		}
-		out.put("queues", report);
+		if (!IncomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
+		else out.put("queues", report);
 	}
 
 }
