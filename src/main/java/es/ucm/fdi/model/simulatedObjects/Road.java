@@ -5,11 +5,11 @@ import java.util.Map;
 import es.ucm.fdi.util.*;
 public class Road  extends SimulatedObject{
 
-	private int length;
-	private int  maxSpeed;
+	protected  int length;
+	protected  int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
-	private MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>(/*Comparator.comparing(Integer::intValue).reversed()*/
+	protected MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>(/*Comparator.comparing(Integer::intValue).reversed()*/
 			(a,b) -> a-b /*Collections.reverseOrder()*/);
 
 	
@@ -46,10 +46,11 @@ public class Road  extends SimulatedObject{
 		if (!vehicleList.isEmpty())vehicleList.removeValue(v.getRoadLocation(), v);
 	}
 	
-	public void moveForward(){
-		int baseSpeed;
-		baseSpeed = Math.min (maxSpeed, (maxSpeed/ Math.max (vehicleList.sizeOfValues(), 1) +1));
-
+	public int calculateBaseSpeed() {
+		return Math.min (maxSpeed, (maxSpeed/ Math.max (vehicleList.sizeOfValues(), 1) +1));
+	}
+	
+	public void executeMoveForward(int baseSpeed) {
 		boolean faultycar = false;
 		boolean thisCar = false;
 		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> a-b/*Collections.reverseOrder()*/);
@@ -68,6 +69,10 @@ public class Road  extends SimulatedObject{
 			thisCar = false;
 		}
 		vehicleList = updated;
+	}
+	
+	public void moveForward(){
+		executeMoveForward(calculateBaseSpeed());
 	}
 	
 

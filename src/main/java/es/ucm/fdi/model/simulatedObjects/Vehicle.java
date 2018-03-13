@@ -4,15 +4,15 @@ import java.util.*;
 
 public class Vehicle extends SimulatedObject{
 
-	private int kilometrage;
-	private int faulty;
-	private Road currentRoad;
-	private int junctionCounter;
-	private int roadLocation;
-	private int maxSpeed;
-	private int actualSpeed;
-	private ArrayList<Junction> itinerary = new ArrayList <>();
-	private boolean arrived;
+	protected int kilometrage;
+	protected int faulty;
+	protected Road currentRoad;
+	protected int junctionCounter;
+	protected int roadLocation;
+	protected int maxSpeed;
+	protected int actualSpeed;
+	protected ArrayList<Junction> itinerary = new ArrayList <>();
+	protected boolean arrived;
 	
 
 	public Vehicle(String id, int maxSpeed, ArrayList<Junction> itinerary) {

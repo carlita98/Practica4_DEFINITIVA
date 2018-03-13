@@ -1,9 +1,38 @@
 package es.ucm.fdi.model.simulatedObjects;
 
-public class Path extends Road{
+import java.util.Map;
 
-	public Path(String id, int maxSpeed, int length) {
+import es.ucm.fdi.util.MultiTreeMap;
+
+public class Path extends Road{
+	private String type;
+	
+	public Path(String id, int maxSpeed, int length, String type) {
 		super(id, maxSpeed, length);
+		this.type = type;
+	}
+	public int calculateBaseSpeed() {
+		return maxSpeed;
 	}
 
+	public void executeMoveForward(int baseSpeed) {
+		int counter = 0;
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> a-b/*Collections.reverseOrder()*/);
+		for (Vehicle v: vehicleList.innerValues()){
+			if (v.getFaulty () > 0){
+				counter++;
+			}
+			
+			v.setActualSpeed(baseSpeed/(1 + counter));
+			
+			v.moveForward();
+			updated.putValue(v.getRoadLocation(), v);
+		}
+		vehicleList = updated;
+	}
+	
+	protected void fillReportDetails (Map <String, String> out) {
+		out.put("type", type);
+		super.fillReportDetails(out);
+	}
 }

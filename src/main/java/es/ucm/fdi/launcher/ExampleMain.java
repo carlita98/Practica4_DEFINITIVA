@@ -126,7 +126,7 @@ public class ExampleMain {
 		});
 
 		for (File file : files) {
-			test(file.getAbsolutePath(), file.getAbsolutePath() + ".out", file.getAbsolutePath() + ".eout",100);
+			test(file.getAbsolutePath(), file.getAbsolutePath() + ".out", file.getAbsolutePath() + ".eout",10);
 		}
 
 	}
@@ -174,6 +174,7 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
+		//test("C:/Users/Bea/git/Practica4_DEFINITI/examples/basic");
 		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
 		try{
 			control.controlExecute();
@@ -184,7 +185,7 @@ public class ExampleMain {
 		}catch(IllegalArgumentException e){
 			e.printStackTrace();
 		}
-		test("05_twoVehiclesOneFaulty.ini", "output.ini", "05_twoVehiclesOneFaulty.ini.eout", _timeLimit);
+		test("00_helloWorld.ini", "00_helloWorld.ini.out", "00_helloWorld.ini.eout", 10);
 	}
 
 }

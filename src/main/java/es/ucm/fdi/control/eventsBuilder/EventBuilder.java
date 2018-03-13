@@ -6,7 +6,9 @@ import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 
 public interface EventBuilder {
-	EventBuilder []bs = new EventBuilder[] {new NewVehicleEventBuilder(), new NewRoadEventBuilder(),
+	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
+			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewPathEventBuilder(),
+			 new NewHighWayEventBuilder(),new NewRoadEventBuilder(),
 	new MakeFaultyVehicleEventBuilder(), new NewJunctionEventBuilder ()};
 	
 	public Event parse(IniSection sec);
@@ -31,6 +33,13 @@ public interface EventBuilder {
 		}
 		return true;
 	}
+	/*
+	public default boolean isValidType(String type) {
+		if(type != null && type != "bike" && type != "car") {
+			throw new IllegalArgumentException("Invalid Type");
+		}
+		return true;
+	}*/
 	
 	public default int parseInt (IniSection sec, String key, int min){
 		int n = 0;
@@ -38,6 +47,13 @@ public interface EventBuilder {
 		if (n < min) throw new IllegalArgumentException("The value of the attribute is out of range");
 		else return n;
 		
+	}
+	
+	public default double parseDoub (IniSection sec, String key, int min){
+		double n = 0;
+		n = Double.parseDouble(sec.getValue(key));
+		if (n < min) throw new IllegalArgumentException("The value of the attribute is out of range");
+		else return n;
 	}
 	
 	public default ArrayList <String> parseIdList (IniSection sec, String key){

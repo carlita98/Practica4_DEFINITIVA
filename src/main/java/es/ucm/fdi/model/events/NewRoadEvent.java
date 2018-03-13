@@ -4,11 +4,11 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 
 public class NewRoadEvent extends Event{
-	private String id;
-	private String idJunctionIni;
-	private String idJunctionDest;
-	private int maxSpeed;
-	private int length;
+	protected String id;
+	protected String idJunctionIni;
+	protected String idJunctionDest;
+	protected int maxSpeed;
+	protected int length;
 	public NewRoadEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, int length) {
 		super(time);
 		this.id = id;

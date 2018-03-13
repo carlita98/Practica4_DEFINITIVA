@@ -7,10 +7,10 @@ public class Junction  extends SimulatedObject{
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
 	}
 	
-	private int currentIncoming;
-	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
-	private List <Road> incomingRoadList = new ArrayList<>();
-	private List <Road> outgoingRoadList = new ArrayList<>();
+	protected  int currentIncoming;
+	protected  Map <Road, IR> incomingQueues = new LinkedHashMap<>();
+	protected List <Road> incomingRoadList = new ArrayList<>();
+	protected  List <Road> outgoingRoadList = new ArrayList<>();
 
 	public Junction(String id){
 		super(id);		
