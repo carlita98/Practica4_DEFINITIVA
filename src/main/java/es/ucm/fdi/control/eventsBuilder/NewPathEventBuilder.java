@@ -19,7 +19,7 @@ public class NewPathEventBuilder extends NewRoadEventBuilder{
 			if (isValidId(id) && isValidId (idJI) && isValidId(idJD))
 				return new NewPathEvent (t, id, idJI, idJD, mS, l, sec.getValue("type"));
 		}catch (IllegalArgumentException i){
-			throw new IllegalArgumentException("There has been a problem creating NewHighWayEvent", i);
+			throw new IllegalArgumentException("There has been a problem creating NewPathEvent", i);
 		}
 		return null;
 	}

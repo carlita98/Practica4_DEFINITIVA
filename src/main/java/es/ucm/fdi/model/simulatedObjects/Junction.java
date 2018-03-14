@@ -1,6 +1,8 @@
 package es.ucm.fdi.model.simulatedObjects;
 import java.util.*;
 
+import es.ucm.fdi.model.simulatedObjects.Junction.IR;
+
 public class Junction  extends SimulatedObject{
 	
 	public class IR{
@@ -21,6 +23,17 @@ public class Junction  extends SimulatedObject{
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
 	
+	public void addOutcoming(Road r) {
+		int n = this.getOutgoingRoadList().size(); 
+		getOutgoingRoadList().add(n, r);
+	}
+	public void addIncoming(Road r) {
+		int n = this.getIncomingRoadList().size(); 
+		getIncomingRoadList().add(n, r);
+	}
+	public void addInRoadQueue(Road r) {
+		incomingQueues.put(r, new IR());
+	}
 	public Map<Road, IR> getRoadQueue() {
 		return incomingQueues;
 	}
@@ -48,13 +61,11 @@ public class Junction  extends SimulatedObject{
 	
 	
 	public void moveForward () {
-		// advance to next
 		try{
 			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
 		}catch (ArithmeticException e){
 			currentIncoming = 0;
 		}
-		// move car
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
 			IR ir = currentIR();
 			Vehicle v = ir.queue.peek();

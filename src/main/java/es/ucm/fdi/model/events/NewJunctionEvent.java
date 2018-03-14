@@ -13,7 +13,7 @@ public class NewJunctionEvent extends Event {
 		try{
 			m.addJunction(new Junction( id));
 		}catch(IllegalArgumentException e){
-			throw new IllegalArgumentException("While adding Junction ", e);
+			throw new IllegalArgumentException("There has been a problem while adding Junction ", e);
 		}
 	}
 } 

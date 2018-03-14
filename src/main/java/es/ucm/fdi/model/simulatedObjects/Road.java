@@ -9,8 +9,7 @@ public class Road  extends SimulatedObject{
 	protected  int  maxSpeed;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
-	protected MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>(/*Comparator.comparing(Integer::intValue).reversed()*/
-			(a,b) -> b-a /*Collections.reverseOrder()*/);
+	protected MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b) -> b-a );
 
 	
 	public Road(String id, int maxSpeed, int length){
@@ -53,13 +52,13 @@ public class Road  extends SimulatedObject{
 	public void executeMoveForward(int baseSpeed) {
 		boolean faultycar = false;
 		boolean thisCar = false;
-		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> b-a/*Collections.reverseOrder()*/);
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> b-a);
 		for (Vehicle v: vehicleList.innerValues()){
 			if (v.getFaulty () > 0){
 				faultycar = true;
 				thisCar = true;
 			}
-			if (faultycar && !thisCar) 
+			else if (faultycar && !thisCar) 
 				v.setActualSpeed(baseSpeed/2);
 			else if (!faultycar && !thisCar)
 				v.setActualSpeed(baseSpeed);

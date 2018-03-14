@@ -20,7 +20,7 @@ public class MakeFaultyVehicleEvent extends Event {
 				m.getVehicle(id.get(i)).setFaultyTime(duration);
 				m.getVehicle(id.get(i)).setActualSpeed(0);
 			}catch(NoSuchElementException e){
-				throw new IllegalArgumentException("While making vehicle faulty ", e);
+				throw new IllegalArgumentException("There has been a problem while making vehicle faulty ", e);
 			}
 		}
 	}

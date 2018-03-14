@@ -15,15 +15,11 @@ public class NewPathEvent extends NewRoadEvent{
 		try{
 			Road r = new Path(id, maxSpeed, length, type);
 			m.addRoad(r);
-			int n = m.getJunction(idJunctionIni).getOutgoingRoadList().size(); 
-			m.getJunction(idJunctionIni).getOutgoingRoadList().add(n, r);
-			
-			n = m.getJunction(idJunctionDest).getIncomingRoadList().size(); 
-			m.getJunction(idJunctionDest).getIncomingRoadList().add(n, r);
-			
-			m.getJunction(idJunctionDest).getRoadQueue().put(r, m.getJunction(idJunctionDest).new IR());		
+			m.getJunction(idJunctionIni).addOutcoming(r);
+			m.getJunction(idJunctionDest).addIncoming(r);
+			m.getJunction(idJunctionDest).addInRoadQueue(r);		
 			}catch(IllegalArgumentException e){
-				throw new IllegalArgumentException("While adding Path", e);
+				throw new IllegalArgumentException("There has been a problem while adding Path", e);
 		}
 	}
 

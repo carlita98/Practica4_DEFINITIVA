@@ -33,13 +33,6 @@ public interface EventBuilder {
 		}
 		return true;
 	}
-	/*
-	public default boolean isValidType(String type) {
-		if(type != null && type != "bike" && type != "car") {
-			throw new IllegalArgumentException("Invalid Type");
-		}
-		return true;
-	}*/
 	
 	public default int parseInt (IniSection sec, String key, int min){
 		int n = 0;

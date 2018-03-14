@@ -36,7 +36,7 @@ public class NewCarEvent extends NewVehicleEvent{
 		try{
 			m.addVehicle(new Car ( id, maxSpeed, jList, type, resistance, faultyProbability, maxFaultDuration, seed));
 		}catch(IllegalArgumentException e){
-			throw new IllegalArgumentException("While adding Car ", e);
+			throw new IllegalArgumentException("There has been a problem while adding Car ", e);
 		}
 	}
 

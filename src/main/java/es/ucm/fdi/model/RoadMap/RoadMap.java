@@ -55,7 +55,7 @@ public class RoadMap {
 	}
 	public void addJunction (Junction j){
 		if (simObjects.containsKey (j.getId())){
-			throw new IllegalArgumentException ("This ID already exist");
+			throw new IllegalArgumentException ("This ID already exists in a Junction");
 		}
 		else{
 			junctions.add(j);
@@ -65,7 +65,7 @@ public class RoadMap {
 	
 	public void addRoad (Road r){
 		if (simObjects.containsKey (r.getId())){
-			throw new IllegalArgumentException ("This ID already exist");
+			throw new IllegalArgumentException ("This ID already exist in a Road");
 		}
 		else{
 		roads.add(r);
@@ -75,7 +75,7 @@ public class RoadMap {
 	
 	public void addVehicle (Vehicle v){
 		if (simObjects.containsKey (v.getId())){
-			throw new IllegalArgumentException ("This ID already exist");
+			throw new IllegalArgumentException ("This ID already exist in a Vehicle");
 		}
 		else{
 		vehicles.add(v);
