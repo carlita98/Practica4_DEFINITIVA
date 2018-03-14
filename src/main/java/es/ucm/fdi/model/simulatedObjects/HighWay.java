@@ -21,15 +21,17 @@ public class HighWay extends Road{
 	
 	public void executeMoveForward(int baseSpeed) {
 		int counter = 0;
-		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> a-b/*Collections.reverseOrder()*/);
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> b-a/*Collections.reverseOrder()*/);
 		for (Vehicle v: vehicleList.innerValues()){
 			if (v.getFaulty () > 0){
 				counter++;
 			}
+			else {
 			if (counter > lanes) 
 				v.setActualSpeed(baseSpeed/2);
 			else
 				v.setActualSpeed(baseSpeed);
+			}
 			
 			v.moveForward();
 			updated.putValue(v.getRoadLocation(), v);

@@ -17,14 +17,14 @@ public class Path extends Road{
 
 	public void executeMoveForward(int baseSpeed) {
 		int counter = 0;
-		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> a-b/*Collections.reverseOrder()*/);
+		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> b-a/*Collections.reverseOrder()*/);
 		for (Vehicle v: vehicleList.innerValues()){
 			if (v.getFaulty () > 0){
 				counter++;
 			}
-			
-			v.setActualSpeed(baseSpeed/(1 + counter));
-			
+			else {
+				v.setActualSpeed(baseSpeed/(1 + counter));
+			}
 			v.moveForward();
 			updated.putValue(v.getRoadLocation(), v);
 		}
