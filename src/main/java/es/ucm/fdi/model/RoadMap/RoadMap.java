@@ -22,21 +22,21 @@ public class RoadMap {
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Junction){
 			return (Junction) simObjects.get(id);
 		}
-		else throw new NoSuchElementException("A junction with that ID does not exist");
+		else throw new IllegalArgumentException("A junction with that ID does not exist");
 	}
 	
 	public Road getRoad(String id){
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Road){
 			return (Road) simObjects.get(id);
 		}
-		else throw new NoSuchElementException ("A road with that ID does not exist");
+		else throw new IllegalArgumentException ("A road with that ID does not exist");
 	}
 	
 	public Vehicle getVehicle(String id){
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Vehicle){
 			return (Vehicle) simObjects.get(id);
 		}
-		throw new NoSuchElementException ("A vehicle with that ID does not exist");
+		throw new IllegalArgumentException ("A vehicle with that ID does not exist");
 	}
 	
 	public List <Junction> getJunctions (){
