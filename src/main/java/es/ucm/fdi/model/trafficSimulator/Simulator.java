@@ -9,6 +9,7 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
 import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.model.simulatedObjects.Road;
+import es.ucm.fdi.model.simulatedObjects.SimulatedObject;
 import es.ucm.fdi.model.simulatedObjects.Vehicle;
 import es.ucm.fdi.util.MultiTreeMap;
 
@@ -68,20 +69,20 @@ public class Simulator {
 	public void generateInform(OutputStream file) {
 		try{
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		
-			for(Junction j: m.getJunctions()){
+
+		for(SimulatedObject j : m.getJunctions()){
 			j.report(map);
 			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);
 			map.clear();
 		}
-		for(Road r: m.getRoads()){
+		for(SimulatedObject r: m.getRoads()){
 			r.report(map);
 			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);
 			map.clear();
 		}
-		for(Vehicle v: m.getVehicles()){
+		for(SimulatedObject v: m.getVehicles()){
 			v.report(map);
 			map.put("time", "" +simulatorTime);
 			if (file != null)changeToIni (map).store(file);

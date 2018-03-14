@@ -147,9 +147,16 @@ public class ExampleMain {
 	 * @throws IOException
 	 */
 	private static void startBatchMode() throws IOException {
-		// TODO
-		// Add your code here. Note that the input argument where parsed and stored into
-		// corresponding fields.
+		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
+		try{
+			control.controlExecute();
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
 	}
 
 	private static void start(String[] args) throws IOException {
@@ -174,18 +181,9 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
-		//test("C:/Users/Bea/git/Practica4_DEFINITI/examples/basic");
-		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
-		try{
-			control.controlExecute();
-		}catch(FileNotFoundException e){
-			e.printStackTrace();
-		}catch(IOException e){
-			e.printStackTrace();
-		}catch(IllegalArgumentException e){
-			e.printStackTrace();
-		}
-		test("00_helloWorld.ini", "00_helloWorld.ini.out", "00_helloWorld.ini.eout", 10);
+		test("C:/Users/Bea/git/Practica4_DEFINITI/examples/basic");
+	
+		//test("00_helloWorld.ini", "00_helloWorld.ini.out", "00_helloWorld.ini.eout", 10);
 	}
 
 }

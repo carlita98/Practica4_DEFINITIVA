@@ -9,6 +9,7 @@ import es.ucm.fdi.model.events.NewVehicleEvent;
 public class NewVehicleEventBuilder implements EventBuilder {
 	
 	public Event parse(IniSection sec) {
+		// if("new_vehicle".equals(sec.getTag()) return null;
 		if(!sec.getTag().equals("new_vehicle") || sec.getValue("type") != null) return null;
 		try{
 			int t = parseInt (sec,"time", 0);
