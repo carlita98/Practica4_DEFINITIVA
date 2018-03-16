@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewVehicleEvent;
-
+/**
+ * Implements EventBuilder, says if an IniSection correspond to a NewVehicleEvent
+ * @author Carla Martínez
+ *
+ */
 public class NewVehicleEventBuilder implements EventBuilder {
 	
 	public Event parse(IniSection sec) {

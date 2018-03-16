@@ -6,14 +6,31 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 import es.ucm.fdi.model.simulatedObjects.Path;
-
+/**
+ * Introduce a new Path in the RoadMap
+ * @author Carla Martínez
+ *
+ */
 public class NewPathEvent extends NewRoadEvent{
 	private String type;
+	/**
+	 * Constructor
+	 * @param time
+	 * @param id
+	 * @param idJunctionIni
+	 * @param idJunctionDest
+	 * @param maxSpeed
+	 * @param length
+	 * @param type
+	 */
 	public NewPathEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed,
 			int length, String type) {
 		super(time, id, idJunctionIni, idJunctionDest, maxSpeed, length);
 		this.type = type;
 	}
+	/**
+	 * Introduce a new Path in the RoadMap
+	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
 			Road r = new Path(id, maxSpeed, length, type);

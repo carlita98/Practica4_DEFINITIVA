@@ -3,7 +3,11 @@ package es.ucm.fdi.control.eventsBuilder;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewRoadEvent;
-
+/**
+ * Implements EventBuilder, says if an IniSection correspond to a NewRoadEvent
+ * @author Carla Martínez
+ *
+ */
 public class NewRoadEventBuilder implements EventBuilder{
 	
 	public Event parse(IniSection sec) {

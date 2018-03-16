@@ -1,11 +1,15 @@
 package es.ucm.fdi.control.eventsBuilder;
 import java.util.ArrayList;
-
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.MakeFaultyVehicleEvent;
+/**
+ * Implements EventBuilder, says if an IniSection correspond to a MakeFaultyVehicleEvent
+ * @author Carla Martínez
+ *
+ */
 public class MakeFaultyVehicleEventBuilder implements EventBuilder{
-	
+
 	public Event parse(IniSection sec) {
 		if( ! sec.getTag().equals("make_vehicle_faulty")) return null;
 		try{

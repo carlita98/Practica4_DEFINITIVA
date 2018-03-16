@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewBikeEvent;
-
+/**
+ * Implements EventBuilder, says if an IniSection correspond to a NewBikeEvent
+ * @author Carla Martínez
+ *
+ */
 public class NewBikeEventBuilder implements EventBuilder{
 
 	@Override

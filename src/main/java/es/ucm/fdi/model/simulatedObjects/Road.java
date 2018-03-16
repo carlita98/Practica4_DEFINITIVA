@@ -1,8 +1,12 @@
 package es.ucm.fdi.model.simulatedObjects;
 
 import java.util.Map;
-
 import es.ucm.fdi.util.*;
+/**
+ * All the necessary methods for the Simulated Object Road
+ * @author Carla Martínez
+ *
+ */
 public class Road  extends SimulatedObject{
 
 	protected  int length;
@@ -10,7 +14,12 @@ public class Road  extends SimulatedObject{
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
 	protected MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b) -> b-a );
-
+	/**
+	 * Constructor
+	 * @param id
+	 * @param maxSpeed
+	 * @param length
+	 */
 	
 	public Road(String id, int maxSpeed, int length){
 		super(id);
@@ -36,20 +45,31 @@ public class Road  extends SimulatedObject{
 	public void setLength(int length) {
 		this.length = length;
 	}
-
+	/**
+	 * Introduce a new Vehicle into this Road
+	 * @param v
+	 */
 	public void pushVehicle(Vehicle v){
-		//vehicleList.putValue(v.getRoadLocation(), v);
 		vehicleList.putValue(0, v);
 	}
-	
+	/**
+	 * Erase an existing vehicle from this Road
+	 * @param v
+	 */
 	public void popVehicle(Vehicle v){
 		if (!vehicleList.isEmpty())vehicleList.removeValue(v.getRoadLocation(), v);
 	}
-	
+	/**
+	 * Calculate the Base Speed 
+	 * @return entire
+	 */
 	public int calculateBaseSpeed() {
 		return Math.min (maxSpeed, (maxSpeed/ Math.max (vehicleList.sizeOfValues(), 1) +1));
 	}
-	
+	/**
+	 * Execute moveForward for each vehicle into the Road
+	 * @param baseSpeed
+	 */
 	public void executeMoveForward(int baseSpeed) {
 		boolean faultycar = false;
 		boolean thisCar = false;
@@ -70,15 +90,22 @@ public class Road  extends SimulatedObject{
 		}
 		vehicleList = updated;
 	}
-	
+	/**
+	 * Using calculateBaseSpeed and executeMoveForward achive the goal of move Forward the road
+	 */
 	public void moveForward(){
 		executeMoveForward(calculateBaseSpeed());
 	}
-	
-
+	/**
+	 * Returns Road IniSection header
+	 * @return String
+	 */
 	protected  String getReportHeader() {
 		return "road_report";
 	}
+	/**
+	 * Fill a Map with the Road data
+	 */
 	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
 		for (Vehicle v: vehicleList.innerValues()) {

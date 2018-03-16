@@ -1,9 +1,20 @@
 package es.ucm.fdi.model.trafficSimulator;
-
+/**
+ * Exception used when problems happen into the Simulator
+ * @author Carla Martínez
+ *
+ */
+@SuppressWarnings("serial")
 public class SimulatorException extends Exception{
-	public SimulatorException() {
-		
-	}
+	/**
+	 * Constructor
+	 */
+	public SimulatorException() {	}
+	/**
+	 * Constructor, its enable the concatenation of Exceptions
+	 * @param s
+	 * @param e
+	 */
 	public SimulatorException (String s, Exception e) {
 		super(s, e);
 	}

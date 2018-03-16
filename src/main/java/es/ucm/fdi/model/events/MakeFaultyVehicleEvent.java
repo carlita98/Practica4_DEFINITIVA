@@ -5,16 +5,28 @@ import java.util.NoSuchElementException;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
-
+/**
+ * Make a vehicle in the RoadMap faulty
+ * @author Carla Martínez
+ *
+ */
 public class MakeFaultyVehicleEvent extends Event {
 	private ArrayList<String> id = new ArrayList<>();
 	private int duration;
+	/**
+	 * Constructor
+	 * @param time
+	 * @param id
+	 * @param duration
+	 */
 	public MakeFaultyVehicleEvent(int time, ArrayList<String> id, int duration) {
 		super(time);
 		this.id = id;
 		this.duration = duration;
 	}
-	
+	/**
+	 * Make an existing vehicle in the RoadMap faulty 
+	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		for(int i = 0; i < id.size(); i++){
 			try{

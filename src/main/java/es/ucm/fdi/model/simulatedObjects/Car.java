@@ -3,7 +3,11 @@ package es.ucm.fdi.model.simulatedObjects;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-
+/**
+ * All the necessary methods for the Simulated Object Car
+ * @author Carla Martínez
+ *
+ */
 public class Car extends Vehicle{
 	private String type;
 	private int resistance;
@@ -12,7 +16,17 @@ public class Car extends Vehicle{
 	private long seed;
 	private Random randomNum; 
 	private int distanceSinceFaulty; 
-	
+	/**
+	 * Contructor
+	 * @param id
+	 * @param maxSpeed
+	 * @param itinerary
+	 * @param type
+	 * @param resistance
+	 * @param faultyProbability
+	 * @param maxFaultDuration
+	 * @param seed
+	 */
 	public Car(String id, int maxSpeed, ArrayList<Junction> itinerary, String type, int resistance, 
 			double faultyProbability, int maxFaultDuration, long seed) {
 		super(id, maxSpeed, itinerary);
@@ -27,6 +41,9 @@ public class Car extends Vehicle{
 		randomNum = new Random (this.seed); 
 		distanceSinceFaulty = 0;
 	}
+	/**
+	 *  Advance a car into its currentRoad or push it into the Incoming Road 
+	 */
 	public void moveForward() {
 		if (faulty > 0) {
 			distanceSinceFaulty = 0;
@@ -44,7 +61,9 @@ public class Car extends Vehicle{
 			distanceSinceFaulty += (distanceB - distanceA);
 		}
 	}
-	
+	/**
+	 * Fill a Map with the Car data
+	 */
 	public void fillReportDetails(Map <String, String> out) {
 		out.put("type", type);
 		super.fillReportDetails(out);

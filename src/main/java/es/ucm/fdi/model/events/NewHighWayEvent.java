@@ -6,18 +6,34 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 import es.ucm.fdi.model.simulatedObjects.HighWay;
-
+/**
+ * Introduce a new HighWay in the RoadMap
+ * @author Carla Martínez
+ *
+ */
 public class NewHighWayEvent extends NewRoadEvent {
 	private String type;
 	private int lanes;
-	
+	/**
+	 * Constructor
+	 * @param time
+	 * @param id
+	 * @param idJunctionIni
+	 * @param idJunctionDest
+	 * @param maxSpeed
+	 * @param length
+	 * @param type
+	 * @param lanes
+	 */
 	public NewHighWayEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, 
 			int length, String type, int lanes) {
 		super(time, id, idJunctionIni, idJunctionDest, maxSpeed, length);
 		this.type = type;
 		this.lanes = lanes;
 	}
-	
+	/**
+	 * Introduce a new HighWay in the RoadMap
+	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
 			Road r = new HighWay(id, maxSpeed, length, type, lanes);

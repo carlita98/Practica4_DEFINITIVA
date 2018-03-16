@@ -2,9 +2,12 @@ package es.ucm.fdi.control.eventsBuilder;
 
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
-import es.ucm.fdi.model.events.NewHighWayEvent;
 import es.ucm.fdi.model.events.NewPathEvent;
-
+/**
+ * Implements EventBuilder, says if an IniSection correspond to a NewPathEvent
+ * @author Carla Martínez
+ *
+ */
 public class NewPathEventBuilder extends NewRoadEventBuilder{
 	public Event parse(IniSection sec) {
 		if( ! sec.getTag().equals("new_road") || !"dirt".equals(sec.getValue("type"))) return null;

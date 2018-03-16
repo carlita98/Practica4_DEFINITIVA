@@ -9,22 +9,37 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
 import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.util.MultiTreeMap;
-
+/**
+ * The main class, it controls the performance of the TrafficSimulator
+ * @author Carla Martínez
+ *
+ */
 public class Simulator {
 	//Ordenada por tiempo
 	private MultiTreeMap <Integer, Event> eventList = new MultiTreeMap<> ();
 	private int simulatorTime;
 	private RoadMap m = new RoadMap ();
-
+	/**
+	 * 
+	 * Constructor
+	 */
 	public Simulator (){
 		simulatorTime = 0;
 	}
+	/**
+	 * Inserts a new Event into the eventList
+	 * @param e
+	 */
 	public void insertEvent(Event e){
 		if(e.getTime() >= simulatorTime){
 			eventList.putValue(e.getTime(), e);
 		}
 	}
-	
+	/**
+	 * Execute the simulation and threats the Exception
+	 * @param simulatorSteps
+	 * @param file
+	 */
 	public void execute(int simulatorSteps, OutputStream file){
 		int timeLimit = simulatorTime + simulatorSteps - 1;
 		try{
@@ -44,7 +59,10 @@ public class Simulator {
 			}
 		}
 	}
-	
+	/**
+	 * Execute the corresponding events to that time
+	 * @throws SimulatorException
+	 */
 	public void actualTimeExecute() throws SimulatorException{
 		if (eventList.containsKey(simulatorTime)) {
 			for(Event e: eventList.get(simulatorTime)){
@@ -52,7 +70,9 @@ public class Simulator {
 			}
 		}
 	}	
-	
+	/**
+	 * Call moveForward method for roads and junctions into the RoadMap
+	 */
 	public void moveForward(){
 		for(Road r: m.getRoads()){
 			r.moveForward();
@@ -63,7 +83,11 @@ public class Simulator {
 			contador ++;
 		}
 	}
-	
+	/**
+	 * Changes the Map <String, String> from report method to an IniSection
+	 * @param map
+	 * @return IniSection
+	 */
 	public IniSection changeToIni (LinkedHashMap<String, String> map){
 		IniSection s = new IniSection (map.get(""));
 		int counter =0;
@@ -73,6 +97,11 @@ public class Simulator {
 		}
 		return s;
 	}
+	/**
+	 * Generate the inform using an IniSection, first generate the Junctions reports, then the Roads and  finally
+	 * Vehicles
+	 * @param file
+	 */
 	public void generateInform(OutputStream file) {
 		try{
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();

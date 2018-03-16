@@ -1,7 +1,11 @@
 package es.ucm.fdi.model.simulatedObjects;
 
 import java.util.*;
-
+/**
+ * All the necessary methods for the Simulated Object Vehicle
+ * @author Carla Martínez
+ *
+ */
 public class Vehicle extends SimulatedObject{
 
 	protected int kilometrage;
@@ -13,7 +17,12 @@ public class Vehicle extends SimulatedObject{
 	protected int actualSpeed;
 	protected ArrayList<Junction> itinerary = new ArrayList <>();
 	protected boolean arrived;
-	
+	/**
+	 * Constructor
+	 * @param id
+	 * @param maxSpeed
+	 * @param itinerary
+	 */
 
 	public Vehicle(String id, int maxSpeed, ArrayList<Junction> itinerary) {
 		super(id);
@@ -71,9 +80,11 @@ public class Vehicle extends SimulatedObject{
 	public void setActualRoad(Road actualRoad) {
 		this.currentRoad = actualRoad;
 	}
-
+	/**
+	 * Advance a vehicle into its currentRoad or push it into the Incoming Road 
+	 */
 	public void moveForward () {
-		
+
 		if (faulty == 0 && !arrived ) {
 			
 			int previousK = roadLocation;
@@ -93,7 +104,9 @@ public class Vehicle extends SimulatedObject{
 			faulty --;
 		}
 	}
-
+	/**
+	 * Move a vehicle into its next Road
+	 */
 	public void moveToNextRoad() {
 		if (itinerary.size() - 1 > junctionCounter) {
 		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
@@ -116,9 +129,16 @@ public class Vehicle extends SimulatedObject{
 			currentRoad.popVehicle(this);		
 		}
 	}
+	/**
+	 * Returns Vehicle IniSection header
+	 * @return String
+	 */
 	protected  String getReportHeader() {
 		return "vehicle_report";
 	}
+	/**
+	 * Fill a Map with the Vehicle data
+	 */
 	protected void fillReportDetails (Map <String, String> out) {
 		out.put("speed", "" + actualSpeed);
 		out.put("kilometrage", "" + kilometrage);

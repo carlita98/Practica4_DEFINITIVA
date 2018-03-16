@@ -1,18 +1,28 @@
 package es.ucm.fdi.model.simulatedObjects;
 
 import java.util.Map;
-
+/**
+ * Common factor of the  diferrent Objects 
+ * @author Carla Martínez
+ *
+ */
 public abstract class SimulatedObject {
 	protected String id;
 	protected int time;
 	public String getId() {
 		return id;
 	}
-	
+	/**
+	 * Constructor
+	 * @param id
+	 */
 	public SimulatedObject(String id) {
 		this.id = id;
 	}
-	
+	/**
+	 * Fill the Map with the common data of the Simulated Objects
+	 * @param out
+	 */
 	public void report (Map <String, String> out) {
 		out.put("", getReportHeader());
 		out.put("id", id);

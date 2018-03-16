@@ -5,18 +5,31 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
-import es.ucm.fdi.model.simulatedObjects.Car;
-import es.ucm.fdi.model.simulatedObjects.Junction;
-import es.ucm.fdi.model.simulatedObjects.Vehicle;
+import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
-
+/**
+ * Introduce a new Car in the RoadMap
+ * @author Carla Martínez
+ *
+ */
 public class NewCarEvent extends NewVehicleEvent{
 	private String type;
 	private int resistance;
 	private double faultyProbability;
 	private int maxFaultDuration;
 	private long seed;
-	
+	/**
+	 * Constructor
+	 * @param time
+	 * @param id
+	 * @param maxSpeed
+	 * @param itinerary
+	 * @param type
+	 * @param resistance
+	 * @param faultyProbability
+	 * @param maxFaultDuration
+	 * @param seed
+	 */
 	public NewCarEvent(int time, String id, int maxSpeed, ArrayList<String> itinerary, String type,
 			 int resistance, double faultyProbability, int maxFaultDuration, long seed) {
 		super(time, id, maxSpeed, itinerary);
@@ -29,7 +42,9 @@ public class NewCarEvent extends NewVehicleEvent{
 		}
 		else this.seed = seed;
 	}
-	
+	/**
+	 * Introduce a new Car in the RoadMap
+	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		ArrayList <Junction> jList = new ArrayList <>();
 		try{
