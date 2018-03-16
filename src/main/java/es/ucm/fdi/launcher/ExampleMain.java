@@ -154,8 +154,6 @@ public class ExampleMain {
 			e.printStackTrace();
 		}catch(IOException e){
 			e.printStackTrace();
-		}catch(IllegalArgumentException e){
-			e.printStackTrace();
 		}
 	}
 

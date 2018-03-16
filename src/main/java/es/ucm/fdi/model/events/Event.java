@@ -1,6 +1,7 @@
 package es.ucm.fdi.model.events;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
+import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 
 abstract public class Event {
 	protected int time;
@@ -15,7 +16,7 @@ abstract public class Event {
 		this.time = time;
 	}
 	
-	public abstract void execute(RoadMap m);
+	public abstract void execute(RoadMap m) throws SimulatorException;
 
 	
 }

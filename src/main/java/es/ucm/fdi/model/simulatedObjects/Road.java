@@ -38,7 +38,8 @@ public class Road  extends SimulatedObject{
 	}
 
 	public void pushVehicle(Vehicle v){
-		vehicleList.putValue(v.getRoadLocation(), v);
+		//vehicleList.putValue(v.getRoadLocation(), v);
+		vehicleList.putValue(0, v);
 	}
 	
 	public void popVehicle(Vehicle v){
@@ -80,17 +81,9 @@ public class Road  extends SimulatedObject{
 	}
 	protected void fillReportDetails (Map <String, String> out) {
 		String report = "";
-		MultiTreeMap <Integer, Vehicle> updated = new MultiTreeMap <Integer, Vehicle> ((a,b) -> b-a);
-		for (Vehicle v: vehicleList.innerValues()) {
-			updated.putValue(v.getRoadLocation(), v);
-		}
-		for (Vehicle v: updated.innerValues()) {
-			report += "(" + v.getId() + "," + v.getRoadLocation() + "),";
-		}
-		/*
 		for (Vehicle v: vehicleList.innerValues()) {
 			report += "(" + v.getId() + "," + v.getRoadLocation() + "),";
-		}*/
+		}
 		if (vehicleList.sizeOfValues()!= 0)out.put("state", report.substring(0, report.length()-1));
 		else out.put("state", report);
 	}

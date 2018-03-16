@@ -12,10 +12,9 @@ public class Bike extends Vehicle{
 		this.type = type;
 	}
 	
-	
 	public void moveForward() {
-		if(actualSpeed > maxSpeed / 2) {
-			setFaultyTime(faulty);
+		if(actualSpeed <= maxSpeed / 2) {
+			setFaultyTime(0);
 		}
 		super.moveForward();
 	}

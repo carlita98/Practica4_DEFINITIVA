@@ -29,6 +29,7 @@ public class Vehicle extends SimulatedObject{
 	}
 	public void setFaultyTime (int t) {
 		faulty += t;
+		setActualSpeed(0);
 	}
 	public void setActualSpeed (int s) {
 		if (s > maxSpeed) actualSpeed = maxSpeed;

@@ -22,21 +22,21 @@ public class RoadMap {
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Junction){
 			return (Junction) simObjects.get(id);
 		}
-		else throw new IllegalArgumentException("A junction with that ID does not exist");
+		else throw new NoSuchElementException("A junction with that ID does not exist");
 	}
 	
 	public Road getRoad(String id){
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Road){
 			return (Road) simObjects.get(id);
 		}
-		else throw new IllegalArgumentException ("A road with that ID does not exist");
+		else throw new NoSuchElementException ("A road with that ID does not exist");
 	}
 	
 	public Vehicle getVehicle(String id){
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Vehicle){
 			return (Vehicle) simObjects.get(id);
 		}
-		throw new IllegalArgumentException ("A vehicle with that ID does not exist");
+		else throw new NoSuchElementException ("A vehicle with that ID does not exist");
 	}
 	
 	public List <Junction> getJunctions (){
@@ -55,7 +55,7 @@ public class RoadMap {
 	}
 	public void addJunction (Junction j){
 		if (simObjects.containsKey (j.getId())){
-			throw new IllegalArgumentException ("This ID already exists in a Junction");
+			throw new NoSuchElementException ("This ID already exists in a Junction");
 		}
 		else{
 			junctions.add(j);
@@ -65,7 +65,7 @@ public class RoadMap {
 	
 	public void addRoad (Road r){
 		if (simObjects.containsKey (r.getId())){
-			throw new IllegalArgumentException ("This ID already exist in a Road");
+			throw new NoSuchElementException ("This ID already exist in a Road");
 		}
 		else{
 		roads.add(r);
@@ -75,7 +75,7 @@ public class RoadMap {
 	
 	public void addVehicle (Vehicle v){
 		if (simObjects.containsKey (v.getId())){
-			throw new IllegalArgumentException ("This ID already exist in a Vehicle");
+			throw new NoSuchElementException ("This ID already exist in a Vehicle");
 		}
 		else{
 		vehicles.add(v);

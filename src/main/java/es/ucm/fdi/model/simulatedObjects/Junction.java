@@ -1,7 +1,6 @@
 package es.ucm.fdi.model.simulatedObjects;
 import java.util.*;
 
-import es.ucm.fdi.model.simulatedObjects.Junction.IR;
 
 public class Junction  extends SimulatedObject{
 	

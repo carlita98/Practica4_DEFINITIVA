@@ -32,7 +32,7 @@ public class Car extends Vehicle{
 			distanceSinceFaulty = 0;
 			super.moveForward();
 		}
-		else if (faulty == 0 && distanceSinceFaulty >= resistance &&  randomNum.nextInt() < faultyProbability) {		
+		else if (faulty == 0 && distanceSinceFaulty > resistance &&  randomNum.nextDouble() < faultyProbability) {		
 			super.setFaultyTime(randomNum.nextInt(maxFaultDuration) + 1);
 			distanceSinceFaulty = 0;
 			super.moveForward();

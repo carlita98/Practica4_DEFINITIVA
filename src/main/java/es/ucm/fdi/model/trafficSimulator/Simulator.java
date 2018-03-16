@@ -7,10 +7,7 @@ import java.util.*;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
-import es.ucm.fdi.model.simulatedObjects.Junction;
-import es.ucm.fdi.model.simulatedObjects.Road;
-import es.ucm.fdi.model.simulatedObjects.SimulatedObject;
-import es.ucm.fdi.model.simulatedObjects.Vehicle;
+import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.util.MultiTreeMap;
 
 public class Simulator {
@@ -30,15 +27,25 @@ public class Simulator {
 	
 	public void execute(int simulatorSteps, OutputStream file){
 		int timeLimit = simulatorTime + simulatorSteps - 1;
-		while(simulatorTime <= timeLimit){
-			actualTimeExecute();
-			moveForward();
-			simulatorTime++;
-			generateInform(file);
+		try{
+			while(simulatorTime <= timeLimit){
+				actualTimeExecute();
+				moveForward();
+				simulatorTime++;
+				generateInform(file);
+			}
+		}catch(SimulatorException e){
+			Exception c = e;
+			System.out.println(c.getMessage() + ".It happened at time: " + timeLimit + ".");
+			while (c != null) {
+				c = (Exception) c.getCause();
+				if (c != null)
+					System.out.println("Caused by: " + c.getMessage() + ".");	
+			}
 		}
 	}
 	
-	public void actualTimeExecute(){
+	public void actualTimeExecute() throws SimulatorException{
 		if (eventList.containsKey(simulatorTime)) {
 			for(Event e: eventList.get(simulatorTime)){
 				e.execute(m);

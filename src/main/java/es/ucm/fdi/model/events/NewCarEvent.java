@@ -1,12 +1,14 @@
 package es.ucm.fdi.model.events;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Car;
 import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.model.simulatedObjects.Vehicle;
+import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 
 public class NewCarEvent extends NewVehicleEvent{
 	private String type;
@@ -28,15 +30,15 @@ public class NewCarEvent extends NewVehicleEvent{
 		else this.seed = seed;
 	}
 	
-	public void execute(RoadMap m) {
+	public void execute(RoadMap m) throws SimulatorException {
 		ArrayList <Junction> jList = new ArrayList <>();
-		for (int i = 0; i < itinerary.size(); i++){
-			jList.add(m.getJunction(itinerary.get(i))) ;
-		}
 		try{
+			for (int i = 0; i < itinerary.size(); i++){
+				jList.add(m.getJunction(itinerary.get(i))) ;
+			}
 			m.addVehicle(new Car ( id, maxSpeed, jList, type, resistance, faultyProbability, maxFaultDuration, seed));
-		}catch(IllegalArgumentException e){
-			throw new IllegalArgumentException("There has been a problem while adding Car ", e);
+		}catch(NoSuchElementException e){
+			throw new SimulatorException("There has been a problem while adding Car ", e);
 		}
 	}
 
