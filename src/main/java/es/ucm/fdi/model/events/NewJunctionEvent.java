@@ -11,7 +11,7 @@ import es.ucm.fdi.model.trafficSimulator.SimulatorException;
  *
  */
 public class NewJunctionEvent extends Event {
-	private String id;
+	protected String id;
 	/**
 	 * Constructor
 	 * @param time

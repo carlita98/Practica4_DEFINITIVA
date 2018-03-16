@@ -179,7 +179,7 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
-		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\err");
+		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\advancePREV");
 	
 		//test("00_helloWorld.ini", "00_helloWorld.ini.out", "00_helloWorld.ini.eout", 10);
 	}
