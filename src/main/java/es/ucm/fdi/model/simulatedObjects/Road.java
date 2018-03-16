@@ -57,7 +57,8 @@ public class Road  extends SimulatedObject{
 	 * @param v
 	 */
 	public void popVehicle(Vehicle v){
-		if (!vehicleList.isEmpty())vehicleList.removeValue(v.getRoadLocation(), v);
+		if (!vehicleList.isEmpty())
+			vehicleList.removeValue(v.getRoadLocation(), v);
 	}
 	/**
 	 * Calculate the Base Speed 

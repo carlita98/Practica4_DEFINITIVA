@@ -129,6 +129,12 @@ public class Vehicle extends SimulatedObject{
 			currentRoad.popVehicle(this);		
 		}
 	}
+	public Road getCurrentRoad() {
+		return currentRoad;
+	}
+	public void setCurrentRoad(Road currentRoad) {
+		this.currentRoad = currentRoad;
+	}
 	/**
 	 * Returns Vehicle IniSection header
 	 * @return String
