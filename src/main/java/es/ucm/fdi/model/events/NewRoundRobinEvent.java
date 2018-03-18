@@ -33,7 +33,7 @@ public class NewRoundRobinEvent extends NewJunctionEvent {
 	
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			m.addJunction(new RoundRobin(id));
+			m.addJunction(new RoundRobin(id, maxTimeSlice, minTimeSlice, "rr"));
 		}catch(NoSuchElementException e){
 			throw new SimulatorException("There has been a problem while adding RoundRobin ", e);
 		}

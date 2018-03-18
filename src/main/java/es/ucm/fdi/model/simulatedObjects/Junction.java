@@ -13,7 +13,7 @@ public class Junction  extends SimulatedObject{
 	}
 	
 	protected  int currentIncoming;
-	protected  Map <Road, IR> incomingQueues = new LinkedHashMap<>();
+	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
 	protected List <Road> incomingRoadList = new ArrayList<>();
 	protected  List <Road> outgoingRoadList = new ArrayList<>();
 	/**
@@ -21,14 +21,15 @@ public class Junction  extends SimulatedObject{
 	 * @param id
 	 */
 	public Junction(String id){
-		super(id);		
-		this.currentIncoming = 0;	
+		super(id);
+		this.currentIncoming = incomingQueues.size();
+		//this.currentIncoming = 0;	
 	}
 	/**
-	 * 
+	 * Get the Road with the green traffic light
 	 * @return
 	 */
-	private IR currentIR() {
+	public IR currentIR() {
 		//Devuelve la IR de la carretera que tiene el semáforo en verde
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
@@ -40,6 +41,7 @@ public class Junction  extends SimulatedObject{
 	public void addIncoming(Road r) {
 		int n = this.getIncomingRoadList().size(); 
 		getIncomingRoadList().add(n, r);
+		currentIncoming = incomingQueues.size();
 	}
 	public void addInRoadQueue(Road r) {
 		incomingQueues.put(r, new IR());
@@ -70,18 +72,23 @@ public class Junction  extends SimulatedObject{
 		if (!incomingQueues.get(v.getActualRoad()).queue.contains(v))
 			incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
-	
 	/**
-	 * Move the first car in the queue if the traffic light is green
+	 * Choose the next road with green traffic light
 	 */
-	
-	public void moveForward () {
-		//Update lights
+
+	public void updateLights () {
 		try{
 			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
 		}catch (ArithmeticException e){
 			currentIncoming = 0;
 		}
+	}
+	/**
+	 * Move the first car in the queue if the traffic light is green
+	 */
+	
+	public void moveForward () {
+
 		//Move first car in the queue
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
 			IR ir = currentIR();
@@ -92,8 +99,9 @@ public class Junction  extends SimulatedObject{
 			}
 			else v.setFaultyTime(v.getFaulty()-1);
 		}
+		//Update lights
+		updateLights();
 		
-
 	}
 	/**
 	 * Returns Junction IniSection header
@@ -109,7 +117,7 @@ public class Junction  extends SimulatedObject{
 		String report = "";
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
 			report += "(" + entry.getKey().getId() + "," ;
-			if(entry.getKey().equals(incomingRoadList.get((currentIncoming + 1) % incomingRoadList.size()))) report += "green,";
+			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) report += "green,";
 			else report += "red,";
 			report += "[";
 			int counter = 0;

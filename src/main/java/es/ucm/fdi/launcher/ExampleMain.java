@@ -179,9 +179,9 @@ public class ExampleMain {
 
 		// Call start to start the simulator from command line, etc.
 		start(args);
-		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\advancePREV");
+		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
-		//test("00_helloWorld.ini", "00_helloWorld.ini.out", "00_helloWorld.ini.eout", 10);
+		//test("14_misc.ini", "14_misc.ini.out", "14_misc.ini.eout", 10);
 	}
 
 }

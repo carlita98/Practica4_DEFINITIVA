@@ -77,10 +77,8 @@ public class Simulator {
 		for(Road r: m.getRoads()){
 			r.moveForward();
 		}
-		int contador = 0;
 		for(Junction j: m.getJunctions()){
-			if (contador > 0)j.moveForward();
-			contador ++;
+			j.moveForward();
 		}
 	}
 	/**

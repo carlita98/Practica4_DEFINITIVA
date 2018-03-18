@@ -16,7 +16,7 @@ public interface EventBuilder {
 	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
 			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewPathEventBuilder(),
 			 new NewHighWayEventBuilder(),new NewRoadEventBuilder(),
-	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(),
+	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(), new NewMostCrowedEventBuilder(),
 	new NewJunctionEventBuilder ()};
 	/**
 	 * Method implemented by the different Builders, it declares if the iniSection correspond to that Event
