@@ -2,7 +2,7 @@ package es.ucm.fdi.model.simulatedObjects;
 import java.util.*;
 /**
  * All the necessary methods for the Junction
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
@@ -23,7 +23,6 @@ public class Junction  extends SimulatedObject{
 	public Junction(String id){
 		super(id);
 		this.currentIncoming = incomingQueues.size();
-		//this.currentIncoming = 0;	
 	}
 	/**
 	 * Get the Road with the green traffic light

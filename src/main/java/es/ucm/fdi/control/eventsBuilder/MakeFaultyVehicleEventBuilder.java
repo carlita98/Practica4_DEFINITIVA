@@ -4,13 +4,13 @@ import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.MakeFaultyVehicleEvent;
 /**
  * Implements EventBuilder, says if an IniSection correspond to a MakeFaultyVehicleEvent
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class MakeFaultyVehicleEventBuilder implements EventBuilder{
 
 	public Event parse(IniSection sec) {
-		if( ! sec.getTag().equals("make_vehicle_faulty")) return null;
+		if( ! "make_vehicle_faulty".equals(sec.getTag())) return null;
 		try{
 			return new MakeFaultyVehicleEvent(parseInt (sec, "time", 0), parseIdList (sec, "vehicles"), parseInt (sec, "duration", 1));
 		}catch(IllegalArgumentException i){

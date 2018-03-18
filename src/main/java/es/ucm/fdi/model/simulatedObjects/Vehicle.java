@@ -3,7 +3,7 @@ package es.ucm.fdi.model.simulatedObjects;
 import java.util.*;
 /**
  * All the necessary methods for the Simulated Object Vehicle
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class Vehicle extends SimulatedObject{

@@ -5,12 +5,12 @@ import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewMostCrowedEvent;
 /**
  * Implements EventBuilder, says if an IniSection correspond to a NewMostCrowedEventBuilder
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewMostCrowedEventBuilder extends NewJunctionEventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! sec.getTag().equals("new_junction")|| !"mc".equals(sec.getValue("type"))) return null;
+		if( ! "new_junction".equals(sec.getTag())|| !"mc".equals(sec.getValue("type"))) return null;
 		try{
 			return new NewMostCrowedEvent (parseInt (sec, "time", 0), sec.getValue("id"));
 		}catch(IllegalArgumentException i){

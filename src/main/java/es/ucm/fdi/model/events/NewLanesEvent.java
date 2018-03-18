@@ -5,13 +5,13 @@ import java.util.NoSuchElementException;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
-import es.ucm.fdi.model.simulatedObjects.HighWay;
+import es.ucm.fdi.model.simulatedObjects.Lanes;
 /**
  * Introduce a new HighWay in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class NewHighWayEvent extends NewRoadEvent {
+public class NewLanesEvent extends NewRoadEvent {
 	private String type;
 	private int lanes;
 	/**
@@ -25,7 +25,7 @@ public class NewHighWayEvent extends NewRoadEvent {
 	 * @param type
 	 * @param lanes
 	 */
-	public NewHighWayEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, 
+	public NewLanesEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, 
 			int length, String type, int lanes) {
 		super(time, id, idJunctionIni, idJunctionDest, maxSpeed, length);
 		this.type = type;
@@ -36,9 +36,8 @@ public class NewHighWayEvent extends NewRoadEvent {
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			Road r = new HighWay(id, maxSpeed, length, type, lanes);
+			Road r = new Lanes(id, maxSpeed, length, type, lanes);
 			m.addRoad(r);
-
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);
 			m.getJunction(idJunctionDest).addInRoadQueue(r);			

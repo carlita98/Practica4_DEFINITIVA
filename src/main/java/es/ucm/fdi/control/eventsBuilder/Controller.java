@@ -1,15 +1,17 @@
 package es.ucm.fdi.control.eventsBuilder;
-/**
- * Recieve the outputFile and inputFile, load the IniSection and call the simulator
- * @author Carla Martínez
- */
 import java.io.*;
+
 
 import es.ucm.fdi.ini.Ini;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.trafficSimulator.Simulator;
-public class Controller implements EventBuilder{
+/**
+ *  Recieve the outputFile and inputFile, load the IniSection and call the simulator
+ * @author Carla Martínez, Beatriz Herguedas
+ *
+ */
+public class Controller{
 
 	private int time;
 	private Simulator sim = new Simulator ();
@@ -27,6 +29,23 @@ public class Controller implements EventBuilder{
 		this.outputFile = outputFile;
 	}
 	/**
+	 * Go through the array of possibles Events and says which one is the type of the Event created
+	 * @param sec
+	 * @return Event 
+	 */
+	public Event parseSection (IniSection sec) {
+		Event e = null;
+		for (EventBuilder eb: EventBuilder.bs){
+			try{
+				e = eb.parse(sec);
+				if (e != null) break;
+			}catch (IllegalArgumentException i){
+				throw new IllegalArgumentException("There has been a problem parsing a Section", i);
+			}
+		}
+		return e;
+	}
+	/**
 	 * Load the data form inputFile into an IniSection and call simulator.execute()
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -36,17 +55,15 @@ public class Controller implements EventBuilder{
 		Ini read = new Ini ();
 		read.load (new FileInputStream (inputFile));
 		for (IniSection sec: read.getSections()) {
+			try {
 			Event newEvent = parseSection(sec);
 			if (newEvent != null)sim.insertEvent(newEvent);
+			}catch(IllegalArgumentException i) {
+				System.out.println(i.getMessage());
+			}
 		}
 		if (outputFile == null) sim.execute(time, System.out);
 		else sim.execute(time, new FileOutputStream(outputFile));
-	}
-
-	@Override
-	public Event parse(IniSection sec) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -7,7 +7,7 @@ import es.ucm.fdi.model.simulatedObjects.RoundRobin;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 /**
  * Introduce a new RoundRobin in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewRoundRobinEvent extends NewJunctionEvent {

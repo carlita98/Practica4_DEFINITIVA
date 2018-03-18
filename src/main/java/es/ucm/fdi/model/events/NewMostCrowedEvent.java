@@ -7,7 +7,7 @@ import es.ucm.fdi.model.simulatedObjects.MostCrowed;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 /**
  * Introduce a new MostCrowed in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewMostCrowedEvent extends NewJunctionEvent{

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 /**
  * All the necessary methods for the Simulated Object Bike
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class Bike extends Vehicle{

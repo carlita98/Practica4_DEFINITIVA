@@ -7,7 +7,7 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 /**
  * Make a vehicle in the RoadMap faulty
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class MakeFaultyVehicleEvent extends Event {

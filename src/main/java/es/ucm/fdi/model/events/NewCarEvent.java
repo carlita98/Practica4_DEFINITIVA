@@ -9,7 +9,7 @@ import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 /**
  * Introduce a new Car in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewCarEvent extends NewVehicleEvent{

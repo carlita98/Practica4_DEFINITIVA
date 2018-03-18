@@ -11,7 +11,7 @@ import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.util.MultiTreeMap;
 /**
  * The main class, it controls the performance of the TrafficSimulator
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class Simulator {

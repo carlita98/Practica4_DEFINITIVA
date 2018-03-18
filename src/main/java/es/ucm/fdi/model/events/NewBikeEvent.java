@@ -8,7 +8,7 @@ import es.ucm.fdi.model.simulatedObjects.Bike;
 import es.ucm.fdi.model.simulatedObjects.Junction;
 /**
  * Introduce a new Bike in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewBikeEvent extends NewVehicleEvent{

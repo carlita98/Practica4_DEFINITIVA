@@ -4,13 +4,13 @@ import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewVehicleEvent;
 /**
  * Implements EventBuilder, says if an IniSection correspond to a NewVehicleEvent
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewVehicleEventBuilder implements EventBuilder {
 	
 	public Event parse(IniSection sec) {
-		if(!sec.getTag().equals("new_vehicle") || sec.getValue("type") != null) return null;
+		if(!"new_vehicle".equals(sec.getTag()) || sec.getValue("type") != null) return null;
 		try{
 			return new NewVehicleEvent( parseInt (sec,"time", 0),  sec.getValue("id"),
 				parseInt (sec, "max_speed", 1), parseIdList (sec, "itinerary"));

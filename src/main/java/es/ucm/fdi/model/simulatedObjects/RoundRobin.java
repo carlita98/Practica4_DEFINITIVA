@@ -9,7 +9,7 @@ import es.ucm.fdi.model.simulatedObjects.Junction.IR;
 import es.ucm.fdi.model.simulatedObjects.MostCrowed.IrTime;
 /**
  * All the necessary methods for the Junction type RoundRobin
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class RoundRobin extends Junction{

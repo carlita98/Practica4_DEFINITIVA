@@ -3,7 +3,7 @@ package es.ucm.fdi.model.simulatedObjects;
 import java.util.Map;
 /**
  * Common factor of the  diferrent Objects 
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public abstract class SimulatedObject {

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 /**
  * All the necessary methods for the Simulated Object Car
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class Car extends Vehicle{

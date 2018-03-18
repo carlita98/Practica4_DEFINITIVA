@@ -4,7 +4,7 @@ import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
 /**
  * Common factor of the different Event classes
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 abstract public class Event {

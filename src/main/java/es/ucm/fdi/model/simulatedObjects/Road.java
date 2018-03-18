@@ -4,7 +4,7 @@ import java.util.Map;
 import es.ucm.fdi.util.*;
 /**
  * All the necessary methods for the Simulated Object Road
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class Road  extends SimulatedObject{

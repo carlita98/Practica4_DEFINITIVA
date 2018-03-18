@@ -5,13 +5,13 @@ import java.util.NoSuchElementException;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
-import es.ucm.fdi.model.simulatedObjects.Path;
+import es.ucm.fdi.model.simulatedObjects.Dirt;
 /**
  * Introduce a new Path in the RoadMap
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class NewPathEvent extends NewRoadEvent{
+public class NewDirtEvent extends NewRoadEvent{
 	private String type;
 	/**
 	 * Constructor
@@ -23,7 +23,7 @@ public class NewPathEvent extends NewRoadEvent{
 	 * @param length
 	 * @param type
 	 */
-	public NewPathEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed,
+	public NewDirtEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed,
 			int length, String type) {
 		super(time, id, idJunctionIni, idJunctionDest, maxSpeed, length);
 		this.type = type;
@@ -33,7 +33,7 @@ public class NewPathEvent extends NewRoadEvent{
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			Road r = new Path(id, maxSpeed, length, type);
+			Road r = new Dirt(id, maxSpeed, length, type);
 			m.addRoad(r);
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);

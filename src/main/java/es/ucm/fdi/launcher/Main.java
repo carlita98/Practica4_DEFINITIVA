@@ -17,7 +17,7 @@ import org.apache.commons.cli.ParseException;
 import es.ucm.fdi.control.eventsBuilder.Controller;
 import es.ucm.fdi.ini.Ini;
 
-public class ExampleMain {
+public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static Integer _timeLimit = null;
@@ -76,7 +76,7 @@ public class ExampleMain {
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp(ExampleMain.class.getCanonicalName(), cmdLineOptions, true);
+			formatter.printHelp(Main.class.getCanonicalName(), cmdLineOptions, true);
 			System.exit(0);
 		}
 	}
@@ -181,7 +181,7 @@ public class ExampleMain {
 		start(args);
 		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
-		//test("14_misc.ini", "14_misc.ini.out", "14_misc.ini.eout", 10);
+		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);
 	}
 
 }

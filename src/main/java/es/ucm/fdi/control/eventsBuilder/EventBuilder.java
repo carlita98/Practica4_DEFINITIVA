@@ -1,12 +1,10 @@
 package es.ucm.fdi.control.eventsBuilder;
-import java.lang.Character;
-import java.util.ArrayList;
-
+import java.util.*;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
 /**
  * Parse the IniSection and set the type of the event 
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public interface EventBuilder {
@@ -14,8 +12,8 @@ public interface EventBuilder {
 	 * An array with the type of the Events that could be created
 	 */
 	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
-			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewPathEventBuilder(),
-			 new NewHighWayEventBuilder(),new NewRoadEventBuilder(),
+			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewDirtEventBuilder(),
+			 new NewLanesEventBuilder(),new NewRoadEventBuilder(),
 	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(), new NewMostCrowedEventBuilder(),
 	new NewJunctionEventBuilder ()};
 	/**
@@ -24,23 +22,7 @@ public interface EventBuilder {
 	 * @return
 	 */
 	public Event parse(IniSection sec);
-	/**
-	 * Go through the array of possibles Events and says which one is the type of the Event created
-	 * @param sec
-	 * @return Event 
-	 */
-	public default Event parseSection (IniSection sec) {
-		Event e = null;
-		for (EventBuilder eb: bs){
-			try{
-				e = eb.parse(sec);
-				if (e != null) break;
-			}catch (IllegalArgumentException i){
-				throw new IllegalArgumentException("There has been a problem creating an Event", i);
-			}
-		}
-		return e;
-	}
+	
 	/**
 	 * Parse an ID 
 	 * @param id
@@ -48,12 +30,7 @@ public interface EventBuilder {
 	 * @return boolean
 	 */
 	public default boolean isValidId (String id){
-		for (int i =0; i < id.length() ; i++){
-			if (!Character.isLetterOrDigit(id.charAt(i)) && id.charAt(i)!= '_'){
-				throw new IllegalArgumentException ("Invalid ID");
-			}
-		}
-		return true;
+		 return id.matches("[a-zA-Z1-9_]++");
 	}
 	/**
 	 * Parse an entire depending on a minimum value

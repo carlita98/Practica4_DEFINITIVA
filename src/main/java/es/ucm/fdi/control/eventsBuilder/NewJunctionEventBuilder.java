@@ -5,12 +5,12 @@ import es.ucm.fdi.model.events.Event;
 import es.ucm.fdi.model.events.NewJunctionEvent;
 /**
  * Implements EventBuilder, says if an IniSection correspond to a NewJunctionEvent
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public class NewJunctionEventBuilder implements EventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! sec.getTag().equals("new_junction")) return null;
+		if( ! "new_junction".equals(sec.getTag())) return null;
 		try{
 			return new NewJunctionEvent (parseInt (sec, "time", 0), sec.getValue("id"));
 		}catch(IllegalArgumentException i){

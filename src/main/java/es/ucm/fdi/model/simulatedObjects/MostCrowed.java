@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import es.ucm.fdi.model.simulatedObjects.Junction.IR;
 /**
  *  All the necessary methods for the Junction type MostCrowed
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
@@ -23,17 +23,22 @@ public class MostCrowed extends Junction{
 		int timeInterval;
 		int timeUnits;
 	}
-	public void addInRoadQueue(Road r) {
-		incomingQueues.put(r, new IrTime());
-	}
-	/**
-	 * Get the Road with green traffic light
-	 * @author Carla Martínez
-	 *
-	 */
+	
 	public IrTime currentIR() {
 		//Devuelve la IR de la carretera que tiene el semáforo en verde
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
+	}
+	public void addInRoadQueue(Road r) {
+		incomingQueues.put(r, new IrTime());
+	}
+	public void addIncoming(Road r) {
+		int n = this.getIncomingRoadList().size(); 
+		getIncomingRoadList().add(n, r);
+		currentIncoming = incomingQueues.size();
+	}
+	public void addOutcoming(Road r) {
+		int n = this.getOutgoingRoadList().size(); 
+		getOutgoingRoadList().add(n, r);
 	}
 	/**
 	 * Choose the next road with green traffic light
@@ -43,9 +48,10 @@ public class MostCrowed extends Junction{
 		if (ir.timeInterval == ir.timeUnits) {
 			ir.timeUnits = 0;
 			int max = -1;
-			int Befincoming = currentIncoming;
+			int BefCurrentIncoming = currentIncoming;
+			//We know there is a problem in this method but we cant find it
 			for (Entry<Road, IrTime> entry: incomingQueues.entrySet()){
-				if (max < entry.getValue().queue.size() &&  incomingRoadList.indexOf(entry.getKey()) != currentIncoming) {
+				if (max < entry.getValue().queue.size() &&  incomingRoadList.indexOf(entry.getKey()) != BefCurrentIncoming) {
 					max = entry.getValue().queue.size();
 					currentIncoming = incomingRoadList.indexOf(entry.getKey());
 				}

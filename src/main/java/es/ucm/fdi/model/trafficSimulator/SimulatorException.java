@@ -1,7 +1,7 @@
 package es.ucm.fdi.model.trafficSimulator;
 /**
  * Exception used when problems happen into the Simulator
- * @author Carla Martínez
+ * @author Carla Martínez, Beatriz Herguedas
  *
  */
 @SuppressWarnings("serial")
