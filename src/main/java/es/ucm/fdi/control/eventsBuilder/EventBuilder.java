@@ -8,14 +8,7 @@ import es.ucm.fdi.model.events.Event;
  *
  */
 public interface EventBuilder {
-	/**
-	 * An array with the type of the Events that could be created
-	 */
-	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
-			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewDirtEventBuilder(),
-			 new NewLanesEventBuilder(),new NewRoadEventBuilder(),
-	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(), new NewMostCrowedEventBuilder(),
-	new NewJunctionEventBuilder ()};
+	
 	/**
 	 * Method implemented by the different Builders, it declares if the iniSection correspond to that Event
 	 * @param sec
