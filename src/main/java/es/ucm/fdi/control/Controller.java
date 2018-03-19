@@ -1,7 +1,7 @@
-package es.ucm.fdi.control.eventsBuilder;
+package es.ucm.fdi.control;
 import java.io.*;
 
-
+import es.ucm.fdi.control.eventsBuilder.EventBuilder;
 import es.ucm.fdi.ini.Ini;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.events.Event;
