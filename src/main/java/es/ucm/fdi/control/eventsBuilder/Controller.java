@@ -17,6 +17,16 @@ public class Controller{
 	private Simulator sim = new Simulator ();
 	private String inputFile;
 	private String outputFile;
+	
+	/**
+	 * An array with the type of the Events that could be created
+	 */
+	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
+			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewDirtEventBuilder(),
+			 new NewLanesEventBuilder(),new NewRoadEventBuilder(),
+	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(), new NewMostCrowedEventBuilder(),
+	new NewJunctionEventBuilder ()};
+	
 	/**
 	 * Constructor
 	 * @param time
@@ -35,7 +45,7 @@ public class Controller{
 	 */
 	public Event parseSection (IniSection sec) {
 		Event e = null;
-		for (EventBuilder eb: EventBuilder.bs){
+		for (EventBuilder eb: bs){
 			try{
 				e = eb.parse(sec);
 				if (e != null) break;
