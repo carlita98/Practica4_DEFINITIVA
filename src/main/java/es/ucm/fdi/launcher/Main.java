@@ -15,6 +15,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import es.ucm.fdi.control.Controller;
+import es.ucm.fdi.control.SimWindow;
 import es.ucm.fdi.ini.Ini;
 
 public class Main {
@@ -178,8 +179,9 @@ public class Main {
 	    //	test("resources/examples/events/basic");
 
 		// Call start to start the simulator from command line, etc.
-		start(args);
-		test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
+		SimWindow program = new SimWindow();
+		//start(args);
+	//	test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
 		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);
 	}

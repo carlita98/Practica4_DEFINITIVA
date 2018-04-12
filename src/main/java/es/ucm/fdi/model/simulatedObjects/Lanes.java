@@ -20,8 +20,8 @@ public class Lanes extends Road{
 	 * @param type
 	 * @param lanes
 	 */
-	public Lanes(String id, int maxSpeed, int length, String type, int lanes) {
-		super(id, maxSpeed, length);
+	public Lanes(String id, int maxSpeed, int length, String type, int lanes,Junction source, Junction target) {
+		super(id, maxSpeed, length, source, target);
 		this.type = type;
 		this.lanes = lanes;
 	}

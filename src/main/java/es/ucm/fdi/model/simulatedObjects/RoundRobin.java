@@ -13,10 +13,12 @@ import es.ucm.fdi.model.simulatedObjects.MostCrowed.IrTime;
  *
  */
 public class RoundRobin extends Junction{
+	
 	private int maxTimeSlice;
 	private int minTimeSlice;
 	private String type;
-	private Map <Road, IrTime> incomingQueues = new LinkedHashMap<>();     
+	private Map <Road, IrTime> incomingQueues = new LinkedHashMap<>(); 
+	
 	public RoundRobin(String id, int maxTimeSlice, int minTimeSlice, String type) {
 		super(id);
 		this.maxTimeSlice = maxTimeSlice;
@@ -31,7 +33,7 @@ public class RoundRobin extends Junction{
 	}
 	/**
 	 * Get the Road with the green traffic light
-	 * @author Carla Martínez
+	 * @author Carla Martínez, Beatriz Herguedas
 	 *
 	 */
 	public IrTime currentIR() {

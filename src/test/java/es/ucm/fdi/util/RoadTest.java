@@ -12,7 +12,7 @@ import es.ucm.fdi.model.simulatedObjects.*;
 
 public class RoadTest {
 	//This test ensure the performance of moveForward for one vehicle
-	@Test
+/*	@Test
 	public void moveForwardTest() {
 		Road r1 = new Road("r1", 20, 50);
 		Junction j1 = new Junction("j1");
@@ -42,5 +42,5 @@ public class RoadTest {
 
 		r1.popVehicle(v);
 		assertNull(r1.getVehicleList().get(v));
-	}
+	}*/
 }

@@ -17,8 +17,8 @@ public class Dirt extends Road{
 	 * @param length
 	 * @param type
 	 */
-	public Dirt(String id, int maxSpeed, int length, String type) {
-		super(id, maxSpeed, length);
+	public Dirt(String id, int maxSpeed, int length, String type,Junction source, Junction target) {
+		super(id, maxSpeed, length, source, target);
 		this.type = type;
 	}
 	/**

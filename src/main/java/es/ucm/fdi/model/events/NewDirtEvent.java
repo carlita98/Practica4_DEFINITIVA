@@ -33,7 +33,7 @@ public class NewDirtEvent extends NewRoadEvent{
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			Road r = new Dirt(id, maxSpeed, length, type);
+			Road r = new Dirt(id, maxSpeed, length, type, m.getJunction(idJunctionIni),m.getJunction(idJunctionDest));
 			m.addRoad(r);
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);

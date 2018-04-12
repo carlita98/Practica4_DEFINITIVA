@@ -36,7 +36,7 @@ public class NewLanesEvent extends NewRoadEvent {
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			Road r = new Lanes(id, maxSpeed, length, type, lanes);
+			Road r = new Lanes(id, maxSpeed, length, type, lanes,m.getJunction(idJunctionIni),m.getJunction(idJunctionDest));
 			m.addRoad(r);
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);

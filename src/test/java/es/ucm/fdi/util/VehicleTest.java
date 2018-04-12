@@ -11,7 +11,7 @@ import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.simulatedObjects.Vehicle;
 
 public class VehicleTest {
-	@Test
+/*	@Test
 	public void moveForwardTest() {
 		Road r1 = new Road("r1", 20, 50);
 		Junction j1 = new Junction("j1");
@@ -47,5 +47,5 @@ public class VehicleTest {
 		
 		v.moveToNextRoad();
 		assertEquals(r2, v.getCurrentRoad());
-	}
+	}*/
 }

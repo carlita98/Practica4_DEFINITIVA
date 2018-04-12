@@ -11,6 +11,8 @@ public class Road  extends SimulatedObject{
 
 	protected  int length;
 	protected  int  maxSpeed;
+	protected  Junction source;
+	protected  Junction target;
 	//La vehicleList está ordenada decrecientemente por la longitud de la carretera
 	//Implementar la constructora con comparador (a, b) -> a-b
 	protected MultiTreeMap <Integer, Vehicle> vehicleList = new MultiTreeMap <>((a,b) -> b-a );
@@ -21,10 +23,12 @@ public class Road  extends SimulatedObject{
 	 * @param length
 	 */
 	
-	public Road(String id, int maxSpeed, int length){
+	public Road(String id, int maxSpeed, int length, Junction source, Junction target){
 		super(id);
 		this.maxSpeed = maxSpeed;
 		this.length = length;
+		this.source = source;
+		this.target = target;
 	}
 	
 	int getLength () {
@@ -42,6 +46,22 @@ public class Road  extends SimulatedObject{
 	public void setVehicleList(MultiTreeMap<Integer, Vehicle> vehicleList) {
 		this.vehicleList = vehicleList;
 	}
+	public Junction getSource() {
+		return source;
+	}
+
+	public void setSource(Junction source) {
+		this.source = source;
+	}
+
+	public Junction getTarget() {
+		return target;
+	}
+
+	public void setTarget(Junction target) {
+		this.target = target;
+	}
+
 	public void setLength(int length) {
 		this.length = length;
 	}
