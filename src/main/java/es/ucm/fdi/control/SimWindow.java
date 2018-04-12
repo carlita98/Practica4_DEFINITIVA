@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
@@ -20,7 +21,15 @@ public class SimWindow extends JFrame{
 		super("Traffic Simulator");
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		addBars();
-		addEventsEditor();
+		JSplitPane topLeftSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				new JScrollPane( new EventsEditor(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), new JScrollPane( new EventsQueue(),  
+						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		
+		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, topLeftSplit ,
+				new JScrollPane( new ReportsArea(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		add (topSplit);
 		setSize(1000, 1000);
 		setVisible(true);
 	}
@@ -114,20 +123,5 @@ public class SimWindow extends JFrame{
 		setJMenuBar(menu);
 				
 	}
-	private void addEventsEditor(){
-	    JTextArea  textArea = new JTextArea(5, 30);
-	    textArea.setEditable(true);
-	    textArea.setLineWrap(true);
-	    textArea.setWrapStyleWord(true);
-	    add(textArea, BorderLayout.CENTER);
-	    //Border
-	    Border b = BorderFactory.createLineBorder(Color.black, 2);
-	    add(textArea, BorderLayout.LINE_START);
-	    textArea.setBorder(BorderFactory.createTitledBorder(b, "Events"));
-	    //ScrollPane
-	    JScrollPane area = new JScrollPane( textArea,  JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED ,
-	    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    area.setPreferredSize(new Dimension(300, 200));
-	    add()
-	}
+
 }
