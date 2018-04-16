@@ -36,7 +36,6 @@ public class Simulator {
 	 */
 	public Simulator (){
 		simulatorTime = 0;
-		SimWindow program = new SimWindow();
 	}
 	/**
 	 * Inserts a new Event into the eventList
@@ -169,8 +168,8 @@ public class Simulator {
 		public RoadMap getRoadMap() {
 			return m;
 		}
-		public List<Event> getEvenQueue() {
-			return eventList.get(simulatorTime);
+		public List<Event> getEventQueue() {
+			return eventList.get(0);
 		}
 		public int getCurrentTime() {
 			return simulatorTime;

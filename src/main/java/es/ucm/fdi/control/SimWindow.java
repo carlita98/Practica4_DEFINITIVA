@@ -20,8 +20,10 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 public class SimWindow extends JFrame{
 	
 	Simulator sim;
+	
 	public SimWindow() {
 		super("Traffic Simulator");
+		sim = new Simulator();
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		addBars();
 		
@@ -49,11 +51,15 @@ public class SimWindow extends JFrame{
 		setSize(1000, 1000);
 		setVisible(true);
 		//topLeftSplit.setDividerLocation(.3f);
-	//	bottomupSplit.setDividerLocation(.3f);
+		//bottomupSplit.setDividerLocation(.3f);
 		//bottomleftSplit.setDividerLocation(.3f);
 		//topSplit.setDividerLocation(.3f);
 	}
 	
+	public Simulator getSim() {
+		return sim;
+	}
+
 	private void addBars () {
 		// instantiate actions
 		SimulatorAction load = new SimulatorAction(

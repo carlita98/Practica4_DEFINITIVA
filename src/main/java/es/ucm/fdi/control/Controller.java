@@ -14,7 +14,8 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 public class Controller{
 
 	private int time;
-	private Simulator sim = new Simulator ();
+	private SimWindow simwin = new SimWindow();
+	private Simulator sim = simwin.getSim();
 	private String inputFile;
 	private String outputFile;
 	/**
