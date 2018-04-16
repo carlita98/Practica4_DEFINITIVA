@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 
+import javax.swing.SwingUtilities;
+
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
@@ -19,6 +21,7 @@ public class Simulator {
 	private MultiTreeMap <Integer, Event> eventList = new MultiTreeMap<> ();
 	private int simulatorTime;
 	private RoadMap m = new RoadMap ();
+	private List<Listener> listeners = new ArrayList<>();
 	/**
 	 * 
 	 * Constructor
@@ -33,6 +36,7 @@ public class Simulator {
 	public void insertEvent(Event e){
 		if(e.getTime() >= simulatorTime){
 			eventList.putValue(e.getTime(), e);
+			fireUpdateEvent (EventType.NEW_EVENT, null);
 		}
 	}
 	/**
@@ -80,6 +84,7 @@ public class Simulator {
 		for(Junction j: m.getJunctions()){
 			j.moveForward();
 		}
+		fireUpdateEvent (EventType.ADVANCED, null);
 	}
 	/**
 	 * Changes the Map <String, String> from report method to an IniSection
@@ -124,6 +129,73 @@ public class Simulator {
 		}
 		}catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void reset () {
+		simulatorTime = 0;
+		m = new RoadMap ();
+		fireUpdateEvent (EventType.RESET, null);
+	}
+	public interface Listener {
+		void registered(UpdateEvent ue);
+		void reset(UpdateEvent ue);
+		void newEvent(UpdateEvent ue);
+		void advanced(UpdateEvent ue);
+		void error(UpdateEvent ue, String error);
+	}
+	public enum EventType {
+		REGISTERED, RESET, NEW_EVENT, ADVANCED;
+	}
+	public class UpdateEvent {
+		EventType type;
+
+		public UpdateEvent(EventType type) {
+			super();
+			this.type = type;
+		}
+		public EventType getEvent() {
+			return type;
+		}
+		public RoadMap getRoadMap() {
+			return m;
+		}
+		public List<Event> getEvenQueue() {
+			return eventList.get(simulatorTime);
+		}
+		public int getCurrentTime() {
+			return simulatorTime;
+		}
+
+	}
+	
+	public void addSimulatorListener(Listener l) {
+		listeners.add(l);
+		UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
+		// evita pseudo-recursividad
+		SwingUtilities.invokeLater(()->l.registered(ue));
+	}
+		public void removeListener(Listener l) {
+			listeners.remove(l);
+	}
+	// uso interno, evita tener que escribir el mismo bucle muchas veces
+	private void fireUpdateEvent(EventType type, String error) {
+		// envia un evento apropiado a todos los listeners
+		UpdateEvent ue = new UpdateEvent (type);
+		if (type == EventType.RESET) {
+			for (Listener e: listeners) {
+				SwingUtilities.invokeLater(()->e.reset(ue));
+			}
+		}
+		else if(type == EventType.NEW_EVENT) {
+			for (Listener e: listeners) {
+				SwingUtilities.invokeLater(()->e.newEvent(ue));
+			}
+		}
+		else if (type == EventType.ADVANCED) {
+			for (Listener e: listeners) {
+				SwingUtilities.invokeLater(()->e.advanced(ue));
+			}	
 		}
 	}
 }

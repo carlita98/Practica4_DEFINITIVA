@@ -9,9 +9,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import es.ucm.fdi.model.trafficSimulator.Simulator;
+
 public class ReportsArea extends JTextArea{
-	public ReportsArea() {
-	    setEditable(false);
+
+
+	public ReportsArea(Simulator sim) {
+		setEditable(false);
 	    setLineWrap(true);
 	    setWrapStyleWord(true);
 	    //Border

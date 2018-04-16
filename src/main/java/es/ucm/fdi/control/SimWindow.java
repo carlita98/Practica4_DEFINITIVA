@@ -15,23 +15,42 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 
+import es.ucm.fdi.model.trafficSimulator.Simulator;
+
 public class SimWindow extends JFrame{
 	
+	Simulator sim;
 	public SimWindow() {
 		super("Traffic Simulator");
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		addBars();
 		JSplitPane topLeftSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new JScrollPane( new EventsEditor(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
-						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), new JScrollPane( new EventsQueue(),  
+				new JScrollPane( new EventsEditor(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), new JScrollPane( new EventsQueue(sim),  
 						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 		
 		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, topLeftSplit ,
-				new JScrollPane( new ReportsArea(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+				new JScrollPane( new ReportsArea(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
 						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
-		add (topSplit);
+		
+		JSplitPane bottomupSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT, 
+				new JScrollPane (new VehiclesTable(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),
+				 new JScrollPane( new RoadsTable(sim), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		
+		JSplitPane bottomleftSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT,
+				bottomupSplit, new JScrollPane (new JunctionsTable(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		
+		JSplitPane window = new JSplitPane (JSplitPane.VERTICAL_SPLIT, topSplit, bottomleftSplit);
+		
+		
+		add (window);
 		setSize(1000, 1000);
 		setVisible(true);
+		//topLeftSplit.setDividerLocation(.3f);
+	//	bottomupSplit.setDividerLocation(.3f);
+		//bottomleftSplit.setDividerLocation(.3f);
+		//topSplit.setDividerLocation(.3f);
 	}
 	
 	private void addBars () {
