@@ -10,7 +10,7 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 
 public class EventsEditor extends JTextArea{
 
-	public EventsEditor(Simulator sim) {
+	public EventsEditor() {
 		 setEditable(true);
 		    setLineWrap(true);
 		    setWrapStyleWord(true);

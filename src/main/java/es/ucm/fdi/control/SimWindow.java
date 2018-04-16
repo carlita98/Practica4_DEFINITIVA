@@ -24,21 +24,22 @@ public class SimWindow extends JFrame{
 		super("Traffic Simulator");
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		addBars();
+		
 		JSplitPane topLeftSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new JScrollPane( new EventsEditor(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+				new JScrollPane( new EventsEditor(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
 						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), new JScrollPane( new EventsQueue(sim),  
 						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 		
 		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, topLeftSplit ,
-				new JScrollPane( new ReportsArea(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+				new JScrollPane( new ReportsArea(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
 						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 		
 		JSplitPane bottomupSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT, 
-				new JScrollPane (new VehiclesTable(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),
-				 new JScrollPane( new RoadsTable(sim), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+				new JScrollPane (new VehiclesTable(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),
+				 new JScrollPane( new RoadsTable(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 		
 		JSplitPane bottomleftSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT,
-				bottomupSplit, new JScrollPane (new JunctionsTable(sim),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
+				bottomupSplit, new JScrollPane (new JunctionsTable(),  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
 						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 		
 		JSplitPane window = new JSplitPane (JSplitPane.VERTICAL_SPLIT, topSplit, bottomleftSplit);

@@ -9,7 +9,7 @@ public class JunctionsTable extends JTable{
 	static String[] columnNames = {"ID", "Green", "Red"};
 	static Object [][] data = {};
 
-	public JunctionsTable(Simulator sim) {
+	public JunctionsTable() {
 
 		super(data, columnNames);
 		setFillsViewportHeight(true);

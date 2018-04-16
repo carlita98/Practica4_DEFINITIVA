@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.swing.SwingUtilities;
 
+import es.ucm.fdi.control.SimWindow;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
@@ -22,12 +23,20 @@ public class Simulator {
 	private int simulatorTime;
 	private RoadMap m = new RoadMap ();
 	private List<Listener> listeners = new ArrayList<>();
+	
+	public List<Listener> getListeners() {
+		return listeners;
+	}
+	public MultiTreeMap<Integer, Event> getEventList() {
+		return eventList;
+	}
 	/**
 	 * 
 	 * Constructor
 	 */
 	public Simulator (){
 		simulatorTime = 0;
+		SimWindow program = new SimWindow();
 	}
 	/**
 	 * Inserts a new Event into the eventList

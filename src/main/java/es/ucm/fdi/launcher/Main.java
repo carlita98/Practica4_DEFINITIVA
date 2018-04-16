@@ -179,8 +179,8 @@ public class Main {
 	    //	test("resources/examples/events/basic");
 
 		// Call start to start the simulator from command line, etc.
-		SimWindow program = new SimWindow();
-		//start(args);
+		
+		start(args);
 	//	test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
 		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);

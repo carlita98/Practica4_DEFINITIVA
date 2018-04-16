@@ -14,7 +14,7 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 public class ReportsArea extends JTextArea{
 
 
-	public ReportsArea(Simulator sim) {
+	public ReportsArea() {
 		setEditable(false);
 	    setLineWrap(true);
 	    setWrapStyleWord(true);
