@@ -14,34 +14,27 @@ import es.ucm.fdi.model.trafficSimulator.Simulator.UpdateEvent;
 
 public class EventsQueue extends JTable {
 	
-	TableModel myData = new MyTableModel();
+	public MyTableModel myData = new MyTableModel();
+	
 	public class MyTableModel extends AbstractTableModel{
-	public String[] columnNames = {"#", "Time", "Type"};
-	public Object [][] data = {};
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		public Object[] columnNames = {"#", "Time", "Type"};
+		public Object [][] data = {};
+		@Override
+		public int getRowCount() {
+			return 0;
+		}
+		@Override
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			return null;
+		}
 	}
 	private Simulator sim;
-
-	public EventsQueue (String[] columnNames, Object [][] data) {
-		this.columnNames = columnNames;
-		this.data = data;
-	}
 	public EventsQueue(Simulator sim) {
-		super(data, columnNames);
+		super(myData);
 		setFillsViewportHeight(true);
 		sim.addSimulatorListener(new Listener() {
 			public void registered(UpdateEvent ue) {}
@@ -54,15 +47,15 @@ public class EventsQueue extends JTable {
 	}
 	
 	private void update(UpdateEvent ue) {
-		data =  (Object[][]) new Object[ue.getEventQueue().size()][columnNames.length];
-		Integer counter = new Integer(0);
+		Object [][]data =  (Object[][]) new Object[ue.getEventQueue().size()][getColumnCount()];
+		int counter = 0;
 		for(Event e: ue.getEventQueue()){
 			Arrays.fill(data[counter], counter);
-			Arrays.fill(data[counter], (Integer)e.getTime());
+			Arrays.fill(data[counter], e.getTime());
 			Arrays.fill(data[counter], "");
 			counter++;
 		}
-		
+		myData.fireTableDataChanged();
 	}
 	
 }
