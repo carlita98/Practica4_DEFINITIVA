@@ -14,10 +14,10 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 public class Controller{
 
 	private int time;
-	private SimWindow simwin = new SimWindow();
-	private Simulator sim = simwin.getSim();
+	private Simulator sim;
 	private String inputFile;
 	private String outputFile;
+	//private SimWindow simwin = new SimWindow(sim, inputFile, this);
 	/**
 	 * Constructor
 	 * @param time

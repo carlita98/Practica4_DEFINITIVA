@@ -180,7 +180,8 @@ public class Main {
 
 		// Call start to start the simulator from command line, etc.
 		
-		start(args);
+		//start(args);
+		SimWindow sim = new SimWindow();
 	//	test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
 		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);

@@ -13,8 +13,8 @@ import es.ucm.fdi.model.trafficSimulator.Simulator.Listener;
 import es.ucm.fdi.model.trafficSimulator.Simulator.UpdateEvent;
 
 public class EventsQueue extends JTable {
-	
-	public MyTableModel myData = new MyTableModel();
+	/*
+	public static MyTableModel myData = new MyTableModel();
 	
 	public class MyTableModel extends AbstractTableModel{
 		public Object[] columnNames = {"#", "Time", "Type"};
@@ -57,5 +57,5 @@ public class EventsQueue extends JTable {
 		}
 		myData.fireTableDataChanged();
 	}
-	
+	*/
 }
