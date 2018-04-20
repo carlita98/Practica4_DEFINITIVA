@@ -1,16 +1,18 @@
 package es.ucm.fdi.model.events;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Junction;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
+import es.ucm.fdi.view.Describable;
 /**
  * Introduce a new Junction in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class NewJunctionEvent extends Event {
+public class NewJunctionEvent extends Event implements Describable{
 	protected String id;
 	/**
 	 * Constructor
@@ -30,5 +32,10 @@ public class NewJunctionEvent extends Event {
 		}catch(NoSuchElementException e){
 			throw new SimulatorException("There has been a problem while adding Junction ", e);
 		}
+	}
+	@Override
+	public void describe(Map<String, String> out) {
+		out.put("Time", ""+getTime());
+		out.put("Type", "New Junction "+ id);
 	}
 } 

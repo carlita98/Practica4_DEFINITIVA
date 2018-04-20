@@ -1,16 +1,18 @@
 package es.ucm.fdi.model.events;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.simulatedObjects.Road;
 import es.ucm.fdi.model.trafficSimulator.SimulatorException;
+import es.ucm.fdi.view.Describable;
 /**
  * Introduce a new Road in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class NewRoadEvent extends Event{
+public class NewRoadEvent extends Event implements Describable{
 	protected String id;
 	protected String idJunctionIni;
 	protected String idJunctionDest;
@@ -47,4 +49,10 @@ public class NewRoadEvent extends Event{
 				throw new SimulatorException("There has been a problem while adding Road ", e);
 		}
 	}
+	@Override
+	public void describe(Map<String, String> out) {
+		out.put("Time", "" + getTime());
+		out.put("Type", "New Road "+ id);
+	}
+	
 }

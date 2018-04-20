@@ -6,12 +6,12 @@ import java.util.*;
 
 import javax.swing.SwingUtilities;
 
-import es.ucm.fdi.control.SimWindow;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.RoadMap.RoadMap;
 import es.ucm.fdi.model.events.*;
 import es.ucm.fdi.model.simulatedObjects.*;
 import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.SimWindow;
 /**
  * The main class, it controls the performance of the TrafficSimulator
  * @author Carla Martínez, Beatriz Herguedas

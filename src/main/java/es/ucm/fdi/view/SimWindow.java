@@ -1,45 +1,34 @@
-package es.ucm.fdi.control;
+package es.ucm.fdi.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.List;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 
-import es.ucm.fdi.model.RoadMap.RoadMap;
-import es.ucm.fdi.model.trafficSimulator.Simulator;
+import org.junit.runner.Describable;
 
-public class SimWindow extends JFrame{
+import es.ucm.fdi.control.Controller;
+import es.ucm.fdi.model.events.Event;
+import es.ucm.fdi.model.trafficSimulator.Simulator.Listener;
+import es.ucm.fdi.model.trafficSimulator.Simulator.UpdateEvent;
+
+public class SimWindow extends JFrame implements Listener {
 	private Controller ctrl; // la vista usa el controlador 
-	 
-	//Paneles
-	private JPanel mainPanel; 
-	private JPanel panel1; 
-	private JPanel panel2;
-	private JPanel panel3;
-	private JPanel panel4;
-	private JPanel panel5;
-	private JPanel panel6;
-	private JPanel panel7;
 	
 	//Botones y barra 
 	private SimulatorAction load;
@@ -53,6 +42,7 @@ public class SimWindow extends JFrame{
 	private SimulatorAction saveReport;
 	private SimulatorAction exit;
 	private JToolBar toolBar; 
+	private List<Event> events = new ArrayList <>();
 	
 	//Menu
 	private JMenu menuFile;
@@ -72,75 +62,35 @@ public class SimWindow extends JFrame{
 	private JTable roadsTable; // tabla de carreteras 
 	private JTable junctionsTable; // tabla de cruces 
 	 
-	public SimWindow(/*Controller ctrl*/) {   
+	public SimWindow(Controller ctrl,String inFileName) {   
 		super("Traffic Simulator");    
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		//this.ctrl = ctrl;    
-		//currentFile = inFileName != null ? new File(inFileName) : null;    
+		this.ctrl = ctrl;    
+		currentFile = inFileName != null ? new File(inFileName) : null;    
 		//reportsOutputStream = new JTextAreaOutputStream(reportsArea,null); 
 		//ctrl.setOutputStream(reportsOutputStream); // ver sección 8    
 		initGUI();    
-		//model.addObserver(this); 
+		ctrl.getSim().addSimulatorListener(this);
 	}
 	
-	void initGUI() {
-		addPanels();
-		JSplitPane topSplit1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panel1, panel2);
-		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,topSplit1, panel3);
-		JSplitPane bottomupleftSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT, panel4, panel5);
-		JSplitPane bottomleftSplit = new JSplitPane (JSplitPane.VERTICAL_SPLIT, bottomupleftSplit, panel6);
-		JSplitPane bottomSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,bottomleftSplit, panel7);
-		JSplitPane window = new JSplitPane (JSplitPane.VERTICAL_SPLIT, topSplit, bottomSplit);
-		add(window);
-
-
+	private void addSupPanel() {
+		JPanel supPanel = new JPanel();
+		supPanel.setLayout(new BoxLayout(supPanel, BoxLayout.X_AXIS));
+		addEventsEditor(supPanel);
+		addEventsView(supPanel);
+		addReportsArea(supPanel);
+		add(supPanel);
+	}
+	
+	private void initGUI() {
 		addBar();
 		addMenuBar();
 		fc = new JFileChooser();
-		addEventsEditor(panel1);
-		addEventsView(panel2);
-		addReportsArea(panel3);
+		addSupPanel();
 		setSize(1000, 1000);
 		setVisible(true);
-		
-
-		//Los divider están mal a saber como se hacen
-		window.setDividerLocation(.3f);
-		topSplit.setDividerLocation(.6f);
-		topSplit.setDividerLocation(.5f);
-		bottomSplit.setDividerLocation(.5f);
-		bottomleftSplit.setDividerLocation(.7f);
-		bottomupleftSplit.setDividerLocation(.5f);
-
 	}
 	
-	private void addPanels() {
-		mainPanel = new JPanel ();
-		add (mainPanel);
-		panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-		panel2 = new JPanel();
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
-		panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
-		panel4 = new JPanel();
-		panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
-		panel5 = new JPanel();
-		panel5.setLayout(new BoxLayout(panel5, BoxLayout.Y_AXIS));
-		panel6 = new JPanel();
-		panel6.setLayout(new BoxLayout(panel6, BoxLayout.Y_AXIS));
-		panel7 = new JPanel();
-		panel7.setLayout(new BoxLayout(panel7, BoxLayout.Y_AXIS));
-		mainPanel.add(panel1, BorderLayout.CENTER);
-		mainPanel.add(panel2, BorderLayout.CENTER);
-		mainPanel.add(panel3, BorderLayout.CENTER);
-		mainPanel.add(panel4, BorderLayout.CENTER);
-		mainPanel.add(panel5, BorderLayout.CENTER);
-		mainPanel.add(panel6, BorderLayout.CENTER);
-		mainPanel.add(panel7, BorderLayout.CENTER);
-		
-		
-	}
 	private void addBar () {
 		// instantiate actions
 		load = new SimulatorAction(
@@ -259,14 +209,44 @@ public class SimWindow extends JFrame{
 	private void addEventsView(JPanel contentPanel_2) {
 		// Crea un JPanel para este componente    
 		// Pon el borde en el JPanel    
-		EventsTableModel eventsTableModel = new EventsTableModel();    
-		eventsTable = new JTable(eventsTableModel); 
+		String[] columnas = {"#", "Time", "Type"};
+		JPanel eventsView = new TableModelTraffic (columnas, events);
 		//Border 
-		 Border b = BorderFactory.createLineBorder(Color.black, 2);
+		Border b = BorderFactory.createLineBorder(Color.black, 2);
 		eventsTable.setBorder(BorderFactory.createTitledBorder(b, "Events Queue"));
 		contentPanel_2.add(eventsTable);
 		contentPanel_2.add(new JScrollPane( eventsTable,  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
 	    		JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		
+	}
+
+	@Override
+	public void registered(UpdateEvent ue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reset(UpdateEvent ue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newEvent(UpdateEvent ue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void advanced(UpdateEvent ue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void error(UpdateEvent ue, String error) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -1,13 +1,15 @@
 package es.ucm.fdi.model.simulatedObjects;
 
 import java.util.Map;
-import es.ucm.fdi.util.*;
+
+import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object Road
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Road  extends SimulatedObject{
+public class Road  extends SimulatedObject implements Describable {
 
 	protected  int length;
 	protected  int  maxSpeed;
@@ -134,6 +136,12 @@ public class Road  extends SimulatedObject{
 		}
 		if (vehicleList.sizeOfValues()!= 0)out.put("state", report.substring(0, report.length()-1));
 		else out.put("state", report);
+	}
+
+	@Override
+	public void describe(Map<String, String> out) {
+		
+		
 	}
 
 }

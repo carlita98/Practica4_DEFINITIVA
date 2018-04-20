@@ -6,6 +6,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -15,8 +17,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import es.ucm.fdi.control.Controller;
-import es.ucm.fdi.control.SimWindow;
 import es.ucm.fdi.ini.Ini;
+import es.ucm.fdi.view.SimWindow;
 
 public class Main {
 
@@ -24,7 +26,7 @@ public class Main {
 	private static Integer _timeLimit = null;
 	private static String _inFile = null;
 	private static String _outFile = null;
-
+	private static boolean mode;
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -37,6 +39,7 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseModeOption(line);
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseStepsOption(line);
@@ -70,10 +73,16 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
 				.desc("Ticks to execute the simulator's main loop (default value is " + _timeLimitDefaultValue + ").")
 				.build());
-
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("’batch’ for batch mode and ’gui’"
+				+ " for GUI mode(default value is ’batch’)").build());
 		return cmdLineOptions;
 	}
-
+	private static void parseModeOption(CommandLine line) {
+		if("gui".equals(line.getOptionValue("m"))) {
+			mode = true;
+		}
+		else mode = false;
+	}
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -84,7 +93,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && !mode) {
 			throw new ParseException("An events file is missing");
 		}
 	}
@@ -157,10 +166,19 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	private static void startGuiMode() throws IOException, InvocationTargetException, InterruptedException {
+		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
+		SwingUtilities.invokeAndWait(new Runnable() 
+		{ public void run() {new SimWindow( control, _inFile);}});
 
-	private static void start(String[] args) throws IOException {
+	}
+
+	private static void start(String[] args) throws IOException, InvocationTargetException, InterruptedException {
 		parseArgs(args);
-		startBatchMode();
+		if(!mode)
+			startBatchMode();
+		else
+			startGuiMode();
 	}
 
 	public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
@@ -180,8 +198,7 @@ public class Main {
 
 		// Call start to start the simulator from command line, etc.
 		
-		//start(args);
-		SimWindow sim = new SimWindow();
+		start(args);
 	//	test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
 	
 		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);

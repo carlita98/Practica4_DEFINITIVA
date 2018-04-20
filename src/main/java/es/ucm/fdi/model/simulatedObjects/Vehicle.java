@@ -1,12 +1,15 @@
 package es.ucm.fdi.model.simulatedObjects;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object Vehicle
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Vehicle extends SimulatedObject{
+public class Vehicle extends SimulatedObject implements Describable {
 
 	protected int kilometrage;
 	protected int faulty;
@@ -153,5 +156,10 @@ public class Vehicle extends SimulatedObject{
 			out.put("location","(" + currentRoad.getId() +","+ roadLocation + ")" );
 		else
 			out.put("location", "arrived");
+	}
+	@Override
+	public void describe(Map<String, String> out) {
+		
+		
 	}
 }

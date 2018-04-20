@@ -1,12 +1,18 @@
 package es.ucm.fdi.model.simulatedObjects;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Junction
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
-public class Junction  extends SimulatedObject{
+public class Junction  extends SimulatedObject implements Describable{
 	
 	public class IR{
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
@@ -130,6 +136,10 @@ public class Junction  extends SimulatedObject{
 		}
 		if (!incomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
 		else out.put("queues", report);
+	}
+	@Override
+	public void describe(Map<String, String> out) {
+		
 	}
 
 }

@@ -24,10 +24,14 @@ public class Controller{
 	 * @param inputFile
 	 * @param outputFile
 	 */
+	
 	public Controller(int time, String inputFile, String outputFile) {
 		this.time = time;
 		this.inputFile = inputFile;
 		this.outputFile = outputFile;
+	}
+	public Simulator getSim() {
+		return sim;
 	}
 	/**
 	 * Go through the array of possibles Events and says which one is the type of the Event created
