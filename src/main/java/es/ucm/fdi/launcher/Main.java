@@ -1,9 +1,13 @@
 package es.ucm.fdi.launcher;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
@@ -157,7 +161,9 @@ public class Main {
 	 * @throws IOException
 	 */
 	private static void startBatchMode() throws IOException {
-		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
+		InputStream inFile = new FileInputStream(_inFile);
+		OutputStream outFile = _outFile != null ? new FileOutputStream(_outFile) : System.out;
+		Controller control = new Controller (_timeLimit, inFile, outFile);		
 		try{
 			control.controlExecute();
 		}catch(FileNotFoundException e){
@@ -167,9 +173,18 @@ public class Main {
 		}
 	}
 	private static void startGuiMode() throws IOException, InvocationTargetException, InterruptedException {
-		Controller control = new Controller (_timeLimit,_inFile, _outFile);		
+		InputStream inFile;
+		if (_inFile != null) inFile = new FileInputStream(_inFile);
+		else inFile = null;
+		
+		Controller control = new Controller (_timeLimit,inFile);		
 		SwingUtilities.invokeAndWait(new Runnable() 
-		{ public void run() {new SimWindow( control, _inFile);}});
+		{ public void run() {try {
+			new SimWindow( control, _inFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}});
 
 	}
 

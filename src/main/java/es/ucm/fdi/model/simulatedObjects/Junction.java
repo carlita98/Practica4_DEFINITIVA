@@ -139,7 +139,10 @@ public class Junction  extends SimulatedObject implements Describable{
 	}
 	@Override
 	public void describe(Map<String, String> out) {
-		
+		out.put("ID", getId());
+		/**
+		 * Faltaaaaaaa!!!!!!
+		 */
 	}
 
 }

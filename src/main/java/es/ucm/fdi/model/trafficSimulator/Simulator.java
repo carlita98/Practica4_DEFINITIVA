@@ -169,7 +169,7 @@ public class Simulator {
 			return m;
 		}
 		public List<Event> getEventQueue() {
-			return eventList.get(0);
+			return eventList.valuesList();
 		}
 		public int getCurrentTime() {
 			return simulatorTime;

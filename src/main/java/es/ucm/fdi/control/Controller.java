@@ -14,25 +14,38 @@ import es.ucm.fdi.model.trafficSimulator.Simulator;
 public class Controller{
 
 	private int time;
-	private Simulator sim;
-	private String inputFile;
-	private String outputFile;
-	//private SimWindow simwin = new SimWindow(sim, inputFile, this);
+	private Simulator sim = new Simulator();
+	private InputStream inputFile;
+	private OutputStream outputFile;
 	/**
 	 * Constructor
 	 * @param time
 	 * @param inputFile
 	 * @param outputFile
+	 * @throws FileNotFoundException 
 	 */
 	
-	public Controller(int time, String inputFile, String outputFile) {
+	public Controller(int time, InputStream inputFile, OutputStream outputFile) throws FileNotFoundException {
 		this.time = time;
 		this.inputFile = inputFile;
 		this.outputFile = outputFile;
 	}
+	public void setInputFile(InputStream inputFile) {
+		this.inputFile = inputFile;
+		
+	}
+	public Controller(int time,InputStream inputFile) {
+		this.time = time;
+		this.inputFile = inputFile;
+	}
+
 	public Simulator getSim() {
 		return sim;
 	}
+	/*
+	public void setInputFile(String inputFile) {
+		this.inputFile = inputFile;
+	}*/
 	/**
 	 * Go through the array of possibles Events and says which one is the type of the Event created
 	 * @param sec
@@ -56,9 +69,8 @@ public class Controller{
 	 * @throws IOException
 	 * @throws IllegalArgumentException
 	 */
-	public void controlExecute() throws FileNotFoundException, IOException, IllegalArgumentException{
-		Ini read = new Ini ();
-		read.load (new FileInputStream (inputFile));
+	public void loadEvents() throws IOException {
+		Ini read = new Ini (inputFile);
 		for (IniSection sec: read.getSections()) {
 			try {
 			Event newEvent = parseSection(sec);
@@ -67,8 +79,13 @@ public class Controller{
 				System.out.println(i.getMessage());
 			}
 		}
-		if (outputFile == null) sim.execute(time, System.out);
-		else sim.execute(time, new FileOutputStream(outputFile));
 	}
+	
+	public void controlExecute() throws FileNotFoundException, IOException, IllegalArgumentException{
+		loadEvents();
+		sim.execute(time, outputFile);
+	}
+
+	
 
 }

@@ -159,7 +159,19 @@ public class Vehicle extends SimulatedObject implements Describable {
 	}
 	@Override
 	public void describe(Map<String, String> out) {
-		
-		
+		out.put("ID", getId());
+		out.put("Road", ""+getCurrentRoad());
+		out.put("Location", ""+ getRoadLocation());
+		out.put("Speed", ""+ getActualSpeed());
+		out.put("Km", ""+ getKilometrage());
+		out.put("Faulty Units", ""+ getFaulty());
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(Junction it: itinerary){
+			sb.append(it);
+			sb.append(",");
+		}
+		sb.append("]");
+		out.put("Itinerary", sb.toString());
 	}
 }

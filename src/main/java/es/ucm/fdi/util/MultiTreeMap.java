@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
  * that is, newer values with the same key will be stored after any other values
  * with the same key.
  */
-@SuppressWarnings({ "serial", "unused" })
 public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
 
     public MultiTreeMap() {}
@@ -43,9 +42,12 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
         if ( ! containsKey(key)) {
             return false;
         }
-        boolean returned = get(key).remove(value);
-        if (get(key).isEmpty())remove(key);
-        return returned;
+        ArrayList<V> bucket = get(key);
+        boolean removed = bucket.remove(value);
+        if (bucket.isEmpty()) {
+            remove(key);
+        }
+        return removed;
     }
 
     /**
@@ -57,6 +59,50 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
             total += l.size();
         }
         return total;
+    }
+
+    /**
+     * Returns the values as a read-only list. Changes to this structure
+     * will be immediately reflected in the list.
+     */
+    public List<V> valuesList() {
+        return new InnerList();
+    }
+
+    /**
+     * A logical, read-only list containing all elements in
+     * correct order.
+     */
+    private class InnerList extends AbstractList<V> {
+
+        @Override
+        public V get(int index) {
+
+            if (index < 0 || isEmpty()) {
+                throw new IndexOutOfBoundsException(
+                        "Index " + index + " is out of bounds");
+            }
+
+            Iterator<ArrayList<V>> it = values().iterator();
+            ArrayList<V> current = it.next(); // not empty, therefore hasNext()
+            int start = 0;
+
+            while (index >= (start+current.size())) {
+                if (!it.hasNext()) {
+                    throw new IndexOutOfBoundsException(
+                            "Index " + index + " is out of bounds");
+                }
+                start += current.size();
+                current = it.next();
+            }
+
+            return current.get(index - start);
+        }
+
+        @Override
+        public int size() {
+            return sizeOfValues();
+        }
     }
 
     /**
@@ -109,26 +155,6 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
      * @return iterable values, ordered by key and then by order-of-insertion
      */
     public Iterable<V> innerValues() {
-    	return () -> new InnerIterator();
-    }
-    private class InnerList extends AbstractList<V> {
-    	@Override
-    	public V get(int index) {
-    		if (index < 0 || isEmpty())
-    			throw new IndexOutOfBoundsException("...");
-    		Iterator<ArrayList<V>> it = values().iterator();
-    		ArrayList<V> current = it.next();
-    		int start = 0;
-    		while (index >= (start+current.size())) {
-    			if (!it.hasNext()) {
-    				throw new IndexOutOfBoundsException("...");
-    			}
-    			start += current.size();
-    			current = it.next();
-    		}
-    		return current.get(index - start);
-    	}
-    	@Override
-    	public int size() { return sizeOfValues(); }
+        return () -> new InnerIterator();
     }
 }

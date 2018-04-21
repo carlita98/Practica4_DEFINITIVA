@@ -140,7 +140,19 @@ public class Road  extends SimulatedObject implements Describable {
 
 	@Override
 	public void describe(Map<String, String> out) {
-		
+		out.put("ID", getId());
+		out.put("Source", "" + getSource());
+		out.put("Target", "" + getTarget());
+		out.put("Length", "" + getLength());
+		out.put("Max Speed", "" + getMaxSpeed());
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(Vehicle it: vehicleList.innerValues()){
+			sb.append(it);
+			sb.append(",");
+		}
+		sb.append("]");
+		out.put("Vehicles", sb.toString());
 		
 	}
 
