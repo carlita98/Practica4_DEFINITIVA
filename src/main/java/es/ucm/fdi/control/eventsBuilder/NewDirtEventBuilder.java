@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewDirtEvent;
  */
 public class NewDirtEventBuilder extends NewRoadEventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! "new_road".equals(sec.getTag()) || !"dirt".equals(sec.getValue("type"))) return null;
+		if( ! "new_road".equals(sec.getTag()) || !"dirt".equals(sec.getValue("type"))) {
+			return null;
+		}
 		try{
 			return new NewDirtEvent (parseInt (sec, "time", 0),  sec.getValue("id"),  
 					sec.getValue("src"), sec.getValue("dest"),  parseInt (sec, "max_speed", 1), 

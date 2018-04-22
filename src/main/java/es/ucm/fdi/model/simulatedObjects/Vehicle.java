@@ -111,20 +111,24 @@ public class Vehicle extends SimulatedObject implements Describable {
 	 * Move a vehicle into its next Road
 	 */
 	public void moveToNextRoad() {
-		if (itinerary.size() - 1 > junctionCounter) {
-		for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {
-			for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
-				if (r == r2) {
-					if (currentRoad != null) currentRoad.popVehicle(this);
-					currentRoad = r;   
-					currentRoad.pushVehicle(this);
-					roadLocation = 0;
-					junctionCounter++;
+		if (itinerary.size() - 1 > junctionCounter) {	
+			for (Road r: itinerary.get(junctionCounter).getOutgoingRoadList()) {		
+				for (Road r2: itinerary.get(junctionCounter + 1).getIncomingRoadList()) {
+					if (r == r2) {
+						if (currentRoad != null) {
+							currentRoad.popVehicle(this);
+						}
+						currentRoad = r;   
+						currentRoad.pushVehicle(this);
+						roadLocation = 0;
+						junctionCounter++;
+						break;
+					}
+				}
+				if (itinerary.size() - 1 <=  junctionCounter) {
 					break;
 				}
 			}
-			if (itinerary.size() - 1 <=  junctionCounter) break;
-		}
 		}
 		else {
 			arrived = true;

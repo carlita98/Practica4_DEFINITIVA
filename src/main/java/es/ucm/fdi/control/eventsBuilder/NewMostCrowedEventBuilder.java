@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewMostCrowedEvent;
  */
 public class NewMostCrowedEventBuilder extends NewJunctionEventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! "new_junction".equals(sec.getTag())|| !"mc".equals(sec.getValue("type"))) return null;
+		if( ! "new_junction".equals(sec.getTag())|| !"mc".equals(sec.getValue("type"))) {
+			return null;
+		}
 		try{
 			return new NewMostCrowedEvent (parseInt (sec, "time", 0), sec.getValue("id"));
 		}catch(IllegalArgumentException i){

@@ -11,11 +11,17 @@ public interface EventBuilder {
 	/**
 	 * An array with the type of the Events that could be created
 	 */
-	EventBuilder []bs = new EventBuilder[] {new NewBikeEventBuilder(), 
-			 new NewCarEventBuilder(),new NewVehicleEventBuilder(),new NewDirtEventBuilder(),
-			 new NewLanesEventBuilder(),new NewRoadEventBuilder(),
-	new MakeFaultyVehicleEventBuilder(), new NewRoundRobinEventBuilder(), new NewMostCrowedEventBuilder(),
-	new NewJunctionEventBuilder ()};
+	EventBuilder []bs = new EventBuilder[] {
+			 new NewBikeEventBuilder(), 
+			 new NewCarEventBuilder(),
+			 new NewVehicleEventBuilder(),
+			 new NewDirtEventBuilder(),
+			 new NewLanesEventBuilder(),
+			 new NewRoadEventBuilder(),
+			 new MakeFaultyVehicleEventBuilder(),
+			 new NewRoundRobinEventBuilder(), 
+			 new NewMostCrowedEventBuilder(),
+			 new NewJunctionEventBuilder ()};
 	/**
 	 * Method implemented by the different Builders, it declares if the iniSection correspond to that Event
 	 * @param sec
@@ -43,8 +49,12 @@ public interface EventBuilder {
 	public default int parseInt (IniSection sec, String key, int min){
 		int n = 0;
 		n = Integer.parseInt(sec.getValue(key));
-		if (n < min) throw new IllegalArgumentException("The value of the attribute is out of range");
-		else return n;
+		if (n < min) {
+			throw new IllegalArgumentException("The value of the attribute is out of range");
+		}
+		else {
+			return n;
+		}
 		
 	}
 	/**
@@ -58,8 +68,12 @@ public interface EventBuilder {
 	public default double parseDoub (IniSection sec, String key, int min){
 		double n = 0;
 		n = Double.parseDouble(sec.getValue(key));
-		if (n < min) throw new IllegalArgumentException("The value of the attribute is out of range");
-		else return n;
+		if (n < min) {
+			throw new IllegalArgumentException("The value of the attribute is out of range");
+		}
+		else {
+			return n;
+		}
 	}
 	/**
 	 * Parse an ID array using the method isValidId()

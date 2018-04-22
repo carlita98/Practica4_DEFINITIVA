@@ -2,6 +2,7 @@ package es.ucm.fdi.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ScrollPane;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -84,18 +85,26 @@ public class SimWindow extends JFrame implements Listener {
 	private void addPanel() throws FileNotFoundException, IOException {
 		JPanel supPanel = new JPanel();
 		supPanel.setLayout(new BoxLayout(supPanel, BoxLayout.X_AXIS));
-		addEventsEditor(supPanel);
-		addEventsView(supPanel);
-		addReportsArea(supPanel);
+		addEventsEditor();
+		addEventsView();
+		addReportsArea();
+		supPanel.add(new JScrollPane(eventsEditor));
+		supPanel.add(eventsView);
+		supPanel.add(new JScrollPane(reportsArea));
 		
-		JPanel infPanel = new JPanel();
-		infPanel.setLayout(new BoxLayout(infPanel, BoxLayout.Y_AXIS));
-		addVehicleTable(infPanel);
-		addRoadsTable(infPanel);
-		addJunctionsTable(infPanel);
-		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT,supPanel, infPanel);
+		JPanel infLeftPanel = new JPanel();
+		infLeftPanel.setLayout(new BoxLayout(infLeftPanel, BoxLayout.Y_AXIS));
+		addVehicleTable();
+		addRoadsTable();
+		addJunctionsTable();
+		infLeftPanel.add(vehiclesTable);
+		infLeftPanel.add(roadsTable);
+		infLeftPanel.add(junctionsTable);
+		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT,supPanel, infLeftPanel);
 		add(main);
 		main.setDividerLocation(40);
+		
+		
 	}
 
 	private void initGUI() throws FileNotFoundException, IOException {
@@ -208,69 +217,44 @@ public class SimWindow extends JFrame implements Listener {
 		setJMenuBar(menuBar);
 	}
 
-	private void addEventsEditor(JPanel contentPanel_1) throws FileNotFoundException, IOException {
+	private void addEventsEditor() throws FileNotFoundException, IOException {
 		eventsEditor = new JTextArea(40,30);
-		eventsEditor.setLineWrap(true);
-		eventsEditor.setWrapStyleWord(true);
-	    //Border
-	    Border b = BorderFactory.createLineBorder(Color.black, 2);
-	    eventsEditor.setBorder(BorderFactory.createTitledBorder(b, "Events"));
-	    contentPanel_1.add(eventsEditor);
-	    contentPanel_1.add(new JScrollPane( eventsEditor,  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
-	    		JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		eventsEditor.setEditable(true);
+	    eventsEditor.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events"));
 	    
 	    if (currentFile != null) {      
 	    	eventsEditor.setText(readFile(currentFile));      
 	    }
 	}
-	private void addReportsArea(JPanel contentPanel_3) {
+	private void addReportsArea() {
 		reportsArea =new JTextArea(40,30);
 		reportsArea.setEditable(false);
-		reportsArea.setLineWrap(true);
-		reportsArea.setWrapStyleWord(true);
-	    //Border
-	    Border b = BorderFactory.createLineBorder(Color.black, 2);
-	    reportsArea.setBorder(BorderFactory.createTitledBorder(b, "Reports"));
-	    contentPanel_3.add(reportsArea);
-	    contentPanel_3.add(new JScrollPane( reportsArea,  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,
-	    		JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	    reportsArea.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Reports"));
 	}
 	
-	private void addEventsView(JPanel contentPanel_2) {
+	private void addEventsView() {
 		String[] columnas = {"#", "Time", "Type"};
 		eventsView = new TableModelTraffic (columnas, events);
-		//Border 
-		//Border b = BorderFactory.createLineBorder(Color.black, 2);
-		//eventsView.setBorder(BorderFactory.createTitledBorder(b, "Events Queue"));
-		contentPanel_2.add(eventsView);
+		eventsView.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events Queue"));
 		
 	}
 
-	private void addVehicleTable (JPanel contentPanel_4) {
+	private void addVehicleTable () {
 		String []columnas = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
 		vehiclesTable = new TableModelTraffic (columnas, events);
-		//Border 
-		//Border b = BorderFactory.createLineBorder(Color.black, 2);
-		//vehiclesTable.setBorder(BorderFactory.createTitledBorder(b, "Vehicles"));
-		contentPanel_4.add(vehiclesTable);
+		vehiclesTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
 	}
 	
-	private void addRoadsTable (JPanel contentPanel_4) {
+	private void addRoadsTable () {
 		String []columnas = {"ID", "Source", "Target", "Length", "Max Speed", "Vehicles"};
 		roadsTable = new TableModelTraffic (columnas, events);
-		//Border 
-		//Border b = BorderFactory.createLineBorder(Color.black, 2);
-		//roadsTable.setBorder(BorderFactory.createTitledBorder(b, "Roads"));
-		contentPanel_4.add(roadsTable);
+		roadsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
 	}
 	
-	private void addJunctionsTable (JPanel contentPanel_4) {
+	private void addJunctionsTable () {
 		String []columnas = {"ID", "Green", "Red"};
 		junctionsTable = new TableModelTraffic (columnas, events);
-		//Border 
-		//Border b = BorderFactory.createLineBorder(Color.black, 2);
-		//junctionsTable.setBorder(BorderFactory.createTitledBorder(b, "Junctions"));
-		contentPanel_4.add(junctionsTable);
+		junctionsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Junctions"));
 	}
 	@Override
 	public void registered(UpdateEvent ue) {
@@ -310,8 +294,7 @@ public class SimWindow extends JFrame implements Listener {
 			System.out.println("Loading: "+ currentFile.getName());
 			eventsEditor.setText(readFile(currentFile));  
 		} 
-		else
-		{
+		else{
 			System.out.println("Load cancelled by user.");
 		}
 	}

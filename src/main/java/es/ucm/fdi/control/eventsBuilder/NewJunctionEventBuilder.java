@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewJunctionEvent;
  */
 public class NewJunctionEventBuilder implements EventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! "new_junction".equals(sec.getTag())) return null;
+		if( ! "new_junction".equals(sec.getTag())) {
+			return null;
+		}
 		try{
 			return new NewJunctionEvent (parseInt (sec, "time", 0), sec.getValue("id"));
 		}catch(IllegalArgumentException i){

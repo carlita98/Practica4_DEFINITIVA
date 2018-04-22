@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewCarEvent;
  */
 public class NewCarEventBuilder extends NewVehicleEventBuilder{
 	public Event parse(IniSection sec) {
-		if(!"new_vehicle".equals(sec.getTag()) || !"car".equals(sec.getValue("type"))) return null;
+		if(!"new_vehicle".equals(sec.getTag()) || !"car".equals(sec.getValue("type"))) {
+			return null;
+		}
 		try{
 			return new NewCarEvent (parseInt (sec,"time", 0),sec.getValue("id"), 
 					parseInt (sec, "max_speed", 1),  parseIdList (sec, "itinerary"), sec.getValue("type"),

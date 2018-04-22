@@ -102,7 +102,9 @@ public class Junction  extends SimulatedObject implements Describable{
 				v.moveToNextRoad();
 				ir.queue.removeFirst();
 			}
-			else v.setFaultyTime(v.getFaulty()-1);
+			else {
+				v.setFaultyTime(v.getFaulty()-1);
+			}
 		}
 		//Update lights
 		updateLights();

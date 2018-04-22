@@ -104,8 +104,8 @@ public class RoadMap {
 			throw new NoSuchElementException ("This ID already exist in a Road");
 		}
 		else{
-		roads.add(r);
-		simObjects.put(r.getId(), r);
+			roads.add(r);
+			simObjects.put(r.getId(), r);
 		}
 	}
 	/**
@@ -117,8 +117,8 @@ public class RoadMap {
 			throw new NoSuchElementException ("This ID already exist in a Vehicle");
 		}
 		else{
-		vehicles.add(v);
-		simObjects.put(v.getId(), v);
+			vehicles.add(v);
+			simObjects.put(v.getId(), v);
 		}
 	}
 }

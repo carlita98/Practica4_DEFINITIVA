@@ -12,7 +12,9 @@ public class NewBikeEventBuilder implements EventBuilder{
 
 	@Override
 	public Event parse(IniSection sec) {
-			if(!"new_vehicle".equals(sec.getTag()) || !"bike".equals(sec.getValue("type"))) return null;
+			if(!"new_vehicle".equals(sec.getTag()) || !"bike".equals(sec.getValue("type"))) {
+				return null;
+			}
 			try{
 				return new NewBikeEvent (parseInt(sec,"time", 0), sec.getValue("id"),
 					parseInt(sec, "max_speed", 1), parseIdList (sec, "itinerary"), sec.getValue("type"));

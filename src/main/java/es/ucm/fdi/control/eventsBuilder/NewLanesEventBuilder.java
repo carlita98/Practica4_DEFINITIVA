@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewLanesEvent;
  */
 public class NewLanesEventBuilder extends NewRoadEventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! "new_road".equals(sec.getTag()) || !"lanes".equals(sec.getValue("type"))) return null;
+		if( ! "new_road".equals(sec.getTag()) || !"lanes".equals(sec.getValue("type"))) {
+			return null;
+		}
 		try{
 			return new NewLanesEvent (parseInt (sec, "time", 0), sec.getValue("id"), sec.getValue("src"),
 					sec.getValue("dest"), parseInt (sec, "max_speed", 1), parseInt (sec, "length", 1), 

@@ -11,7 +11,9 @@ import es.ucm.fdi.model.events.NewRoadEvent;
 public class NewRoadEventBuilder implements EventBuilder{
 	
 	public Event parse(IniSection sec) {
-		if( ! "new_road".equals(sec.getTag())) return null;
+		if( ! "new_road".equals(sec.getTag())) {
+			return null;
+		}
 		try{
 			return new NewRoadEvent (parseInt (sec, "time", 0), sec.getValue("id"),
 					sec.getValue("src"), sec.getValue("dest"),  parseInt (sec, "max_speed", 1),

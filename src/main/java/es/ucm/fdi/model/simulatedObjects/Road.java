@@ -102,10 +102,12 @@ public class Road  extends SimulatedObject implements Describable {
 				faultycar = true;
 				thisCar = true;
 			}
-			else if (faultycar && !thisCar) 
+			else if (faultycar && !thisCar) {
 				v.setActualSpeed(baseSpeed/2);
-			else if (!faultycar && !thisCar)
+			}	
+			else if (!faultycar && !thisCar) {
 				v.setActualSpeed(baseSpeed);
+			}	
 			
 			v.moveForward();
 			updated.putValue(v.getRoadLocation(), v);

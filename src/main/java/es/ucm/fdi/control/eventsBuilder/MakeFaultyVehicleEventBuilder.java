@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.MakeFaultyVehicleEvent;
 public class MakeFaultyVehicleEventBuilder implements EventBuilder{
 
 	public Event parse(IniSection sec) {
-		if( ! "make_vehicle_faulty".equals(sec.getTag())) return null;
+		if( ! "make_vehicle_faulty".equals(sec.getTag())) {
+			return null;
+		}
 		try{
 			return new MakeFaultyVehicleEvent(parseInt (sec, "time", 0), parseIdList (sec, "vehicles"), parseInt (sec, "duration", 1));
 		}catch(IllegalArgumentException i){

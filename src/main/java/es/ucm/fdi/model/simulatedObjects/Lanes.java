@@ -43,10 +43,12 @@ public class Lanes extends Road{
 				counter++;
 			}
 			else {
-			if (counter > lanes) 
-				v.setActualSpeed(baseSpeed/2);
-			else
-				v.setActualSpeed(baseSpeed);
+				if (counter > lanes) {
+					v.setActualSpeed(baseSpeed/2);		
+				}
+				else {
+					v.setActualSpeed(baseSpeed);
+				}
 			}
 			
 			v.moveForward();

@@ -10,7 +10,9 @@ import es.ucm.fdi.model.events.NewRoundRobinEvent;
  */
 public  class NewRoundRobinEventBuilder extends NewJunctionEventBuilder{
 	public Event parse(IniSection sec) {
-		if( ! "new_junction".equals(sec.getTag())|| !"rr".equals(sec.getValue("type"))) return null;
+		if( ! "new_junction".equals(sec.getTag())|| !"rr".equals(sec.getValue("type"))) {
+			return null;
+		}
 		try{
 			return new NewRoundRobinEvent (parseInt (sec, "time", 0), sec.getValue("id"), 
 					parseInt(sec, "max_time_slice", 1),parseInt(sec, "min_time_slice", 1));

@@ -56,7 +56,9 @@ public class Controller{
 		for (EventBuilder eb: EventBuilder.bs){
 			try{
 				e = eb.parse(sec);
-				if (e != null) break;
+				if (e != null) {
+					break;
+				}
 			}catch (IllegalArgumentException i){
 				throw new IllegalArgumentException("There has been a problem parsing a Section", i);
 			}
@@ -73,8 +75,10 @@ public class Controller{
 		Ini read = new Ini (inputFile);
 		for (IniSection sec: read.getSections()) {
 			try {
-			Event newEvent = parseSection(sec);
-			if (newEvent != null)sim.insertEvent(newEvent);
+				Event newEvent = parseSection(sec);
+				if (newEvent != null) {
+					sim.insertEvent(newEvent);
+				}
 			}catch(IllegalArgumentException i) {
 				System.out.println(i.getMessage());
 			}
@@ -85,7 +89,5 @@ public class Controller{
 		loadEvents();
 		sim.execute(time, outputFile);
 	}
-
-	
 
 }
