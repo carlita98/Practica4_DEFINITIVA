@@ -3,12 +3,13 @@ package es.ucm.fdi.model.object;
 import java.util.Map;
 
 import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object HighWay
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Lanes extends Road{
+public class Lanes extends Road implements Describable{
 	
 	private String type;
 	private int lanes;

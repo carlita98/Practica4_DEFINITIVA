@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.object.Bike;
 import es.ucm.fdi.model.object.Junction;
+import es.ucm.fdi.model.object.Vehicle;
 /**
  * Introduce a new Bike in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
@@ -34,7 +35,8 @@ public class NewBikeEvent extends NewVehicleEvent{
 			for (int i = 0; i < itinerary.size(); i++){
 				jList.add(m.getJunction(itinerary.get(i))) ;
 			}
-			m.addVehicle(new Bike(id, maxSpeed, jList, type));
+			Vehicle v = new Bike(id, maxSpeed, jList, type);
+			m.addVehicle(v);
 		}catch(NoSuchElementException e){
 			throw new IllegalArgumentException("There has been a problem while adding bike ", e);
 		}

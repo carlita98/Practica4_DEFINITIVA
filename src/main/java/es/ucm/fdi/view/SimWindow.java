@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import es.ucm.fdi.control.Controller;
 import es.ucm.fdi.ini.Ini;
@@ -38,6 +42,9 @@ import es.ucm.fdi.model.event.Event;
 public class SimWindow extends JFrame implements Listener {
 	private Controller ctrl; // la vista usa el controlador 
 	
+	
+	//Escribir informes
+	private ByteArrayOutputStream out; 
 	//Paneles
 	private JPanel supPanel;
 	private JPanel infLeftPanel;
@@ -135,9 +142,16 @@ public class SimWindow extends JFrame implements Listener {
 					}});
 		
 		save = new SimulatorAction(
-				"Guardar", "save.png", "Guardar cosas",
+				"Guardar", "save.png", "Guardar fichero de eventos",
 				KeyEvent.VK_S, "control S", 
-				()-> System.err.println("guardando..."));
+				()-> {
+					try {
+						save(eventsEditor);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
 		
 		clear = new SimulatorAction(
 				"Limpiar", "clear.png", "Limpiar eventos",
@@ -146,6 +160,9 @@ public class SimWindow extends JFrame implements Listener {
 					ctrl.setInputFile(null);
 					eventsEditor.setText(null);
 					eventsView.setElements(Collections.emptyList());
+					roadsTable.setElements(Collections.emptyList());
+					vehiclesTable.setElements(Collections.emptyList());
+					junctionsTable.setElements(Collections.emptyList());
 				});
 		
 		event = new SimulatorAction(
@@ -165,9 +182,9 @@ public class SimWindow extends JFrame implements Listener {
 				"Ejecutar", "play.png", "Ejecutar la simulación",
 				KeyEvent.VK_E, "control E", 
 				()->{
-					ByteArrayOutputStream report = new ByteArrayOutputStream();
-					ctrl.getSim().execute(1, report);
-					reportsArea.setText(report.toString());
+					//ByteArrayOutputStream report = new ByteArrayOutputStream();
+					ctrl.getSim().execute((Integer)steps.getValue(), out);
+					//.setText(report.toString());
 				});
 		
 		reset = new SimulatorAction(
@@ -189,17 +206,28 @@ public class SimWindow extends JFrame implements Listener {
 		generateReport = new SimulatorAction(
 				"Generar Informe", "report.png", "Generar informes",
 				KeyEvent.VK_A, "control G", 
-				()->System.err.println("generando informes..."));
+				()-> {
+					reportsArea.setText(out.toString());
+				});
 		
 		deleteReport = new SimulatorAction(
 				"Eliminar Informes", "delete_report.png", "Eliminar informes",
 				KeyEvent.VK_A, "control shift E", 
-				()->System.err.println("eliminando informes..."));
+				()-> {
+					reportsArea.setText(null);
+				});
 		
 		saveReport = new SimulatorAction(
-				"Guardar Informes", "save_report.png", "Guardar informes",
+				"Guardar Informes", "save_report.png", "Guardar informe",
 				KeyEvent.VK_A, "control shift S", 
-				()->System.err.println("guardando informe..."));
+				()->{
+					try {
+						save(reportsArea);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
 		
 		exit = new SimulatorAction(
 				"Salir", "exit.png", "Salir de la aplicacion",
@@ -312,6 +340,7 @@ public class SimWindow extends JFrame implements Listener {
 		vehiclesTable.updated();
 		roadsTable.updated();
 		junctionsTable.updated();
+		time.setText("" +ctrl.getSim().getSimulatorTime());
 	}
 
 	@Override
@@ -325,6 +354,9 @@ public class SimWindow extends JFrame implements Listener {
 		if (initial.exists() && initial.isDirectory()) {
 			fc.setCurrentDirectory(initial);		
 		}*/
+		JFileChooser choose = new JFileChooser();
+		FileNameExtensionFilter fil = new FileNameExtensionFilter("Files .ini", "ini");
+		choose.setFileFilter(fil);
 		
 		int returnVal = fc.showOpenDialog(null);
 		if(returnVal == JFileChooser.APPROVE_OPTION	) {
@@ -338,10 +370,31 @@ public class SimWindow extends JFrame implements Listener {
 		}
 	}
 
+	public void save(JTextArea area) throws FileNotFoundException, IOException {
+		/*	File initial = new File("");
+			if (initial.exists() && initial.isDirectory()) {
+				fc.setCurrentDirectory(initial);		
+			}*/
+			
+			JFileChooser choose = new JFileChooser();
+			FileNameExtensionFilter fil = new FileNameExtensionFilter("Files .ini", "ini");
+			choose.setFileFilter(fil);
+			
+			int returnVal = fc.showOpenDialog(null);
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+				File outFile = fc.getSelectedFile();
+				Files.write(outFile.toPath(),area.getText().getBytes("UTF-8"));
+				System.out.println("Saving: "+ currentFile.getName());
+			} 
+			else{
+				System.out.println("Save cancelled by user.");
+			}
+		}
 	
 	public String readFile(File file) throws FileNotFoundException, IOException {
 		Ini read = new Ini ();
 		read.load (new FileInputStream (file));
 		return read.toString();
 	}
+
 }

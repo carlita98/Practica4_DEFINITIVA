@@ -41,6 +41,10 @@ public class Simulator {
 		return m;
 	}
 
+	public int getSimulatorTime() {
+		return simulatorTime;
+	}
+
 	/**
 	 * 
 	 * Constructor
@@ -112,7 +116,7 @@ public class Simulator {
 		for (Junction j : m.getJunctions()) {
 			j.moveForward();
 		}
-		fireUpdateEvent(EventType.ADVANCED, null);
+		//fireUpdateEvent(EventType.ADVANCED, null);
 	}
 
 	/**

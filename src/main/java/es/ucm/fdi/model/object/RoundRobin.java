@@ -7,12 +7,13 @@ import java.util.TreeMap;
 
 import es.ucm.fdi.model.object.Junction.IR;
 import es.ucm.fdi.model.object.MostCrowed.IrTime;
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Junction type RoundRobin
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class RoundRobin extends Junction{
+public class RoundRobin extends Junction implements Describable{
 	
 	private int maxTimeSlice;
 	private int minTimeSlice;

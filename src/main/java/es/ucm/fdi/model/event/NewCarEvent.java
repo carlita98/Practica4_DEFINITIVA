@@ -51,7 +51,8 @@ public class NewCarEvent extends NewVehicleEvent{
 			for (int i = 0; i < itinerary.size(); i++){
 				jList.add(m.getJunction(itinerary.get(i))) ;
 			}
-			m.addVehicle(new Car ( id, maxSpeed, jList, type, resistance, faultyProbability, maxFaultDuration, seed));
+			Vehicle v = new Car ( id, maxSpeed, jList, type, resistance, faultyProbability, maxFaultDuration, seed);
+			m.addVehicle(v);
 		}catch(NoSuchElementException e){
 			throw new SimulatorException("There has been a problem while adding Car ", e);
 		}

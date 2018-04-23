@@ -3,12 +3,14 @@ package es.ucm.fdi.model.object;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object Car
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Car extends Vehicle{
+public class Car extends Vehicle implements Describable{
 	private String type;
 	private int resistance;
 	private double faultyProbability;

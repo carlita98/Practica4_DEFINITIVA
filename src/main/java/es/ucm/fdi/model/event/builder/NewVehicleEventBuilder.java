@@ -10,7 +10,7 @@ import es.ucm.fdi.model.event.NewVehicleEvent;
 public class NewVehicleEventBuilder implements EventBuilder {
 	
 	public Event parse(IniSection sec) {
-		if(!"new_vehicle".equals(sec.getTag()) || sec.getValue("type") != null) {
+		if(!"new_vehicle".equals(sec.getTag()) ) {
 			return null;
 		}
 		try{

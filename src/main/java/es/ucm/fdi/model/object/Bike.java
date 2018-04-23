@@ -2,12 +2,14 @@ package es.ucm.fdi.model.object;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object Bike
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Bike extends Vehicle{
+public class Bike extends Vehicle implements Describable{
 	
 	private String type;
 	/**
@@ -37,4 +39,5 @@ public class Bike extends Vehicle{
 		out.put("type", type);
 		super.fillReportDetails(out);
 	}
+	
 }

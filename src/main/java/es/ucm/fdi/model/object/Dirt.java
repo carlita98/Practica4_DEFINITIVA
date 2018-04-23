@@ -3,12 +3,13 @@ package es.ucm.fdi.model.object;
 import java.util.Map;
 
 import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.Describable;
 /**
  * All the necessary methods for the Simulated Object Path
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
-public class Dirt extends Road{
+public class Dirt extends Road implements Describable{
 	private String type;
 	/**
 	 * Constructor

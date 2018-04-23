@@ -5,13 +5,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import es.ucm.fdi.model.object.Junction.IR;
+import es.ucm.fdi.view.Describable;
 /**
  *  All the necessary methods for the Junction type MostCrowed
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
-public class MostCrowed extends Junction{
+public class MostCrowed extends Junction implements Describable{
 	private String type;
 	private Map <Road, IrTime> incomingQueues = new LinkedHashMap<>();         
 	public MostCrowed(String id, String type) {
