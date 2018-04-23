@@ -21,6 +21,16 @@ public class RoadMap {
 	private List <Junction> junctionsRO = Collections.unmodifiableList(junctions);
 	private List <Road> roadsRO = Collections.unmodifiableList(roads);
 	private List <Vehicle> vehiclesRO = Collections.unmodifiableList (vehicles);
+	
+	public List<Junction> getJunctionsRO() {
+		return junctionsRO;
+	}
+	public List<Road> getRoadsRO() {
+		return roadsRO;
+	}
+	public List<Vehicle> getVehiclesRO() {
+		return vehiclesRO;
+	}
 	/**
 	 * Get the Junction with an specific id
 	 * @param id

@@ -142,9 +142,41 @@ public class Junction  extends SimulatedObject implements Describable{
 	@Override
 	public void describe(Map<String, String> out) {
 		out.put("ID", getId());
-		/**
-		 * Faltaaaaaaa!!!!!!
-		 */
+		StringBuilder sbGreen = new StringBuilder();
+		StringBuilder sbRed = new StringBuilder();
+		sbGreen.append("[");
+		sbRed.append("[");
+		for (Map.Entry <Road, IR> entry : incomingQueues.entrySet()) {
+			
+			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
+				sbGreen.append("(");
+				sbGreen.append(entry.getKey().getId());
+				sbGreen.append(",green,");
+				sbGreen.append("[");
+				for (Vehicle v: entry.getValue().queue) {
+					sbGreen.append(v.getId());
+					sbGreen.append(",");
+				}
+				sbGreen.append("]");
+				sbGreen.append(")");
+			}
+			else {
+				sbRed.append("(");
+				sbRed.append(",red,");
+				sbRed.append(entry.getKey().getId());
+				sbRed.append("[");
+				for (Vehicle v: entry.getValue().queue) {
+					sbRed.append(v.getId());
+					sbRed.append(",");
+				}
+				sbRed.append("]");
+				sbRed.append(")");
+			}
+		}
+		sbGreen.append("]");
+		sbRed.append("]");
+		out.put("Green", sbGreen.toString());
+		out.put("Red", sbRed.toString());
 	}
 
 }

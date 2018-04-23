@@ -179,6 +179,7 @@ public class Simulator {
 	public void reset() {
 		simulatorTime = 0;
 		m = new RoadMap();
+		eventList = new MultiTreeMap<>();
 		fireUpdateEvent(EventType.RESET, null);
 	}
 

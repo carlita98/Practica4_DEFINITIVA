@@ -44,10 +44,16 @@ public class MakeFaultyVehicleEvent extends Event implements Describable{
 		out.put("Time", ""+getTime());
 		StringBuilder sb = new StringBuilder();
 		sb.append("Break Vehicles "+ "[");
+		boolean bucle = false;
 		for(String it: id){
 			sb.append(it);
 			sb.append(",");
+			bucle = true;
 		}
+		if (bucle) {
+			sb.delete(sb.length() - 1, sb.length());
+		}
+		sb.append("]");
 		out.put("Type",sb.toString());
 	}
 }

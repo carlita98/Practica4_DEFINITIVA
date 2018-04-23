@@ -33,9 +33,10 @@ public class Road  extends SimulatedObject implements Describable {
 		this.target = target;
 	}
 	
-	int getLength () {
+	public int getLength () {
 		return length;
 	}
+	
 	public int getMaxSpeed() {
 		return maxSpeed;
 	}
