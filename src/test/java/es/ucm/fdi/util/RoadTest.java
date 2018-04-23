@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import es.ucm.fdi.model.simulatedObjects.*;
+import es.ucm.fdi.model.object.*;
 
 public class RoadTest {
 	//This test ensure the performance of moveForward for one vehicle

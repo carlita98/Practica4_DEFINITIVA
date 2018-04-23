@@ -57,6 +57,10 @@ public class TableModelTraffic extends JPanel{
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Map mapa = new HashMap<String, String>();
 			elements.get(rowIndex).describe(mapa);
+			
+			if(fieldNames[columnIndex].equals("#")){
+				return rowIndex;
+			}
 			return mapa.get(fieldNames[columnIndex]);
 		}
 		public void updated() {

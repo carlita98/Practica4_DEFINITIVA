@@ -1,11 +1,11 @@
 package es.ucm.fdi.control;
 import java.io.*;
 
-import es.ucm.fdi.control.eventsBuilder.EventBuilder;
 import es.ucm.fdi.ini.Ini;
 import es.ucm.fdi.ini.IniSection;
-import es.ucm.fdi.model.events.Event;
-import es.ucm.fdi.model.trafficSimulator.Simulator;
+import es.ucm.fdi.model.Simulator;
+import es.ucm.fdi.model.event.Event;
+import es.ucm.fdi.model.event.builder.EventBuilder;
 /**
  *  Recieve the outputFile and inputFile, load the IniSection and call the simulator
  * @author Carla Martínez, Beatriz Herguedas
@@ -34,6 +34,13 @@ public class Controller{
 		this.inputFile = inputFile;
 		
 	}
+	
+	public OutputStream getOutputFile() {
+		return outputFile;
+	}
+	public void setOutputFile(OutputStream outputFile) {
+		this.outputFile = outputFile;
+	}
 	public Controller(int time,InputStream inputFile) {
 		this.time = time;
 		this.inputFile = inputFile;
@@ -42,10 +49,6 @@ public class Controller{
 	public Simulator getSim() {
 		return sim;
 	}
-	/*
-	public void setInputFile(String inputFile) {
-		this.inputFile = inputFile;
-	}*/
 	/**
 	 * Go through the array of possibles Events and says which one is the type of the Event created
 	 * @param sec

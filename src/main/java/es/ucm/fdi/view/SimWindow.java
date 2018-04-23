@@ -2,42 +2,52 @@ package es.ucm.fdi.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ScrollPane;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.border.Border;
-
-import org.junit.runner.Describable;
+import javax.swing.SpinnerNumberModel;
 
 import es.ucm.fdi.control.Controller;
 import es.ucm.fdi.ini.Ini;
-import es.ucm.fdi.model.events.Event;
-import es.ucm.fdi.model.trafficSimulator.Simulator.Listener;
-import es.ucm.fdi.model.trafficSimulator.Simulator.UpdateEvent;
-import es.ucm.fdi.model.events.*;
+import es.ucm.fdi.model.Simulator.Listener;
+import es.ucm.fdi.model.Simulator.UpdateEvent;
+import es.ucm.fdi.model.event.Event;
 public class SimWindow extends JFrame implements Listener {
 	private Controller ctrl; // la vista usa el controlador 
 	
+	//Paneles
+	private JPanel supPanel;
+	private JPanel infLeftPanel;
+	private JSplitPane main;
 	
+	//Spinner
+	private JSpinner steps;
+	private JTextField time;
+	private JLabel stepsLabel;
+	private JLabel timeLabel;
 	
 	//Botones y barra 
 	private SimulatorAction load;
@@ -67,9 +77,9 @@ public class SimWindow extends JFrame implements Listener {
 	private JTextArea eventsEditor; // editor de eventos 
 	private JTextArea reportsArea; // zona de informes 
 	private TableModelTraffic eventsView; // cola de eventos 
-	private JPanel vehiclesTable; // tabla de vehiculos 
-	private JPanel roadsTable; // tabla de carreteras 
-	private JPanel junctionsTable; // tabla de cruces 
+	private TableModelTraffic vehiclesTable; // tabla de vehiculos 
+	private TableModelTraffic roadsTable; // tabla de carreteras 
+	private TableModelTraffic junctionsTable; // tabla de cruces 
 	 
 	public SimWindow(Controller ctrl,String inFileName) throws FileNotFoundException, IOException {   
 		super("Traffic Simulator");    
@@ -83,7 +93,7 @@ public class SimWindow extends JFrame implements Listener {
 	}
 	
 	private void addPanel() throws FileNotFoundException, IOException {
-		JPanel supPanel = new JPanel();
+		supPanel = new JPanel();
 		supPanel.setLayout(new BoxLayout(supPanel, BoxLayout.X_AXIS));
 		addEventsEditor();
 		addEventsView();
@@ -92,7 +102,7 @@ public class SimWindow extends JFrame implements Listener {
 		supPanel.add(eventsView);
 		supPanel.add(new JScrollPane(reportsArea));
 		
-		JPanel infLeftPanel = new JPanel();
+		infLeftPanel = new JPanel();
 		infLeftPanel.setLayout(new BoxLayout(infLeftPanel, BoxLayout.Y_AXIS));
 		addVehicleTable();
 		addRoadsTable();
@@ -100,11 +110,9 @@ public class SimWindow extends JFrame implements Listener {
 		infLeftPanel.add(vehiclesTable);
 		infLeftPanel.add(roadsTable);
 		infLeftPanel.add(junctionsTable);
-		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT,supPanel, infLeftPanel);
-		add(main);
-		main.setDividerLocation(40);
 		
-		
+		main = new JSplitPane(JSplitPane.VERTICAL_SPLIT,supPanel, infLeftPanel);
+		add(main);	
 	}
 
 	private void initGUI() throws FileNotFoundException, IOException {
@@ -114,6 +122,7 @@ public class SimWindow extends JFrame implements Listener {
 		addPanel();
 		setSize(1000, 1000);
 		setVisible(true);
+		main.setDividerLocation(.33);
 	}
 	
 	private void addBar () {
@@ -133,7 +142,11 @@ public class SimWindow extends JFrame implements Listener {
 		clear = new SimulatorAction(
 				"Limpiar", "clear.png", "Limpiar eventos",
 				KeyEvent.VK_C, "control C",
-				()->System.err.println("limpiando..."));
+				()->{
+					ctrl.setInputFile(null);
+					eventsEditor.setText(null);
+					eventsView.setElements(Collections.emptyList());
+				});
 		
 		event = new SimulatorAction(
 				"Insertar", "events.png", "Insertar eventos",
@@ -151,12 +164,27 @@ public class SimWindow extends JFrame implements Listener {
 		run = new SimulatorAction(
 				"Ejecutar", "play.png", "Ejecutar la simulación",
 				KeyEvent.VK_E, "control E", 
-				()->System.err.println("ejecutando..."));
+				()->{
+					ByteArrayOutputStream report = new ByteArrayOutputStream();
+					ctrl.getSim().execute(1, report);
+					reportsArea.setText(report.toString());
+				});
 		
 		reset = new SimulatorAction(
 				"Reiniciar", "reset.png", "Reiniciar",
 				KeyEvent.VK_R, "control R", 
 				()->System.err.println("reiniciando..."));
+		
+		steps = new JSpinner();
+		((SpinnerNumberModel)steps.getModel()).setMinimum(0);
+		steps.setPreferredSize(new Dimension(100,10));
+		stepsLabel = new JLabel(" Steps: ");
+		
+		time = new JTextField();
+		time.setPreferredSize(new Dimension (100, 10));
+		time.setText("0");
+		time.setEditable(false);
+		timeLabel =  new JLabel(" Time: ");
 		
 		generateReport = new SimulatorAction(
 				"Generar Informe", "report.png", "Generar informes",
@@ -185,6 +213,10 @@ public class SimWindow extends JFrame implements Listener {
 		toolBar.add(event);
 		toolBar.add(run);
 		toolBar.add(reset);
+		toolBar.add(stepsLabel);
+		toolBar.add(steps);
+		toolBar.add(timeLabel);
+		toolBar.add(time);
 		toolBar.add(generateReport);
 		toolBar.add(deleteReport);
 		toolBar.add(saveReport);
@@ -241,19 +273,19 @@ public class SimWindow extends JFrame implements Listener {
 
 	private void addVehicleTable () {
 		String []columnas = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
-		vehiclesTable = new TableModelTraffic (columnas, events);
+		vehiclesTable = new TableModelTraffic (columnas,ctrl.getSim().getM().getVehicles());
 		vehiclesTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
 	}
 	
 	private void addRoadsTable () {
 		String []columnas = {"ID", "Source", "Target", "Length", "Max Speed", "Vehicles"};
-		roadsTable = new TableModelTraffic (columnas, events);
+		roadsTable = new TableModelTraffic (columnas, ctrl.getSim().getM().getRoads());
 		roadsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
 	}
 	
 	private void addJunctionsTable () {
 		String []columnas = {"ID", "Green", "Red"};
-		junctionsTable = new TableModelTraffic (columnas, events);
+		junctionsTable = new TableModelTraffic (columnas, ctrl.getSim().getM().getJunctions());
 		junctionsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Junctions"));
 	}
 	@Override
@@ -277,7 +309,9 @@ public class SimWindow extends JFrame implements Listener {
 
 	@Override
 	public void advanced(UpdateEvent ue) {
-		
+		vehiclesTable.updated();
+		roadsTable.updated();
+		junctionsTable.updated();
 	}
 
 	@Override
@@ -287,6 +321,11 @@ public class SimWindow extends JFrame implements Listener {
 	}
 	
 	public void load() throws FileNotFoundException, IOException {
+	/*	File initial = new File("");
+		if (initial.exists() && initial.isDirectory()) {
+			fc.setCurrentDirectory(initial);		
+		}*/
+		
 		int returnVal = fc.showOpenDialog(null);
 		if(returnVal == JFileChooser.APPROVE_OPTION	) {
 			currentFile = fc.getSelectedFile();
@@ -298,6 +337,7 @@ public class SimWindow extends JFrame implements Listener {
 			System.out.println("Load cancelled by user.");
 		}
 	}
+
 	
 	public String readFile(File file) throws FileNotFoundException, IOException {
 		Ini read = new Ini ();

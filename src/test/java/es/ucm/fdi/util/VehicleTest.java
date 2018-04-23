@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import es.ucm.fdi.model.simulatedObjects.Junction;
-import es.ucm.fdi.model.simulatedObjects.Road;
-import es.ucm.fdi.model.simulatedObjects.Vehicle;
+import es.ucm.fdi.model.object.Junction;
+import es.ucm.fdi.model.object.Road;
+import es.ucm.fdi.model.object.Vehicle;
 
 public class VehicleTest {
 /*	@Test
