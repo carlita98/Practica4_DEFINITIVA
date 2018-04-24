@@ -14,7 +14,8 @@ import es.ucm.fdi.view.Describable;
 
 public class MostCrowed extends Junction implements Describable{
 	private String type;
-	private Map <Road, IrTime> incomingQueues = new LinkedHashMap<>();         
+	private Map <Road, IrTime> incomingQueues = new LinkedHashMap<>();      
+	
 	public MostCrowed(String id, String type) {
 		super(id);
 		this.type = type;

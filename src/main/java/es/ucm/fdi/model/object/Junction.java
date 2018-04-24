@@ -93,8 +93,6 @@ public class Junction  extends SimulatedObject implements Describable{
 	 */
 	
 	public void moveForward () {
-
-		//Move first car in the queue
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
 			IR ir = currentIR();
 			Vehicle v = ir.queue.peek();
@@ -106,7 +104,6 @@ public class Junction  extends SimulatedObject implements Describable{
 				v.setFaultyTime(v.getFaulty()-1);
 			}
 		}
-		//Update lights
 		updateLights();
 		
 	}
@@ -120,24 +117,35 @@ public class Junction  extends SimulatedObject implements Describable{
 	 * Fill a Map with the Junction data
 	 */
 	protected void fillReportDetails (Map <String, String> out) {
-		
-		String report = "";
+		StringBuilder sb = new StringBuilder();
 		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
-			report += "(" + entry.getKey().getId() + "," ;
-			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) report += "green,";
-			else report += "red,";
-			report += "[";
+			sb.append("(");
+			sb.append(entry.getKey().getId());
+			sb.append(",");
+			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
+				sb.append("green,");
+			}
+			else {
+				sb.append("red,");
+			}
+			sb.append("[");
 			int counter = 0;
 			for (Vehicle v: entry.getValue().queue) {
-				if(counter != entry.getValue().queue.size() -1)report += v.getId() + ",";
-				else report += v.getId();
+				if(counter != entry.getValue().queue.size() -1) {
+					sb.append(v.getId());
+					sb.append(",");
+				}
+				else {
+					sb.append(v.getId());
+				}
 				counter ++;
 			}
-	
-			report += "]),";
+			sb.append("]),");
 		}
-		if (!incomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
-		else out.put("queues", report);
+		if (!incomingRoadList.isEmpty()) {
+			sb.delete(sb.length()-1, sb.length());
+		}
+		out.put("queues", sb.toString());
 	}
 	/**
 	 * Describes the junction to insert it into the interface junction table
@@ -164,8 +172,8 @@ public class Junction  extends SimulatedObject implements Describable{
 			}
 			else {
 				sbRed.append("(");
-				sbRed.append(",red,");
 				sbRed.append(entry.getKey().getId());
+				sbRed.append(",red,");
 				sbRed.append("[");
 				for (Vehicle v: entry.getValue().queue) {
 					sbRed.append(v.getId());

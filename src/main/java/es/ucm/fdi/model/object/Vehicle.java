@@ -156,10 +156,18 @@ public class Vehicle extends SimulatedObject implements Describable {
 		out.put("speed", "" + actualSpeed);
 		out.put("kilometrage", "" + kilometrage);
 		out.put("faulty", "" + faulty);
-		if (!arrived)
-			out.put("location","(" + currentRoad.getId() +","+ roadLocation + ")" );
-		else
+		if (!arrived) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("(");
+			sb.append(currentRoad.getId());
+			sb.append(",");
+			sb.append(roadLocation);
+			sb.append(")");
+			out.put("location", sb.toString());
+		}
+		else{
 			out.put("location", "arrived");
+		}
 	}
 	/**
 	 * Describes the vehicle to insert it into the interface vehicles table
