@@ -7,14 +7,18 @@ import java.util.NoSuchElementException;
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.SimulatorException;
 import es.ucm.fdi.view.Describable;
+
 /**
  * Make a vehicle in the RoadMap faulty
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
+
 public class MakeFaultyVehicleEvent extends Event implements Describable{
+	
 	private ArrayList<String> id = new ArrayList<>();
 	private int duration;
+	
 	/**
 	 * Constructor
 	 * @param time
@@ -26,6 +30,7 @@ public class MakeFaultyVehicleEvent extends Event implements Describable{
 		this.id = id;
 		this.duration = duration;
 	}
+	
 	/**
 	 * Make an existing vehicle in the RoadMap faulty 
 	 */
@@ -39,6 +44,7 @@ public class MakeFaultyVehicleEvent extends Event implements Describable{
 			}
 		}
 	}
+	
 	/**
 	 * Describes the event to insert it into the interface events table
 	 */
@@ -47,14 +53,17 @@ public class MakeFaultyVehicleEvent extends Event implements Describable{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Break Vehicles "+ "[");
 		boolean bucle = false;
+		
 		for(String it: id){
 			sb.append(it);
 			sb.append(",");
 			bucle = true;
 		}
+		
 		if (bucle) {
 			sb.delete(sb.length() - 1, sb.length());
 		}
+		
 		sb.append("]");
 		out.put("Type",sb.toString());
 	}

@@ -7,13 +7,17 @@ import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.SimulatorException;
 import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.view.Describable;
+
 /**
  * Introduce a new Junction in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
+
 public class NewJunctionEvent extends Event implements Describable{
+	
 	protected String id;
+	
 	/**
 	 * Constructor
 	 * @param time
@@ -23,6 +27,7 @@ public class NewJunctionEvent extends Event implements Describable{
 		super(time);
 		this.id = id;
 	}
+	
 	/**
 	 * Introduce a new Junction in the RoadMap
 	 */
@@ -33,6 +38,7 @@ public class NewJunctionEvent extends Event implements Describable{
 			throw new SimulatorException("There has been a problem while adding Junction ", e);
 		}
 	}
+	
 	/**
 	 * Describes the event to insert it into the interface events table
 	 */

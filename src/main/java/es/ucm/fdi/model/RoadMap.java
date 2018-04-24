@@ -6,6 +6,7 @@ import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.model.object.Road;
 import es.ucm.fdi.model.object.SimulatedObject;
 import es.ucm.fdi.model.object.Vehicle;
+
 /**
  * Contains a Map with all the SimulatedObjects, and three list with all the Junctions, Roads and Vehicles
  * @author Carla Martínez
@@ -16,8 +17,6 @@ public class RoadMap {
 	private List <Junction> junctions = new ArrayList<>();
 	private List <Road> roads = new ArrayList<>();
 	private List <Vehicle> vehicles = new ArrayList <>();
-	
-	//Lo utilizaremos en la siguiente práctica
 	private List <Junction> junctionsRO = Collections.unmodifiableList(junctions);
 	private List <Road> roadsRO = Collections.unmodifiableList(roads);
 	private List <Vehicle> vehiclesRO = Collections.unmodifiableList (vehicles);
@@ -25,45 +24,57 @@ public class RoadMap {
 	public List<Junction> getJunctionsRO() {
 		return junctionsRO;
 	}
+	
 	public List<Road> getRoadsRO() {
 		return roadsRO;
 	}
+	
 	public List<Vehicle> getVehiclesRO() {
 		return vehiclesRO;
 	}
+	
 	/**
 	 * Get the Junction with an specific id
 	 * @param id
 	 * @return Junction
 	 */
 	public Junction getJunction (String id){
+		
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Junction){
 			return (Junction) simObjects.get(id);
+		}else{ 
+			throw new NoSuchElementException("A junction with that ID does not exist");
 		}
-		else throw new NoSuchElementException("A junction with that ID does not exist");
 	}
+	
 	/**
 	 * Get the Road with an specific id
 	 * @param id
 	 * @return Road
 	 */
 	public Road getRoad(String id){
+		
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Road){
 			return (Road) simObjects.get(id);
+		}else{
+			throw new NoSuchElementException ("A road with that ID does not exist");
 		}
-		else throw new NoSuchElementException ("A road with that ID does not exist");
 	}
+	
 	/**
 	 * Get the Vehicle with an specific id
 	 * @param id
 	 * @return Vehicle
 	 */
 	public Vehicle getVehicle(String id){
+		
 		if (simObjects.containsKey (id) && simObjects.get(id) instanceof Vehicle){
 			return (Vehicle) simObjects.get(id);
+		}else{
+			throw new NoSuchElementException ("A vehicle with that ID does not exist");
 		}
-		else throw new NoSuchElementException ("A vehicle with that ID does not exist");
 	}
+	
 	/**
 	 * Getter method for junctions
 	 * @return List <Juntion>
@@ -71,6 +82,7 @@ public class RoadMap {
 	public List <Junction> getJunctions (){
 		return junctions;
 	}
+	
 	/**
 	 * Getter method for roads
 	 * @return roads
@@ -78,6 +90,7 @@ public class RoadMap {
 	public List <Road> getRoads(){
 		return roads;
 	}
+	
 	/**
 	 * Getter method for vehicles
 	 * @return vehicles
@@ -85,6 +98,7 @@ public class RoadMap {
 	public List <Vehicle> getVehicles(){
 		return vehicles;
 	}
+
 	/**
 	 * Getter method for simObjects
 	 * @return simOjects
@@ -92,24 +106,27 @@ public class RoadMap {
 	public Map <String, SimulatedObject> getMap (){
 		return simObjects;
 	}
+	
 	/**
 	 * Add a new Junction to simObjects
 	 * @param j
 	 */
 	public void addJunction (Junction j){
+		
 		if (simObjects.containsKey (j.getId())){
 			throw new NoSuchElementException ("This ID already exists in a Junction");
-		}
-		else{
+		}else{
 			junctions.add(j);
 			simObjects.put(j.getId(), j);
 		}
 	}
+	
 	/**
 	 * Add a new Road to simObjects
 	 * @param r
 	 */
 	public void addRoad (Road r){
+		
 		if (simObjects.containsKey (r.getId())){
 			throw new NoSuchElementException ("This ID already exist in a Road");
 		}
@@ -118,15 +135,16 @@ public class RoadMap {
 			simObjects.put(r.getId(), r);
 		}
 	}
+	
 	/**
 	 * Add a new Vehicle to simObjects
 	 * @param v
 	 */
 	public void addVehicle (Vehicle v){
+		
 		if (simObjects.containsKey (v.getId())){
 			throw new NoSuchElementException ("This ID already exist in a Vehicle");
-		}
-		else{
+		}else{
 			vehicles.add(v);
 			simObjects.put(v.getId(), v);
 		}

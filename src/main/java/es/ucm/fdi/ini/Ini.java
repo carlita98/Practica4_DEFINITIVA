@@ -97,16 +97,20 @@ public class Ini {
 				matched = true;
 			} else {
 				Matcher m = _section.matcher(line);
+				
 				if (m.matches()) {
 					section = new IniSection(m.group(1).trim());
+					
 					// if the section name starts with '!' then we ignore it
-					// (still the syntax of its key-value elements must be
-					// valid)
+					// (still the syntax of its key-value elements must be valid)
+					
 					if (!section.getTag().startsWith("!"))
 						_iniSections.add(section);
 					matched = true;
 				} else if (section != null) {
+					
 					m = _keyValue.matcher(line);
+					
 					if (m.matches()) {
 						String key = m.group(1).trim();
 						String value = m.group(2).trim();
@@ -120,7 +124,6 @@ public class Ini {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -165,12 +168,19 @@ public class Ini {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		
+		if (obj == null){
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		
+		if (getClass() != obj.getClass()){
 			return false;
+		}
+		
 		Ini other = (Ini) obj;
 
 		// must have same size
@@ -179,6 +189,7 @@ public class Ini {
 		}
 
 		for (int i = 0; i < this.getSections().size(); i++) {
+			
 			if (!this.getSections().get(i).equals(other.getSections().get(i))) {
 				return false;
 			}
@@ -187,12 +198,13 @@ public class Ini {
 		return true;
 	}
 
-	@Override
 	public String toString() {
 		String s = "";
+		
 		for (IniSection sec : _iniSections) {
 			s += sec + System.lineSeparator();
 		}
+		
 		return s;
 	}
 }

@@ -81,12 +81,14 @@ public class Main {
 				+ " for GUI mode(default value is ’batch’)").build());
 		return cmdLineOptions;
 	}
+	
 	private static void parseModeOption(CommandLine line) {
 		if("gui".equals(line.getOptionValue("m"))) {
 			mode = true;
 		}
 		else mode = false;
 	}
+	
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -117,7 +119,7 @@ public class Main {
 	}
 
 	/**
-	 * This method run the simulator on all files that ends with .ini if the given
+	 * This method run the simulator on all files that ends with.ini if the given
 	 * path, and compares that output to the expected output. It assumes that for
 	 * example "example.ini" the expected output is stored in "example.ini.eout".
 	 * The simulator's output will be stored in "example.ini.out"
@@ -133,23 +135,26 @@ public class Main {
 		}
 		
 		File[] files = dir.listFiles(new FilenameFilter() {
-			@Override
+			
 			public boolean accept(File dir, String name) {
 				return name.endsWith(".ini");
 			}
 		});
 
 		for (File file : files) {
-			test(file.getAbsolutePath(), file.getAbsolutePath() + ".out", file.getAbsolutePath() + ".eout",10);
+			test(file.getAbsolutePath(), file.getAbsolutePath() + ".out", file.getAbsolutePath()
+					+ ".eout",10);
 		}
 
 	}
 
-	private static void test(String inFile, String outFile, String expectedOutFile, int timeLimit) throws IOException {
+	private static void test(String inFile, String outFile, String expectedOutFile, int timeLimit)
+			throws IOException {
 		_outFile = outFile;
 		_inFile = inFile;
 		_timeLimit = timeLimit;
 		startBatchMode();
+		
 		boolean equalOutput = (new Ini(_outFile)).equals(new Ini(expectedOutFile));
 		System.out.println("Result for: '" + _inFile + "' : "
 				+ (equalOutput ? "OK!" : ("not equal to expected output +'" + expectedOutFile + "'")));
@@ -164,15 +169,18 @@ public class Main {
 		InputStream inFile = new FileInputStream(_inFile);
 		OutputStream outFile = _outFile != null ? new FileOutputStream(_outFile) : System.out;
 		Controller control = new Controller (_timeLimit, inFile, outFile);		
+		
 		try{
-			control.controlExecute();
+			control.run();
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
-	private static void startGuiMode() throws IOException, InvocationTargetException, InterruptedException {
+	
+	private static void startGuiMode() 
+			throws IOException, InvocationTargetException, InterruptedException {
 		InputStream inFile;
 		if (_inFile != null) inFile = new FileInputStream(_inFile);
 		else inFile = null;
@@ -182,7 +190,6 @@ public class Main {
 		{ public void run() {try {
 			new SimWindow( control, _inFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}});
 
@@ -190,13 +197,18 @@ public class Main {
 
 	private static void start(String[] args) throws IOException, InvocationTargetException, InterruptedException {
 		parseArgs(args);
-		if(!mode)
+		
+		if(!mode){
 			startBatchMode();
-		else
+		}
+		
+		else{
 			startGuiMode();
+		}
 	}
 
-	public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
+	public static void main(String[] args) 
+			throws IOException, InvocationTargetException, InterruptedException {
 
 		// example command lines:
 		//
@@ -214,9 +226,5 @@ public class Main {
 		// Call start to start the simulator from command line, etc.
 		
 		start(args);
-	//	test("C:\\Users\\Carla Martínez\\eclipse-workspace\\Practica4_DEFINITI\\examples\\basic");
-	
-		//test("15_misc.ini", "15_misc.ini.out", "15_misc.ini.eout", 10);
 	}
-
 }
