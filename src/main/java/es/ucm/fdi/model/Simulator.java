@@ -22,8 +22,9 @@ import es.ucm.fdi.util.MultiTreeMap;
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
+
 public class Simulator {
-	// Ordenada por tiempo
+	
 	private MultiTreeMap<Integer, Event> eventList = new MultiTreeMap<>();
 	private int simulatorTime;
 	private RoadMap roadMap = new RoadMap();
@@ -44,14 +45,15 @@ public class Simulator {
 	public int getSimulatorTime() {
 		return simulatorTime;
 	}
+	
 	public void setSimulatorTime(int i) {
 		simulatorTime = i;
-		
 	}
+	
 	public void setEventList(MultiTreeMap<Integer, Event> l) {
 		eventList = l;
-		
 	}
+	
 	/**
 	 * 
 	 * Constructor
@@ -80,6 +82,7 @@ public class Simulator {
 	 */
 	public void execute(int simulatorSteps, OutputStream file) {
 		int timeLimit = simulatorTime + simulatorSteps - 1;
+		
 		try {
 			while (simulatorTime <= timeLimit) {
 				actualTimeExecute();
@@ -88,16 +91,18 @@ public class Simulator {
 				generateReport(file);
 				fireUpdateEvent(EventType.ADVANCED, null);
 			}
-		} catch (SimulatorException e) {
+			} catch (SimulatorException e) {
+				
 			Exception c = e;
-			System.out.println(c.getMessage() + ".It happened at time: "
-					+ timeLimit + ".");
+			System.out.println(c.getMessage() + ".It happened at time: " + timeLimit + ".");
+			
 			while (c != null) {
 				c = (Exception) c.getCause();
-				if (c != null)
+				if (c != null){
 					System.out.println("Caused by: " + c.getMessage() + ".");
+				}
 			}
-		}
+			}
 	}
 
 	/**
@@ -117,9 +122,11 @@ public class Simulator {
 	 * Call moveForward method for roads and junctions into the RoadMap
 	 */
 	public void moveForward() {
+		
 		for (Road r : roadMap.getRoads()) {
 			r.moveForward();
 		}
+		
 		for (Junction j : roadMap.getJunctions()) {
 			j.moveForward();
 		}
@@ -155,28 +162,38 @@ public class Simulator {
 			for (SimulatedObject j : roadMap.getJunctions()) {
 				j.report(map);
 				map.put("time", "" + simulatorTime);
+				
 				if (output != null) {
 					ini.addsection(changeToIni(map));
 				}
+				
 				map.clear();
 			}
+			
 			for (SimulatedObject r : roadMap.getRoads()) {
 				r.report(map);
 				map.put("time", "" + simulatorTime);
+				
 				if (output != null) {
 					ini.addsection(changeToIni(map));
 				}
+				
 				map.clear();
 			}
+			
 			for (SimulatedObject v : roadMap.getVehicles()) {
 				v.report(map);
 				map.put("time", "" + simulatorTime);
+				
 				if (output != null) {
 					ini.addsection(changeToIni(map));
 				}
+				
 				map.clear();
 			}
+			
 			ini.store(output);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -215,6 +232,7 @@ public class Simulator {
 	public enum EventType {
 		REGISTERED, RESET, NEW_EVENT, ADVANCED;
 	}
+	
 	/**
 	 * Provides the listeners the necessary information of the simulator
 	 *
@@ -242,7 +260,6 @@ public class Simulator {
 		public int getCurrentTime() {
 			return simulatorTime;
 		}
-
 	}
 
 	/**
@@ -252,9 +269,9 @@ public class Simulator {
 	public void addSimulatorListener(Listener l) {
 		listeners.add(l);
 		UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
-		// evita pseudo-recursividad
 		SwingUtilities.invokeLater(() -> l.registered(ue));
 	}
+	
 	/**
 	 * Removes the listener from the simulator list
 	 * @param l
@@ -262,24 +279,30 @@ public class Simulator {
 	public void removeListener(Listener l) {
 		listeners.remove(l);
 	}
+	
 	/**
 	 * Calls the necessary methods from the listeners
 	 * @param type
 	 * @param error
 	 */
-	// uso interno, evita tener que escribir el mismo bucle muchas veces
 	private void fireUpdateEvent(EventType type, String error) {
-		// envia un evento apropiado a todos los listeners
+		
 		UpdateEvent ue = new UpdateEvent(type);
+		
 		if (type == EventType.RESET) {
+			
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.reset(ue));
 			}
+			
 		} else if (type == EventType.NEW_EVENT) {
+			
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.newEvent(ue));
 			}
+			
 		} else if (type == EventType.ADVANCED) {
+			
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.advanced(ue));
 			}

@@ -82,8 +82,9 @@ public class Demo {
 		}
 
 		for (int i = 0; i < ini.length; i++) {
-			for (int j = i + 1; j < ini.length; j++)
+			for (int j = i + 1; j < ini.length; j++){
 				System.out.println("are input" + i + ".ini and input" + j + ".ini equal? " + ini[i].equals(ini[j]));
+			}
 		}
 		System.out.println();
 	}

@@ -5,12 +5,15 @@ import java.util.NoSuchElementException;
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.SimulatorException;
 import es.ucm.fdi.model.object.MostCrowed;
+
 /**
  * Introduce a new MostCrowed in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
+
 public class NewMostCrowedEvent extends NewJunctionEvent{
+	
 	/**
 	 * Constructor
 	 * @param time
@@ -19,6 +22,7 @@ public class NewMostCrowedEvent extends NewJunctionEvent{
 	public NewMostCrowedEvent(int time, String id) {
 		super(time, id);
 	}
+	
 	/**
 	 * Introduce a new MostCrowed in the RoadMap
 	 */
