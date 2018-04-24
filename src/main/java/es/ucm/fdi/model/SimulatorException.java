@@ -6,10 +6,12 @@ package es.ucm.fdi.model;
  */
 @SuppressWarnings("serial")
 public class SimulatorException extends Exception{
+	
 	/**
 	 * Constructor
 	 */
-	public SimulatorException() {	}
+	public SimulatorException() {}
+	
 	/**
 	 * Constructor, its enable the concatenation of Exceptions
 	 * @param s
