@@ -80,7 +80,7 @@ public class Road  extends SimulatedObject implements Describable {
 	 * @param v
 	 */
 	public void popVehicle(Vehicle v){
-		if (!vehicleList.isEmpty())
+		//if (!vehicleList.isEmpty())
 			vehicleList.removeValue(v.getRoadLocation(), v);
 	}
 	/**
@@ -141,7 +141,9 @@ public class Road  extends SimulatedObject implements Describable {
 		else out.put("state", report);
 	}
 
-	@Override
+	/**
+	 * Describes the road to insert it into the interface roads table
+	 */
 	public void describe(Map<String, String> out) {
 		out.put("ID", getId());
 		out.put("Source", "" + getSource().getId());

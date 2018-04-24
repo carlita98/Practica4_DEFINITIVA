@@ -41,7 +41,8 @@ import es.ucm.fdi.ini.Ini;
 import es.ucm.fdi.model.Simulator.Listener;
 import es.ucm.fdi.model.Simulator.UpdateEvent;
 import es.ucm.fdi.model.event.Event;
-import es.ucm.fdi.view.graphlayout.GraphLayout;
+import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.graph.GraphLayout;
 public class SimWindow extends JFrame implements Listener {
 	private Controller ctrl; // la vista usa el controlador 
 	
@@ -49,9 +50,11 @@ public class SimWindow extends JFrame implements Listener {
 	
 	//Escribir informes
 	private ByteArrayOutputStream out; 
+	
 	//Paneles
 	private JPanel supPanel;
 	private JPanel infLeftPanel;
+	private JPanel infRightPanel;
 	private JPanel infPanel;
 	private JSplitPane main;
 	
@@ -97,9 +100,7 @@ public class SimWindow extends JFrame implements Listener {
 		super("Traffic Simulator");    
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		this.ctrl = ctrl;    
-		currentFile = inFileName != null ? new File(inFileName) : null; 
-		//reportsOutputStream = new JTextAreaOutputStream(reportsArea,null); 
-		//ctrl.setOutputStream(reportsOutputStream); // ver sección 8    
+		currentFile = inFileName != null ? new File(inFileName) : null;   
 		initGUI();    
 		ctrl.getSim().addSimulatorListener(this);
 	}
@@ -124,11 +125,17 @@ public class SimWindow extends JFrame implements Listener {
 		infLeftPanel.add(junctionsTable);
 		
 
+		infRightPanel = new JPanel(new BorderLayout());
+		graph  = new GraphLayout(ctrl.getSim().getRoadMap());
+		graph.generateGraph();
+		infRightPanel.add(graph.get_graphComp());
+		
 		infPanel = new JPanel();
 		infPanel.setLayout(new BoxLayout(infPanel, BoxLayout.X_AXIS));
 		infPanel.add(infLeftPanel);
-	//	graph.generateGraph();
-	//	infPanel.add(graph, BorderLayout.CENTER);
+		infPanel.add(infRightPanel);
+		
+		
 		
 		main = new JSplitPane(JSplitPane.VERTICAL_SPLIT,supPanel, infPanel);
 		add(main);	
@@ -183,9 +190,11 @@ public class SimWindow extends JFrame implements Listener {
 				KeyEvent.VK_I, "control I", 
 				()->{
 					try {
+						//Por si te han metido un fichero nuevo al anterior, habrá que hacer reset de todo
+						ctrl.getSim().reset();
 						ctrl.setInputFile(new ByteArrayInputStream(eventsEditor.getText().getBytes()));
 						ctrl.loadEvents();
-					} catch (IOException e) {
+						} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -195,10 +204,7 @@ public class SimWindow extends JFrame implements Listener {
 				"Ejecutar", "play.png", "Ejecutar la simulación",
 				KeyEvent.VK_E, "control E", 
 				()->{
-					//ByteArrayOutputStream report = new ByteArrayOutputStream();
 					ctrl.getSim().execute((Integer)steps.getValue(), out);
-					//reportsArea.setText(out.toString());
-					//.setText(report.toString());
 				});
 		
 		reset = new SimulatorAction(
@@ -328,57 +334,61 @@ public class SimWindow extends JFrame implements Listener {
 
 	private void addVehicleTable () {
 		String []columnas = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
-		vehiclesTable = new TableModelTraffic (columnas,ctrl.getSim().getM().getVehiclesRO());
+		vehiclesTable = new TableModelTraffic (columnas,ctrl.getSim().getRoadMap().getVehiclesRO());
 		vehiclesTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
 	}
 	
 	private void addRoadsTable () {
 		String []columnas = {"ID", "Source", "Target", "Length", "Max Speed", "Vehicles"};
-		roadsTable = new TableModelTraffic (columnas, ctrl.getSim().getM().getRoadsRO());
+		roadsTable = new TableModelTraffic (columnas, ctrl.getSim().getRoadMap().getRoadsRO());
 		roadsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
 	}
 	
 	private void addJunctionsTable () {
 		String []columnas = {"ID", "Green", "Red"};
-		junctionsTable = new TableModelTraffic (columnas, ctrl.getSim().getM().getJunctionsRO());
+		junctionsTable = new TableModelTraffic (columnas, ctrl.getSim().getRoadMap().getJunctionsRO());
 		junctionsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Junctions"));
 	}
-	@Override
+
 	public void registered(UpdateEvent ue) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+
 	public void reset(UpdateEvent ue) {
 		events = ue.getEventQueue();
 		eventsView.setElements(events);
 		eventsView.updated();
-		vehiclesTable.setElements(ctrl.getSim().getM().getVehiclesRO());
+		vehiclesTable.setElements(ctrl.getSim().getRoadMap().getVehiclesRO());
 		vehiclesTable.updated();
-		roadsTable.setElements(ctrl.getSim().getM().getRoadsRO());
+		roadsTable.setElements(ctrl.getSim().getRoadMap().getRoadsRO());
 		roadsTable.updated();
-		junctionsTable.setElements(ctrl.getSim().getM().getJunctionsRO());
+		junctionsTable.setElements(ctrl.getSim().getRoadMap().getJunctionsRO());
 		junctionsTable.updated();
 		time.setText("" +ctrl.getSim().getSimulatorTime());
+		graph.generateGraph();
 	}
 
-	@Override
+
 	public void newEvent(UpdateEvent ue) {
 		events = ue.getEventQueue();
 		eventsView.setElements(events);
 		eventsView.updated();
+		graph.setRm(ctrl.getSim().getRoadMap());
+		graph.generateGraph();
 	}
 
-	@Override
+
 	public void advanced(UpdateEvent ue) {
 		vehiclesTable.updated();
 		roadsTable.updated();
 		junctionsTable.updated();
 		time.setText("" +ctrl.getSim().getSimulatorTime());
+		graph.generateGraph();
 	}
 
-	@Override
+
 	public void error(UpdateEvent ue, String error) {
 		// TODO Auto-generated method stub
 		
@@ -397,6 +407,7 @@ public class SimWindow extends JFrame implements Listener {
 			eventsEditor.setText(readFile(currentFile));  
 			eventsEditor.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), 
 					"Events: " + currentFile.getName()));
+
 		} 
 		else{
 			System.out.println("Load cancelled by user.");
@@ -423,6 +434,5 @@ public class SimWindow extends JFrame implements Listener {
 		Ini read = new Ini ();
 		read.load (new FileInputStream (file));
 		return read.toString();
-	}
-
+	}	
 }

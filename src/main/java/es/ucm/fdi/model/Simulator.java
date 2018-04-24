@@ -26,7 +26,7 @@ public class Simulator {
 	// Ordenada por tiempo
 	private MultiTreeMap<Integer, Event> eventList = new MultiTreeMap<>();
 	private int simulatorTime;
-	private RoadMap m = new RoadMap();
+	private RoadMap roadMap = new RoadMap();
 	private List<Listener> listeners = new ArrayList<>();
 
 	public List<Listener> getListeners() {
@@ -37,14 +37,21 @@ public class Simulator {
 		return eventList;
 	}
 
-	public RoadMap getM() {
-		return m;
+	public RoadMap getRoadMap() {
+		return roadMap;
 	}
 
 	public int getSimulatorTime() {
 		return simulatorTime;
 	}
-
+	public void setSimulatorTime(int i) {
+		simulatorTime = i;
+		
+	}
+	public void setEventList(MultiTreeMap<Integer, Event> l) {
+		eventList = l;
+		
+	}
 	/**
 	 * 
 	 * Constructor
@@ -101,7 +108,7 @@ public class Simulator {
 	public void actualTimeExecute() throws SimulatorException {
 		if (eventList.containsKey(simulatorTime)) {
 			for (Event e : eventList.get(simulatorTime)) {
-				e.execute(m);
+				e.execute(roadMap);
 			}
 		}
 	}
@@ -110,13 +117,12 @@ public class Simulator {
 	 * Call moveForward method for roads and junctions into the RoadMap
 	 */
 	public void moveForward() {
-		for (Road r : m.getRoads()) {
+		for (Road r : roadMap.getRoads()) {
 			r.moveForward();
 		}
-		for (Junction j : m.getJunctions()) {
+		for (Junction j : roadMap.getJunctions()) {
 			j.moveForward();
 		}
-		//fireUpdateEvent(EventType.ADVANCED, null);
 	}
 
 	/**
@@ -146,7 +152,7 @@ public class Simulator {
 			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
 			Ini ini = new Ini();
-			for (SimulatedObject j : m.getJunctions()) {
+			for (SimulatedObject j : roadMap.getJunctions()) {
 				j.report(map);
 				map.put("time", "" + simulatorTime);
 				if (output != null) {
@@ -154,7 +160,7 @@ public class Simulator {
 				}
 				map.clear();
 			}
-			for (SimulatedObject r : m.getRoads()) {
+			for (SimulatedObject r : roadMap.getRoads()) {
 				r.report(map);
 				map.put("time", "" + simulatorTime);
 				if (output != null) {
@@ -162,7 +168,7 @@ public class Simulator {
 				}
 				map.clear();
 			}
-			for (SimulatedObject v : m.getVehicles()) {
+			for (SimulatedObject v : roadMap.getVehicles()) {
 				v.report(map);
 				map.put("time", "" + simulatorTime);
 				if (output != null) {
@@ -176,13 +182,20 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Reset the simulator
+	 */
 	public void reset() {
 		simulatorTime = 0;
-		m = new RoadMap();
+		roadMap = new RoadMap();
 		eventList = new MultiTreeMap<>();
 		fireUpdateEvent(EventType.RESET, null);
 	}
 
+	/**
+	 * Interface implemented by the listeners
+	 *
+	 */
 	public interface Listener {
 		void registered(UpdateEvent ue);
 
@@ -195,10 +208,17 @@ public class Simulator {
 		void error(UpdateEvent ue, String error);
 	}
 
+	/**
+	 * Different type of listeners
+	 *
+	 */
 	public enum EventType {
 		REGISTERED, RESET, NEW_EVENT, ADVANCED;
 	}
-
+	/**
+	 * Provides the listeners the necessary information of the simulator
+	 *
+	 */
 	public class UpdateEvent {
 		EventType type;
 
@@ -212,7 +232,7 @@ public class Simulator {
 		}
 
 		public RoadMap getRoadMap() {
-			return m;
+			return roadMap;
 		}
 
 		public List<Event> getEventQueue() {
@@ -225,17 +245,28 @@ public class Simulator {
 
 	}
 
+	/**
+	 * Adds the listener to the simulator list
+	 * @param l
+	 */
 	public void addSimulatorListener(Listener l) {
 		listeners.add(l);
 		UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
 		// evita pseudo-recursividad
 		SwingUtilities.invokeLater(() -> l.registered(ue));
 	}
-
+	/**
+	 * Removes the listener from the simulator list
+	 * @param l
+	 */
 	public void removeListener(Listener l) {
 		listeners.remove(l);
 	}
-
+	/**
+	 * Calls the necessary methods from the listeners
+	 * @param type
+	 * @param error
+	 */
 	// uso interno, evita tener que escribir el mismo bucle muchas veces
 	private void fireUpdateEvent(EventType type, String error) {
 		// envia un evento apropiado a todos los listeners
@@ -254,4 +285,8 @@ public class Simulator {
 			}
 		}
 	}
+
+	
+
+	
 }

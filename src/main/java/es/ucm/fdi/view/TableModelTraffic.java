@@ -38,21 +38,21 @@ public class TableModelTraffic extends JPanel{
 	}
 	private class ListOfMapsTableModel extends AbstractTableModel {
 
-		@Override
+
 		// fieldNames es un String[] con nombrs de col.
 		public String getColumnName(int columnIndex) {
 			return fieldNames[columnIndex];
 		}
-		@Override
+
 		// elements contiene la lista de elementos
 		public int getRowCount() {
 			return elements.size();
 		}
-		@Override
+
 		public int getColumnCount() {
 			return fieldNames.length;
 		}
-		@Override
+
 		// ineficiente: ¿puedes mejorarlo?
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Map mapa = new HashMap<String, String>();

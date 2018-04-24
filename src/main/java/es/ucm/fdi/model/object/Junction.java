@@ -139,7 +139,9 @@ public class Junction  extends SimulatedObject implements Describable{
 		if (!incomingRoadList.isEmpty())out.put("queues", report.substring(0, report.length()-1));
 		else out.put("queues", report);
 	}
-	@Override
+	/**
+	 * Describes the junction to insert it into the interface junction table
+	 */
 	public void describe(Map<String, String> out) {
 		out.put("ID", getId());
 		StringBuilder sbGreen = new StringBuilder();

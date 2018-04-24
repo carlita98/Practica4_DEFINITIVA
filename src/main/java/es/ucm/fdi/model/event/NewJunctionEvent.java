@@ -33,7 +33,9 @@ public class NewJunctionEvent extends Event implements Describable{
 			throw new SimulatorException("There has been a problem while adding Junction ", e);
 		}
 	}
-	@Override
+	/**
+	 * Describes the event to insert it into the interface events table
+	 */
 	public void describe(Map<String, String> out) {
 		out.put("Time", ""+getTime());
 		out.put("Type", "New Junction "+ id);

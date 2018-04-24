@@ -39,7 +39,9 @@ public class MakeFaultyVehicleEvent extends Event implements Describable{
 			}
 		}
 	}
-	@Override
+	/**
+	 * Describes the event to insert it into the interface events table
+	 */
 	public void describe(Map<String, String> out) {
 		out.put("Time", ""+getTime());
 		StringBuilder sb = new StringBuilder();

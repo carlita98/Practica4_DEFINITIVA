@@ -161,7 +161,9 @@ public class Vehicle extends SimulatedObject implements Describable {
 		else
 			out.put("location", "arrived");
 	}
-	@Override
+	/**
+	 * Describes the vehicle to insert it into the interface vehicles table
+	 */
 	public void describe(Map<String, String> out) {
 		out.put("ID", getId());
 		out.put("Road", ""+getCurrentRoad().getId());
