@@ -133,12 +133,18 @@ public class Road  extends SimulatedObject implements Describable {
 	 * Fill a Map with the Road data
 	 */
 	protected void fillReportDetails (Map <String, String> out) {
-		String report = "";
+		StringBuilder sb = new StringBuilder();
 		for (Vehicle v: vehicleList.innerValues()) {
-			report += "(" + v.getId() + "," + v.getRoadLocation() + "),";
+			sb.append("(");
+			sb.append(v.getId());
+			sb.append(",");
+			sb.append(v.getRoadLocation());
+			sb.append("),");
 		}
-		if (vehicleList.sizeOfValues()!= 0)out.put("state", report.substring(0, report.length()-1));
-		else out.put("state", report);
+		if (vehicleList.sizeOfValues()!= 0) {
+			sb.delete(sb.length() - 1, sb.length());
+		}
+		out.put("state", sb.toString());
 	}
 
 	/**

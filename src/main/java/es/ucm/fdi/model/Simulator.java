@@ -88,7 +88,9 @@ public class Simulator {
 				actualTimeExecute();
 				moveForward();
 				simulatorTime++;
-				generateReport(file);
+				generateReport(file,roadMap.getJunctions());
+				generateReport(file,roadMap.getRoads());
+				generateReport(file,roadMap.getVehicles());
 				fireUpdateEvent(EventType.ADVANCED, null);
 			}
 			} catch (SimulatorException e) {
@@ -154,12 +156,12 @@ public class Simulator {
 	 * 
 	 * @param output
 	 */
-	public void generateReport(OutputStream output) {
+	public void generateReport(OutputStream output, List <? extends SimulatedObject> l) {
 		try {
 			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-
+			
 			Ini ini = new Ini();
-			for (SimulatedObject j : roadMap.getJunctions()) {
+			for (SimulatedObject j : l) {
 				j.report(map);
 				map.put("time", "" + simulatorTime);
 				
@@ -169,36 +171,12 @@ public class Simulator {
 				
 				map.clear();
 			}
-			
-			for (SimulatedObject r : roadMap.getRoads()) {
-				r.report(map);
-				map.put("time", "" + simulatorTime);
-				
-				if (output != null) {
-					ini.addsection(changeToIni(map));
-				}
-				
-				map.clear();
-			}
-			
-			for (SimulatedObject v : roadMap.getVehicles()) {
-				v.report(map);
-				map.put("time", "" + simulatorTime);
-				
-				if (output != null) {
-					ini.addsection(changeToIni(map));
-				}
-				
-				map.clear();
-			}
-			
-			ini.store(output);
+	ini.store(output);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 * Reset the simulator
 	 */
@@ -308,8 +286,5 @@ public class Simulator {
 			}
 		}
 	}
-
-	
-
 	
 }
