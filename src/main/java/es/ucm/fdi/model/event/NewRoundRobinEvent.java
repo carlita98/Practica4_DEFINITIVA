@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.SimulatorException;
-import es.ucm.fdi.model.object.RoundRobin;
+import es.ucm.fdi.model.object.RoundRobinJunction;
 /**
  * Introduce a new RoundRobin in the RoadMap
  * @author Carla Martínez, Beatriz Herguedas
@@ -33,7 +33,7 @@ public class NewRoundRobinEvent extends NewJunctionEvent {
 	
 	public void execute(RoadMap m) throws SimulatorException {
 		try{
-			m.addJunction(new RoundRobin(id, maxTimeSlice, minTimeSlice, "rr"));
+			m.addJunction(new RoundRobinJunction(id, maxTimeSlice, minTimeSlice, "rr"));
 		}catch(NoSuchElementException e){
 			throw new SimulatorException("There has been a problem while adding RoundRobin ", e);
 		}

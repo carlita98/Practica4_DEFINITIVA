@@ -4,13 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -32,6 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -215,7 +214,12 @@ public class SimWindow extends JFrame implements Listener {
 				});
 		
 		steps = new JSpinner();
-		((SpinnerNumberModel)steps.getModel()).setMinimum(0);
+		SpinnerModel model =new SpinnerNumberModel(1, //initial value
+									 	0, //min
+		                               1000000000, //max
+		                               1); 
+		steps.setModel(model);
+		//((SpinnerNumberModel)steps.getModel()).setMinimum(1);
 		steps.setPreferredSize(new Dimension(100,10));
 		stepsLabel = new JLabel(" Steps: ");
 		

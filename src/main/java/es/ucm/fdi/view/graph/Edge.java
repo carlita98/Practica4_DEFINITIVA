@@ -9,13 +9,15 @@ public class Edge {
 	private Node _target;
 	private int _length;
 	private List<Dot> _dots;
+	private boolean _green;
 	
-	public Edge(String id, Node source, Node target, int length) {
+	public Edge(String id, Node source, Node target, int length, boolean green) {
 		_source = source;
 		_target = target;
 		_id = id;
 		_length = length;
 		_dots = new ArrayList<>();
+		_green = green;
 	}
 	
 	public void addDot(Dot e) {
@@ -40,4 +42,13 @@ public class Edge {
 	public List<Dot> getDots() {
 		return _dots;
 	}
+
+	public boolean isGreen() {
+		return _green;
+	}
+
+	public void setGreen(boolean green) {
+		this._green = green;
+	}
+	
 }

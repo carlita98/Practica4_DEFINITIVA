@@ -16,9 +16,14 @@ public class Junction  extends SimulatedObject implements Describable{
 	
 	public class IR{
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
+
+		public ArrayDeque<Vehicle> getQueue() {
+			return queue;
+		}
+		
 	}
 	
-	protected  int currentIncoming;
+	protected  int currentIncoming ;
 	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
 	protected List <Road> incomingRoadList = new ArrayList<>();
 	protected  List <Road> outgoingRoadList = new ArrayList<>();
@@ -62,6 +67,13 @@ public class Junction  extends SimulatedObject implements Describable{
 	}
 	public void setIncomingRoadList(List<Road> incomingRoadList) {
 		this.incomingRoadList = incomingRoadList;
+	}
+	
+	public int getCurrentIncoming() {
+		return currentIncoming;
+	}
+	public void setCurrentIncoming(int currentIncoming) {
+		this.currentIncoming = currentIncoming;
 	}
 	public List<Road> getOutgoingRoadList() {
 		return outgoingRoadList;
