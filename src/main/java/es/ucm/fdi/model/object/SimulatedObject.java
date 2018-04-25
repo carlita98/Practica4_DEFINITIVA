@@ -1,38 +1,47 @@
 package es.ucm.fdi.model.object;
 
 import java.util.Map;
+
 /**
- * Common factor of the  diferrent Objects 
+ * Common factor of the diferrent Objects
+ * 
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
 public abstract class SimulatedObject {
 	protected String id;
 	protected int time;
+
 	public String getId() {
 		return id;
 	}
+
 	/**
 	 * Constructor
+	 * 
 	 * @param id
 	 */
 	public SimulatedObject(String id) {
 		this.id = id;
 	}
+
 	/**
 	 * Fill the Map with the common data of the Simulated Objects
+	 * 
 	 * @param out
 	 */
-	public void report (Map <String, String> out) {
+	public void report(Map<String, String> out) {
 		out.put("", getReportHeader());
 		out.put("id", id);
 		out.put("time", "" + time);
-		fillReportDetails (out);
+		fillReportDetails(out);
 	}
-	protected abstract String getReportHeader();
-	protected abstract void fillReportDetails (Map <String, String> out);
-	public abstract void moveForward();
 
+	protected abstract String getReportHeader();
+
+	protected abstract void fillReportDetails(Map<String, String> out);
+
+	public abstract void moveForward();
 
 	@Override
 	public int hashCode() {
@@ -61,5 +70,5 @@ public abstract class SimulatedObject {
 			return false;
 		return true;
 	}
-	
+
 }

@@ -10,16 +10,18 @@ import es.ucm.fdi.view.Describable;
 
 /**
  * Introduce a new Junction in the RoadMap
+ * 
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
-public class NewJunctionEvent extends Event implements Describable{
-	
+public class NewJunctionEvent extends Event implements Describable {
+
 	protected String id;
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param time
 	 * @param id
 	 */
@@ -27,23 +29,23 @@ public class NewJunctionEvent extends Event implements Describable{
 		super(time);
 		this.id = id;
 	}
-	
+
 	/**
 	 * Introduce a new Junction in the RoadMap
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
-		try{
-			m.addJunction(new Junction( id));
-		}catch(NoSuchElementException e){
+		try {
+			m.addJunction(new Junction(id));
+		} catch (NoSuchElementException e) {
 			throw new SimulatorException("There has been a problem while adding Junction ", e);
 		}
 	}
-	
+
 	/**
 	 * Describes the event to insert it into the interface events table
 	 */
 	public void describe(Map<String, String> out) {
-		out.put("Time", ""+getTime());
-		out.put("Type", "New Junction "+ id);
+		out.put("Time", "" + getTime());
+		out.put("Type", "New Junction " + id);
 	}
-} 
+}

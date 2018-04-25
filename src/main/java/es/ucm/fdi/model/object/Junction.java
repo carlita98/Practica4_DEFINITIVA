@@ -1,4 +1,5 @@
 package es.ucm.fdi.model.object;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -6,81 +7,97 @@ import java.util.List;
 import java.util.Map;
 
 import es.ucm.fdi.view.Describable;
+
 /**
  * All the necessary methods for the Junction
+ * 
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
 
-public class Junction  extends SimulatedObject implements Describable{
-	
-	public class IR{
+public class Junction extends SimulatedObject implements Describable {
+
+	public class IR {
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
 
 		public ArrayDeque<Vehicle> getQueue() {
 			return queue;
 		}
-		
+
 	}
-	
-	protected  int currentIncoming ;
-	private Map <Road, IR> incomingQueues = new LinkedHashMap<>();
-	protected List <Road> incomingRoadList = new ArrayList<>();
-	protected  List <Road> outgoingRoadList = new ArrayList<>();
+
+	protected int currentIncoming;
+	private Map<Road, IR> incomingQueues = new LinkedHashMap<>();
+	protected List<Road> incomingRoadList = new ArrayList<>();
+	protected List<Road> outgoingRoadList = new ArrayList<>();
+
 	/**
 	 * Constructor
+	 * 
 	 * @param id
 	 */
-	public Junction(String id){
+	public Junction(String id) {
 		super(id);
 		this.currentIncoming = incomingQueues.size();
 	}
+
 	/**
 	 * Get the Road with the green traffic light
+	 * 
 	 * @return
 	 */
 	public IR currentIR() {
-		//Devuelve la IR de la carretera que tiene el semáforo en verde
+		// Devuelve la IR de la carretera que tiene el semáforo en verde
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
-	
+
 	public void addOutcoming(Road r) {
-		int n = this.getOutgoingRoadList().size(); 
+		int n = this.getOutgoingRoadList().size();
 		getOutgoingRoadList().add(n, r);
 	}
+
 	public void addIncoming(Road r) {
-		int n = this.getIncomingRoadList().size(); 
+		int n = this.getIncomingRoadList().size();
 		getIncomingRoadList().add(n, r);
 		currentIncoming = incomingQueues.size();
 	}
+
 	public void addInRoadQueue(Road r) {
 		incomingQueues.put(r, new IR());
 	}
+
 	public Map<Road, IR> getRoadQueue() {
 		return incomingQueues;
 	}
+
 	public void setRoadQueue(Map<Road, IR> roadQueue) {
 		incomingQueues = roadQueue;
 	}
+
 	public List<Road> getIncomingRoadList() {
 		return incomingRoadList;
 	}
+
 	public void setIncomingRoadList(List<Road> incomingRoadList) {
 		this.incomingRoadList = incomingRoadList;
 	}
-	
+
 	public int getCurrentIncoming() {
 		return currentIncoming;
 	}
+
 	public void setCurrentIncoming(int currentIncoming) {
 		this.currentIncoming = currentIncoming;
 	}
+
 	public List<Road> getOutgoingRoadList() {
 		return outgoingRoadList;
 	}
+
 	public void setOutgoingRoadList(List<Road> outgoingRoadList) {
 		this.outgoingRoadList = outgoingRoadList;
 	}
+
 	/**
 	 * 
 	 * @param v
@@ -89,76 +106,78 @@ public class Junction  extends SimulatedObject implements Describable{
 		if (!incomingQueues.get(v.getActualRoad()).queue.contains(v))
 			incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
+
 	/**
 	 * Choose the next road with green traffic light
 	 */
 
-	public void updateLights () {
-		try{
+	public void updateLights() {
+		try {
 			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
-		}catch (ArithmeticException e){
+		} catch (ArithmeticException e) {
 			currentIncoming = 0;
 		}
 	}
+
 	/**
 	 * Move the first car in the queue if the traffic light is green
 	 */
-	
-	public void moveForward () {
+
+	public void moveForward() {
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
 			IR ir = currentIR();
 			Vehicle v = ir.queue.peek();
-			if (v.getFaulty() == 0){
+			if (v.getFaulty() == 0) {
 				v.moveToNextRoad();
 				ir.queue.removeFirst();
-			}
-			else {
-				v.setFaultyTime(v.getFaulty()-1);
+			} else {
+				v.setFaultyTime(v.getFaulty() - 1);
 			}
 		}
 		updateLights();
-		
+
 	}
+
 	/**
 	 * Returns Junction IniSection header
 	 */
-	protected  String getReportHeader() {
+	protected String getReportHeader() {
 		return "junction_report";
 	}
+
 	/**
 	 * Fill a Map with the Junction data
 	 */
-	protected void fillReportDetails (Map <String, String> out) {
+	protected void fillReportDetails(Map<String, String> out) {
 		StringBuilder sb = new StringBuilder();
-		for (Map.Entry <Road , IR> entry: incomingQueues.entrySet()){
+		for (Map.Entry<Road, IR> entry : incomingQueues.entrySet()) {
 			sb.append("(");
 			sb.append(entry.getKey().getId());
 			sb.append(",");
-			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
+			if (entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
 				sb.append("green,");
-			}
-			else {
+			} else {
 				sb.append("red,");
 			}
 			sb.append("[");
 			int counter = 0;
-			for (Vehicle v: entry.getValue().queue) {
-				if(counter != entry.getValue().queue.size() -1) {
+			for (Vehicle v : entry.getValue().queue) {
+				if (counter != entry.getValue().queue.size() - 1) {
 					sb.append(v.getId());
 					sb.append(",");
-				}
-				else {
+				} else {
 					sb.append(v.getId());
 				}
-				counter ++;
+				counter++;
 			}
 			sb.append("]),");
 		}
 		if (!incomingRoadList.isEmpty()) {
-			sb.delete(sb.length()-1, sb.length());
+			sb.delete(sb.length() - 1, sb.length());
 		}
 		out.put("queues", sb.toString());
 	}
+
 	/**
 	 * Describes the junction to insert it into the interface junction table
 	 */
@@ -168,26 +187,25 @@ public class Junction  extends SimulatedObject implements Describable{
 		StringBuilder sbRed = new StringBuilder();
 		sbGreen.append("[");
 		sbRed.append("[");
-		for (Map.Entry <Road, IR> entry : incomingQueues.entrySet()) {
-			
-			if(entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
+		for (Map.Entry<Road, IR> entry : incomingQueues.entrySet()) {
+
+			if (entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
 				sbGreen.append("(");
 				sbGreen.append(entry.getKey().getId());
 				sbGreen.append(",green,");
 				sbGreen.append("[");
-				for (Vehicle v: entry.getValue().queue) {
+				for (Vehicle v : entry.getValue().queue) {
 					sbGreen.append(v.getId());
 					sbGreen.append(",");
 				}
 				sbGreen.append("]");
 				sbGreen.append(")");
-			}
-			else {
+			} else {
 				sbRed.append("(");
 				sbRed.append(entry.getKey().getId());
 				sbRed.append(",red,");
 				sbRed.append("[");
-				for (Vehicle v: entry.getValue().queue) {
+				for (Vehicle v : entry.getValue().queue) {
 					sbRed.append(v.getId());
 					sbRed.append(",");
 				}

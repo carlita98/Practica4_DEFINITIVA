@@ -24,7 +24,7 @@ import es.ucm.fdi.util.MultiTreeMap;
  */
 
 public class Simulator {
-	
+
 	private MultiTreeMap<Integer, Event> eventList = new MultiTreeMap<>();
 	private int simulatorTime;
 	private RoadMap roadMap = new RoadMap();
@@ -45,15 +45,15 @@ public class Simulator {
 	public int getSimulatorTime() {
 		return simulatorTime;
 	}
-	
+
 	public void setSimulatorTime(int i) {
 		simulatorTime = i;
 	}
-	
+
 	public void setEventList(MultiTreeMap<Integer, Event> l) {
 		eventList = l;
 	}
-	
+
 	/**
 	 * 
 	 * Constructor
@@ -82,29 +82,32 @@ public class Simulator {
 	 */
 	public void execute(int simulatorSteps, OutputStream file) {
 		int timeLimit = simulatorTime + simulatorSteps - 1;
-		
+
 		try {
 			while (simulatorTime <= timeLimit) {
 				actualTimeExecute();
 				moveForward();
 				simulatorTime++;
-				generateReport(file,roadMap.getJunctions());
-				generateReport(file,roadMap.getRoads());
-				generateReport(file,roadMap.getVehicles());
+				generateReport(file, roadMap.getJunctions());
+				generateReport(file, roadMap.getRoads());
+				generateReport(file, roadMap.getVehicles());
 				fireUpdateEvent(EventType.ADVANCED, null);
 			}
-			} catch (SimulatorException e) {
-				
+		} catch (SimulatorException e) {
+
 			Exception c = e;
-			System.out.println(c.getMessage() + ".It happened at time: " + timeLimit + ".");
-			
+			fireUpdateEvent(EventType.ERROR, c.getMessage() + ".It happened at time: " + timeLimit + ".");
+			// System.out.println(c.getMessage() + ".It happened at time: " + timeLimit +
+			// ".");
+
 			while (c != null) {
 				c = (Exception) c.getCause();
-				if (c != null){
-					System.out.println("Caused by: " + c.getMessage() + ".");
+				if (c != null) {
+					fireUpdateEvent(EventType.ERROR, "Caused by: " + c.getMessage() + ".");
+					// System.out.println("Caused by: " + c.getMessage() + ".");
 				}
 			}
-			}
+		}
 	}
 
 	/**
@@ -124,11 +127,11 @@ public class Simulator {
 	 * Call moveForward method for roads and junctions into the RoadMap
 	 */
 	public void moveForward() {
-		
+
 		for (Road r : roadMap.getRoads()) {
 			r.moveForward();
 		}
-		
+
 		for (Junction j : roadMap.getJunctions()) {
 			j.moveForward();
 		}
@@ -143,7 +146,7 @@ public class Simulator {
 	public IniSection changeToIni(LinkedHashMap<String, String> map) {
 		IniSection s = new IniSection(map.get(""));
 		for (String key : map.keySet()) {
-			if ( ! key.isEmpty()) {
+			if (!key.isEmpty()) {
 				s.setValue(key, map.get(key));
 			}
 		}
@@ -156,27 +159,28 @@ public class Simulator {
 	 * 
 	 * @param output
 	 */
-	public void generateReport(OutputStream output, List <? extends SimulatedObject> l) {
+	public void generateReport(OutputStream output, List<? extends SimulatedObject> l) {
 		try {
 			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-			
+
 			Ini ini = new Ini();
 			for (SimulatedObject j : l) {
 				j.report(map);
 				map.put("time", "" + simulatorTime);
-				
+
 				if (output != null) {
 					ini.addsection(changeToIni(map));
 				}
-				
+
 				map.clear();
 			}
-	ini.store(output);
-			
+			ini.store(output);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Reset the simulator
 	 */
@@ -208,9 +212,9 @@ public class Simulator {
 	 *
 	 */
 	public enum EventType {
-		REGISTERED, RESET, NEW_EVENT, ADVANCED;
+		REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR;
 	}
-	
+
 	/**
 	 * Provides the listeners the necessary information of the simulator
 	 *
@@ -242,6 +246,7 @@ public class Simulator {
 
 	/**
 	 * Adds the listener to the simulator list
+	 * 
 	 * @param l
 	 */
 	public void addSimulatorListener(Listener l) {
@@ -249,42 +254,49 @@ public class Simulator {
 		UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
 		SwingUtilities.invokeLater(() -> l.registered(ue));
 	}
-	
+
 	/**
 	 * Removes the listener from the simulator list
+	 * 
 	 * @param l
 	 */
 	public void removeListener(Listener l) {
 		listeners.remove(l);
 	}
-	
+
 	/**
 	 * Calls the necessary methods from the listeners
+	 * 
 	 * @param type
 	 * @param error
 	 */
-	private void fireUpdateEvent(EventType type, String error) {
-		
+	public void fireUpdateEvent(EventType type, String error) {
+
 		UpdateEvent ue = new UpdateEvent(type);
-		
+
 		if (type == EventType.RESET) {
-			
+
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.reset(ue));
 			}
-			
+
 		} else if (type == EventType.NEW_EVENT) {
-			
+
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.newEvent(ue));
 			}
-			
+
 		} else if (type == EventType.ADVANCED) {
-			
+
 			for (Listener e : listeners) {
 				SwingUtilities.invokeLater(() -> e.advanced(ue));
 			}
+		} else if (type == EventType.ERROR) {
+
+			for (Listener e : listeners) {
+				SwingUtilities.invokeLater(() -> e.error(ue, error));
+			}
 		}
 	}
-	
+
 }
