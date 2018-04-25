@@ -50,6 +50,7 @@ import es.ucm.fdi.model.Simulator.Listener;
 import es.ucm.fdi.model.Simulator.UpdateEvent;
 import es.ucm.fdi.model.event.Event;
 import es.ucm.fdi.util.MultiTreeMap;
+import es.ucm.fdi.view.dialog.MyDialogWindow;
 import es.ucm.fdi.view.graph.GraphLayout;
 
 public class SimWindow extends JFrame implements Listener {
@@ -59,8 +60,7 @@ public class SimWindow extends JFrame implements Listener {
 	private GraphLayout graph;
 
 	private JLabel downLabel;
-	//PopupMenu
-	private PopUpMenu eventsEditor = new PopUpMenu();
+	
 	
 	// Mensajes de error
 	private JOptionPane showError;
@@ -106,7 +106,9 @@ public class SimWindow extends JFrame implements Listener {
 	private File currentFile;
 
 	// Componentes de cada panle
-	//private JTextArea eventsEditor; // editor de eventos
+	//PopupMenu
+	private PopUpMenu eventsEditor = new PopUpMenu();
+	private MyDialogWindow dialog;
 	private JTextArea reportsArea; // zona de informes
 	private TableModelTraffic eventsView; // cola de eventos
 	private TableModelTraffic vehiclesTable; // tabla de vehiculos
@@ -225,7 +227,8 @@ public class SimWindow extends JFrame implements Listener {
 		generateReport = new SimulatorAction(Command.GenerateReport.getName(), "report.png", "Generar informes", KeyEvent.VK_G,
 				"control G", () -> {
 					downLabel.setText(Command.GenerateReport.toString());
-					reportsArea.setText(out.toString());
+					dialog = new MyDialogWindow (ctrl.getSim().getRoadMap(), reportsArea);
+					//reportsArea.setText(out.toString());
 				});
 
 		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), "delete_report.png", "Eliminar informes", KeyEvent.VK_E,
