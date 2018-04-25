@@ -171,7 +171,6 @@ public class Simulator {
 				if (output != null) {
 					ini.addsection(changeToIni(map));
 				}
-
 				map.clear();
 			}
 			ini.store(output);

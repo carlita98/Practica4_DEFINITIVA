@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -61,13 +62,13 @@ public class SimWindow extends JFrame implements Listener {
 
 	private JLabel downLabel;
 	
-	
 	// Mensajes de error
 	private JOptionPane showError;
 
 	// Escribir informes
-	private ByteArrayOutputStream out;
-
+	private OutputStream out = new ByteArrayOutputStream();
+	private OutputStream outReport = new ByteArrayOutputStream();
+	
 	// Paneles
 	private JPanel supPanel;
 	private JPanel infLeftPanel;
@@ -105,7 +106,7 @@ public class SimWindow extends JFrame implements Listener {
 	private JFileChooser fc;
 	private File currentFile;
 
-	// Componentes de cada panle
+	// Componentes de cada panel
 	//PopupMenu
 	private PopUpMenu eventsEditor = new PopUpMenu();
 	private MyDialogWindow dialog;
@@ -166,7 +167,6 @@ public class SimWindow extends JFrame implements Listener {
 		setSize(1000, 1000);
 		setVisible(true);
 		main.setDividerLocation(.33);
-		out = new ByteArrayOutputStream();
 	}
 
 	private void addBar() {
@@ -227,8 +227,8 @@ public class SimWindow extends JFrame implements Listener {
 		generateReport = new SimulatorAction(Command.GenerateReport.getName(), "report.png", "Generar informes", KeyEvent.VK_G,
 				"control G", () -> {
 					downLabel.setText(Command.GenerateReport.toString());
-					dialog = new MyDialogWindow (ctrl.getSim().getRoadMap(), reportsArea);
-					//reportsArea.setText(out.toString());
+					dialog = new MyDialogWindow (ctrl, outReport);
+					reportsArea.setText(outReport.toString());
 				});
 
 		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), "delete_report.png", "Eliminar informes", KeyEvent.VK_E,

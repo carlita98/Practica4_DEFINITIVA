@@ -88,7 +88,9 @@ class DialogWindow extends JDialog {
 		roadPanel.add(new JScrollPane(roadList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
-
+		junctionPanel.add(new JScrollPane(junctionList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		mainPanel.add(buttonsPanel, BorderLayout.PAGE_END);
 
@@ -155,7 +157,7 @@ class DialogWindow extends JDialog {
 	public String[] getSelectedVehicles() {
 		int[] indices = vehicleList.getSelectedIndices();
 		String[] vehicles = new String[indices.length];
-		for(int i=0; i < vehicles.length; i++) {
+		for(int i=0; i < indices.length; i++) {
 			vehicles[i] = vehicleModel.getElementAt(indices[i]);
 		}
 		return vehicles;
@@ -164,7 +166,7 @@ class DialogWindow extends JDialog {
 	public String[] getSelectedRoads() {
 		int[] indices = roadList.getSelectedIndices();
 		String[] roads = new String[indices.length];
-		for(int i=0; i < roads.length; i++) {
+		for(int i=0; i < indices.length; i++) {
 			roads[i] = roadModel.getElementAt(indices[i]);
 		}
 		return roads;
@@ -173,7 +175,7 @@ class DialogWindow extends JDialog {
 	public String[] getSelectedJunctions() {
 		int[] indices = junctionList.getSelectedIndices();
 		String[] junctions = new String[indices.length];
-		for(int i=0; i < junctions.length; i++) {
+		for(int i=0; i < indices.length; i++) {
 			junctions[i] = junctionModel.getElementAt(indices[i]);
 		}
 		return junctions;

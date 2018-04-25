@@ -2,6 +2,8 @@ package es.ucm.fdi.view.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,25 +13,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import es.ucm.fdi.control.Controller;
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.model.object.Road;
+import es.ucm.fdi.model.object.SimulatedObject;
 import es.ucm.fdi.model.object.Vehicle;
 
 public class MyDialogWindow extends JFrame{
 	
-	private RoadMap rm;
+	private Controller ctrl;
 	private DialogWindow dialog;
-	private JTextArea report;
+	private OutputStream out;
 	
 	List<String> vehicles;
 	List<String> roads;
 	List<String> junctions;
 	
-	public MyDialogWindow(RoadMap rm,JTextArea report) {
+	public MyDialogWindow(Controller ctrl, OutputStream out) {
 		super("Generate Reports");
-		this.rm = rm;
-		this.report = report;
+		this.ctrl = ctrl;
+		this.out = out;
 		initGUI();
 	}
 
@@ -40,15 +44,15 @@ public class MyDialogWindow extends JFrame{
 		roads = new ArrayList<>();
 		junctions = new ArrayList<>();
 		
-		for(Vehicle v : rm.getVehicles()){
+		for(Vehicle v : ctrl.getSim().getRoadMap().getVehicles()){
 			vehicles.add(v.getId());
 		}
 		
-		for(Road r : rm.getRoads()){
+		for(Road r : ctrl.getSim().getRoadMap().getRoads()){
 			roads.add(r.getId());
 		}
 		
-		for(Junction j : rm.getJunctions()){
+		for(Junction j : ctrl.getSim().getRoadMap().getJunctions()){
 			junctions.add(j.getId());
 		}
 		
@@ -56,30 +60,22 @@ public class MyDialogWindow extends JFrame{
 		dialog = new DialogWindow(this);
 		dialog.setData(vehicles, roads, junctions);
 		
-		JButton here = new JButton("here");
-		here.addActionListener( new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				int status = dialog.open();
-				if ( status == 0) {
-				} else {
-					for(String v : dialog.getSelectedVehicles()) {
-						report.setText(rm.getVehicle(v).toString());
-					}
-					for(String r : dialog.getSelectedRoads()) {
-						report.setText(rm.getRoad(r).toString());
-					}
-					for(String j : dialog.getSelectedJunctions()) {
-						report.setText(rm.getJunction(j).toString());
-					}
-				}
+		int status = dialog.open();
+		if ( status == 0) {
+		} else {
+			List <SimulatedObject> l = new ArrayList<>();
+			for(String v : dialog.getSelectedVehicles()) {
+				l.add(ctrl.getSim().getRoadMap().getVehicle(v));
 			}
-		});
-		mainPanel.add(here);
-		mainPanel.add(new JLabel("a dialog window is opened and the main window blocks."));
+			for(String r : dialog.getSelectedRoads()) {
+				l.add(ctrl.getSim().getRoadMap().getRoad(r));
+			}
+			for(String j : dialog.getSelectedJunctions()) {
+				l.add(ctrl.getSim().getRoadMap().getJunction(j));
+			}
+			ctrl.getSim().generateReport(out, l);
+		}
 		this.setContentPane(mainPanel);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
-		this.setVisible(true);
 	}
 }
