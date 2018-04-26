@@ -135,7 +135,6 @@ public class Junction extends SimulatedObject implements Describable {
 			}
 		}
 		updateLights();
-
 	}
 
 	/**
@@ -190,27 +189,10 @@ public class Junction extends SimulatedObject implements Describable {
 		for (Map.Entry<Road, IR> entry : incomingQueues.entrySet()) {
 
 			if (entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
-				sbGreen.append("(");
-				sbGreen.append(entry.getKey().getId());
-				sbGreen.append(",green,");
-				sbGreen.append("[");
-				for (Vehicle v : entry.getValue().queue) {
-					sbGreen.append(v.getId());
-					sbGreen.append(",");
-				}
-				sbGreen.append("]");
-				sbGreen.append(")");
-			} else {
-				sbRed.append("(");
-				sbRed.append(entry.getKey().getId());
-				sbRed.append(",red,");
-				sbRed.append("[");
-				for (Vehicle v : entry.getValue().queue) {
-					sbRed.append(v.getId());
-					sbRed.append(",");
-				}
-				sbRed.append("]");
-				sbRed.append(")");
+				sbGreen.append(describeGreenRed("Green", entry));
+			}
+			else {
+				sbRed.append(describeGreenRed("Red", entry));
 			}
 		}
 		sbGreen.append("]");
@@ -219,4 +201,26 @@ public class Junction extends SimulatedObject implements Describable {
 		out.put("Red", sbRed.toString());
 	}
 
+	public StringBuilder describeGreenRed(String color, Map.Entry<Road, IR> entry) {
+		StringBuilder sb= new StringBuilder();
+		sb.append("(");
+		sb.append(entry.getKey().getId());
+		if (color == "Green") {
+			sb.append(",green,");
+		}
+		else {
+			sb.append(",red,");
+		}
+		sb.append("[");
+		for (Vehicle v : entry.getValue().queue) {
+			sb.append(v.getId());
+			sb.append(",");
+		}
+		if (!entry.getValue().queue.isEmpty()) {
+			sb.delete(sb.length() - 1, sb.length());
+		}
+		sb.append("]");
+		sb.append(")");
+		return sb;
+	}
 }
