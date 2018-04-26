@@ -2,16 +2,16 @@ package es.ucm.fdi.view;
 
 public enum Command {
 
-	Load("Abrir", "Abriendo fichero..."),
-	Save("Guardar", "Guardando fichero..."),
-	Clear("Limpiar", "Eliminando zona de eventos..."),
-	Event("Insertar", "Insertando eventos..."),
-	Run("Ejecutar", "Ejecutando la simulación..."),
-	Reset("Reiniciar", "Reiniciando la simulación"),
-	GenerateReport("Generar informes", "Generando informes..."),
-	DeleteReport("Eliminar informes", "Eliminando informes"),
-	SaveReport("Guardar informes", "Guardando informes"),
-	Exit("Salir", "Saliendo...");
+	Load("Abrir", "Opening file..."),
+	Save("Guardar", "Saving file..."),
+	Clear("Limpiar", "Deleting events..."),
+	Event("Insertar", "Inserting events..."),
+	Run("Ejecutar", "Executing the simulation..."),
+	Reset("Reiniciar", "Reset the simulation..."),
+	GenerateReport("Generar informes", "Generating report..."),
+	DeleteReport("Eliminar informes", "Deleting report..."),
+	SaveReport("Guardar informes", "Saving report..."),
+	Exit("Salir", "Coming out...");
 	
 	private String name;
 	private String text;
