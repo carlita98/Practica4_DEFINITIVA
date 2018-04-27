@@ -9,8 +9,9 @@ public class MostCrowdedJunction extends JunctionWithTimeSlice {
 	public MostCrowdedJunction(String id, String string) {
 		super(id, string);
 	}
+
 	public void addInRoadQueue(Road r) {
-		incomingQueues.put(r, new IRWithTimeSlice());
+		incomingQueues.put(r, new IRWithTimeSlice(1, -1));
 	}
 
 	public void updatedLights() {
@@ -19,7 +20,6 @@ public class MostCrowdedJunction extends JunctionWithTimeSlice {
 			ir.timeUnits = 0;
 			int max = -1;
 			int BefCurrentIncoming = currentIncoming;
-			// We know there is a problem in this method but we cant find it
 			for (Entry<Road, IRWithTimeSlice> entry : incomingQueues.entrySet()) {
 				if (max < entry.getValue().queue.size()
 						&& incomingRoadList.indexOf(entry.getKey()) != BefCurrentIncoming) {
@@ -27,8 +27,12 @@ public class MostCrowdedJunction extends JunctionWithTimeSlice {
 					currentIncoming = incomingRoadList.indexOf(entry.getKey());
 				}
 			}
-			IRWithTimeSlice irUpdate = currentIR();
-			irUpdate.timeInterval = Math.max(max / 2, 1);
+			currentIR().timeInterval = Math.max(max / 2, 1);
 		}
+		/*
+		 * if (ir.timeUnits == -1) { int max =
+		 * incomingQueues.get(incomingRoadList.get(0)).getQueue().size();
+		 * ir.timeInterval = Math.max(max / 2, 1); }
+		 */
 	}
 }

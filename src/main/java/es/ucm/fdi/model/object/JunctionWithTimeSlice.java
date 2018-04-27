@@ -26,16 +26,16 @@ public class JunctionWithTimeSlice extends Junction {
 
 	public class IRWithTimeSlice extends IR {
 		int timeInterval;
-		int timeUnits = -1;
+		int timeUnits;
 
-		
 		public IRWithTimeSlice() {
 			super();
 		}
 
-		public IRWithTimeSlice(int timeInterval) {
+		public IRWithTimeSlice(int timeInterval, int timeUnits) {
 			super();
 			this.timeInterval = timeInterval;
+			this.timeUnits = timeUnits;
 		}
 
 		public int getTimeInterval() {
@@ -60,13 +60,13 @@ public class JunctionWithTimeSlice extends Junction {
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
 
-	public void updatedLights() {}
-	
+	public void updatedLights() {
+	}
+
 	public void moveForward() {
 		IRWithTimeSlice ir = currentIR();
-		// Move first car in the queue
+		// Moves first car in the queue
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
-
 			Vehicle v = ir.queue.peek();
 			if (v.getFaulty() == 0) {
 				v.moveToNextRoad();
@@ -74,12 +74,10 @@ public class JunctionWithTimeSlice extends Junction {
 			} else {
 				v.setFaultyTime(v.getFaulty() - 1);
 			}
-			
 		}
-		ir.timeUnits++;
 		// Update lights
+		ir.timeUnits++;
 		updatedLights();
-
 	}
 
 	protected void fillReportDetails(Map<String, String> out) {

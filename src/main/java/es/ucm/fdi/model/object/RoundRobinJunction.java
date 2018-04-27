@@ -16,7 +16,7 @@ public class RoundRobinJunction extends JunctionWithTimeSlice {
 	}
 	
 	public void addInRoadQueue(Road r) {
-		incomingQueues.put(r, new IRWithTimeSlice(maxTimeSlice));
+		incomingQueues.put(r, new IRWithTimeSlice(maxTimeSlice, -1));
 	}
 
 	public void updatedLights() {
