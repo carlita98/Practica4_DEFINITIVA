@@ -2,13 +2,18 @@ package es.ucm.fdi.model.object;
 
 import java.util.Map.Entry;
 
+import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
+
 public class MostCrowdedJunction extends JunctionWithTimeSlice {
 
 	public MostCrowdedJunction(String id, String string) {
 		super(id, string);
 	}
+	public void addInRoadQueue(Road r) {
+		incomingQueues.put(r, new IRWithTimeSlice());
+	}
 
-	public void updateLights() {
+	public void updatedLights() {
 		IRWithTimeSlice ir = currentIR();
 		if (ir.timeInterval == ir.timeUnits) {
 			ir.timeUnits = 0;

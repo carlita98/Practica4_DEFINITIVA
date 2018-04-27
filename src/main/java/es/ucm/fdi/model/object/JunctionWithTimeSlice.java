@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
+
 public class JunctionWithTimeSlice extends Junction {
 
 	protected String type;
@@ -24,7 +26,17 @@ public class JunctionWithTimeSlice extends Junction {
 
 	public class IRWithTimeSlice extends IR {
 		int timeInterval;
-		int timeUnits;
+		int timeUnits = -1;
+
+		
+		public IRWithTimeSlice() {
+			super();
+		}
+
+		public IRWithTimeSlice(int timeInterval) {
+			super();
+			this.timeInterval = timeInterval;
+		}
 
 		public int getTimeInterval() {
 			return timeInterval;
@@ -48,31 +60,25 @@ public class JunctionWithTimeSlice extends Junction {
 		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
 
-	public void addInRoadQueue(Road r) {
-		incomingQueues.put(r, new IRWithTimeSlice());
-	}
-
-	public void updateLights() {
-	}
-
+	public void updatedLights() {}
+	
 	public void moveForward() {
-
+		IRWithTimeSlice ir = currentIR();
 		// Move first car in the queue
 		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
-			IRWithTimeSlice ir = currentIR();
+
 			Vehicle v = ir.queue.peek();
 			if (v.getFaulty() == 0) {
 				v.moveToNextRoad();
 				ir.queue.removeFirst();
-				ir.timeUnits++;
 			} else {
-				ir.timeUnits++;
 				v.setFaultyTime(v.getFaulty() - 1);
 			}
+			
 		}
-
+		ir.timeUnits++;
 		// Update lights
-		updateLights();
+		updatedLights();
 
 	}
 

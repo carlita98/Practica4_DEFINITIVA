@@ -1,5 +1,9 @@
 package es.ucm.fdi.model.object;
 
+import java.util.Map.Entry;
+
+import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
+
 public class RoundRobinJunction extends JunctionWithTimeSlice {
 
 	private int maxTimeSlice;
@@ -10,8 +14,12 @@ public class RoundRobinJunction extends JunctionWithTimeSlice {
 		this.maxTimeSlice = maxTimeSlice;
 		this.minTimeSlice = minTimeSlice;
 	}
+	
+	public void addInRoadQueue(Road r) {
+		incomingQueues.put(r, new IRWithTimeSlice(maxTimeSlice));
+	}
 
-	public void updateLights() {
+	public void updatedLights() {
 		IRWithTimeSlice ir = currentIR();
 		if (ir.timeInterval == ir.timeUnits) {
 			if (numVehicles(ir) >= ir.timeUnits) {
