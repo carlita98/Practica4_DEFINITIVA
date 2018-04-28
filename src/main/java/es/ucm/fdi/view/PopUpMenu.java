@@ -12,10 +12,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
+
+/**
+ * Class that creates the PopMenu 
+ * @author Carla Martínez, Beatriz Herguedas
+ *
+ */
 public class PopUpMenu{
 
 	private JPanel _mainPanel = new JPanel();
 	private JTextArea _editor;
+	/**
+	 * Internal enum that contains, the label of the different parts of the PopUpMenu and 
+	 * the string with the templates for every event.
+	 * @author Carla Martínez, Beatriz Herguedas
+	 *
+	 */
 	private enum Template { 
 		NewRRJunction("Add New RR Junction", "[new_junction]\ntime = \nid = \ntype = rr\nmax_time_slice = \nmin_time_slice = \n\n"),
 		NewMCJunction("Add New MC Junction","[new_junction]\ntime = \nid = \ntype = mc\n\n"),
@@ -54,16 +66,18 @@ public class PopUpMenu{
 	public PopUpMenu() {
 		addEditor();
 	}
-	
+	/**
+	 * Add the textArea and the menu to the mainPanel
+	 */
 	private void addEditor() {
 		_mainPanel.add(new JLabel("Right click over the text-area to get the popup menu."),BorderLayout.PAGE_START);
 		_editor = new JTextArea(40,30);
+		
+		//Creates and add the actions to the PopUpMenu
 		JPopupMenu _editorPopupMenu = new JPopupMenu();
 		
 		JMenuItem exitOption = new JMenuItem("Exit");
 		exitOption.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
@@ -71,8 +85,6 @@ public class PopUpMenu{
 
 		JMenuItem clearOption = new JMenuItem("Clear");
 		clearOption.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				_editor.setText("");
 			}
@@ -81,6 +93,7 @@ public class PopUpMenu{
 		
 		JMenu subMenu = new JMenu("Add Template");
 		
+		//Creates a Template Array 
 		Template[]  templates = {
 				Template.NewRRJunction,
 				Template.NewMCJunction,
@@ -93,11 +106,10 @@ public class PopUpMenu{
 				Template.NewVehicle,
 				Template.MakeVehicleFaulty};
 		
+		//Writes in the editor the selected template
 		for (Template t : templates) {
 			JMenuItem menuItem = new JMenuItem(t.getOption());
 			menuItem.addActionListener(new ActionListener() {
-
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					_editor.insert(t.toString(), _editor.getCaretPosition());
 				}
@@ -109,6 +121,7 @@ public class PopUpMenu{
 		_editorPopupMenu.add(exitOption);
 		_editorPopupMenu.add(clearOption);
 		
+		//Add MouseListener to the editor
 		_editor.addMouseListener(new MouseListener() {
 			public void mousePressed(MouseEvent e) {
 				showPopup(e);

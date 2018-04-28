@@ -1,5 +1,10 @@
 package es.ucm.fdi.view;
-
+/**
+ * An enum type that contains the name and the message that will be shown
+ * when the client uses the interface
+ * @author Carla Martínez, Beatriz Herguedas
+ *
+ */
 public enum Command {
 
 	Load("Abrir", "Opening file..."),

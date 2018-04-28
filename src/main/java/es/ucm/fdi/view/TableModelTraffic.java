@@ -9,7 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-
+/**
+ * Class that describes the interface tables
+ * @author Carla Martínez y Beatriz Herguedas
+ *
+ */
 public class TableModelTraffic extends JPanel {
 	private ListOfMapsTableModel tablemodel;
 	private JTable table;
@@ -33,6 +37,11 @@ public class TableModelTraffic extends JPanel {
 		tablemodel.updated();
 	}
 
+	/**
+	 * Internal class, describes the model for the interface tables
+	 * @author Carla Martínez y Beatriz Herguedas
+	 *
+	 */
 	private class ListOfMapsTableModel extends AbstractTableModel {
 
 		// fieldNames es un String[] con nombrs de col.
@@ -49,7 +58,6 @@ public class TableModelTraffic extends JPanel {
 			return fieldNames.length;
 		}
 
-		// ineficiente: ¿puedes mejorarlo?
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Map mapa = new HashMap<String, String>();
 			elements.get(rowIndex).describe(mapa);

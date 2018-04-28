@@ -17,19 +17,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
-
+/**
+ * Creates a DialogWindow that will be used as an atribute in MyDialogWindow
+ * @author Carla Martínez y Beatriz Herguedas
+ *
+ */
 class DialogWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private MyListModel<String> vehicleModel;
-	private MyListModel<String> roadModel;
-	private MyListModel<String> junctionModel;
+	private MyListModel<String> vehicleModel = new MyListModel<>();
+	private MyListModel<String> roadModel = new MyListModel<>();
+	private MyListModel<String> junctionModel = new MyListModel<>();
 
 	private int _status;
-	private JList<String> vehicleList;
-	private JList<String> roadList;
-	private JList<String> junctionList;
+	private JList<String> vehicleList = new JList<>(vehicleModel);
+	private JList<String> roadList = new JList<>(roadModel);
+	private JList<String> junctionList = new JList<>(junctionModel);
 
 	static final private char _clearSelectionKey = 'c';
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
@@ -39,6 +43,9 @@ class DialogWindow extends JDialog {
 		initGUI();
 	}
 
+	/**
+	 * Creates and initialize the Dialog
+	 */
 	private void initGUI() {
 
 		_status = 0;
@@ -68,16 +75,7 @@ class DialogWindow extends JDialog {
 		vehiclePanel.setMinimumSize(new Dimension(100, 100));
 		roadPanel.setMinimumSize(new Dimension(100, 100));
 		junctionPanel.setMinimumSize(new Dimension(100, 100));
-
-		vehicleModel= new MyListModel<>();
-		roadModel = new MyListModel<>();
-		junctionModel = new MyListModel<>();
-
-		vehicleList = new JList<>(vehicleModel);
-		roadList = new JList<>(roadModel);
-		junctionList = new JList<>(junctionModel);
-
-
+		
 		addCleanSelectionListner(vehicleList);
 		addCleanSelectionListner(roadList);
 		addCleanSelectionListner(junctionList);

@@ -11,16 +11,21 @@ import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.model.object.Road;
 import es.ucm.fdi.model.object.SimulatedObject;
 import es.ucm.fdi.model.object.Vehicle;
-
+/**
+ * Class that creates the dialog Window (in witch we can choose, 
+ * witch report to write in the reportArea)
+ * @author Carla Martínez y Beatriz Herguedas
+ *
+ */
 public class MyDialogWindow extends JFrame{
 	
 	private Controller ctrl;
 	private DialogWindow dialog;
 	private OutputStream out;
 	
-	List<String> vehicles;
-	List<String> roads;
-	List<String> junctions;
+	List<String> vehicles = new ArrayList<>();;
+	List<String> roads = new ArrayList<>();;
+	List<String> junctions = new ArrayList<>();;
 	
 	public MyDialogWindow(Controller ctrl, OutputStream out) {
 		super("Generate Reports");
@@ -28,14 +33,13 @@ public class MyDialogWindow extends JFrame{
 		this.out = out;
 		initGUI();
 	}
-
-
+	
+	/**
+	 * Create and initialize the dialog of MyDialogWindow
+	 */
 	private void initGUI(){
 		
-		vehicles = new ArrayList<>();
-		roads = new ArrayList<>();
-		junctions = new ArrayList<>();
-		
+		//Fill the three arrays with the objects id
 		for(Vehicle v : ctrl.getSim().getRoadMap().getVehicles()){
 			vehicles.add(v.getId());
 		}
@@ -54,7 +58,9 @@ public class MyDialogWindow extends JFrame{
 		
 		int status = dialog.open();
 		if ( status == 0) {
-		} else {
+		} 
+		//Add the selected objects into a List <SimulatedObject>
+		else {
 			List <SimulatedObject> l = new ArrayList<>();
 			for(String v : dialog.getSelectedVehicles()) {
 				l.add(ctrl.getSim().getRoadMap().getVehicle(v));
@@ -65,6 +71,7 @@ public class MyDialogWindow extends JFrame{
 			for(String j : dialog.getSelectedJunctions()) {
 				l.add(ctrl.getSim().getRoadMap().getJunction(j));
 			}
+			//Generate report of the chosen list of SimulatedObject
 			ctrl.getSim().generateReport(out, l);
 		}
 		this.setContentPane(mainPanel);
