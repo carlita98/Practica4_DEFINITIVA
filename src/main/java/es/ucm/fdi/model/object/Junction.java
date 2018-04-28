@@ -16,40 +16,18 @@ import es.ucm.fdi.view.Describable;
  */
 
 public class Junction extends SimulatedObject implements Describable {
-        
-        private final String HEADER = "junction_report";
-        
-	protected class IncomingRoad {
-            
+
+	public class IR {
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
 
 		public ArrayDeque<Vehicle> getQueue() {
 			return queue;
 		}
-            
-                public int getNumberOfVehicles(){
-                    return queue.size();
-                }
-            public boolean moveForward() {
-                boolean moved = false;
-                if (!queue.isEmpty()) {
-                    Vehicle v = queue.peek();
-                    if (v.getFaulty() == 0) {
-                        moved = true;
-                        v.moveToNextRoad();
-                        queue.removeFirst();
-                    } else {
-                        v.setFaultyTime(v.getFaulty() - 1);
-                    }
-                }
-                return moved;
-            }
-
 
 	}
 
-	protected int currentIncoming = 0;
-	private Map<Road, IncomingRoad> incomingMap = new LinkedHashMap<>();
+	protected int currentIncoming;
+	private Map<Road, IR> incomingQueues = new LinkedHashMap<>();
 	protected List<Road> incomingRoadList = new ArrayList<>();
 	protected List<Road> outgoingRoadList = new ArrayList<>();
 
@@ -60,16 +38,17 @@ public class Junction extends SimulatedObject implements Describable {
 	 */
 	public Junction(String id) {
 		super(id);
+		this.currentIncoming = incomingQueues.size();
 	}
-        
+
 	/**
 	 * Get the Road with the green traffic light
 	 * 
 	 * @return
 	 */
-	public IncomingRoad currentIR() {
-		// Devuelve la IncomingRoad de la carretera que tiene el semáforo en verde
-		return incomingMap.get(incomingRoadList.get(currentIncoming));
+	public IR currentIR() {
+		// Devuelve la IR de la carretera que tiene el semáforo en verde
+		return incomingQueues.get(incomingRoadList.get(currentIncoming));
 	}
 
 	public void addOutcoming(Road r) {
@@ -78,20 +57,21 @@ public class Junction extends SimulatedObject implements Describable {
 	}
 
 	public void addIncoming(Road r) {
-		incomingRoadList.add(outgoingRoadList.size(), r);
-                currentIncoming = incomingMap.size();
+		int n = this.getIncomingRoadList().size();
+		getIncomingRoadList().add(n, r);
+		currentIncoming = incomingQueues.size();
 	}
 
 	public void addInRoadQueue(Road r) {
-		incomingMap.put(r, new IncomingRoad());
+		incomingQueues.put(r, new IR());
 	}
 
-	public Map<Road, IncomingRoad> getIncomingMap() {
-		return incomingMap;
+	public Map<Road, IR> getRoadQueue() {
+		return incomingQueues;
 	}
 
-	public void setIncomingMap(Map<Road, IncomingRoad> newMap) {
-		incomingMap = newMap;
+	public void setRoadQueue(Map<Road, IR> roadQueue) {
+		incomingQueues = roadQueue;
 	}
 
 	public List<Road> getIncomingRoadList() {
@@ -123,15 +103,15 @@ public class Junction extends SimulatedObject implements Describable {
 	 * @param v
 	 */
 	public void carIntoIR(Vehicle v) {
-		if (!incomingMap.get(v.getActualRoad()).queue.contains(v))
-			incomingMap.get(v.getActualRoad()).queue.addLast(v);
+		if (!incomingQueues.get(v.getActualRoad()).queue.contains(v))
+			incomingQueues.get(v.getActualRoad()).queue.addLast(v);
 	}
 
 	/**
 	 * Choose the next road with green traffic light
 	 */
 
-	public void switchLights() {
+	public void updateLights() {
 		try {
 			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
 		} catch (ArithmeticException e) {
@@ -142,27 +122,34 @@ public class Junction extends SimulatedObject implements Describable {
 	/**
 	 * Move the first car in the queue if the traffic light is green
 	 */
-    public void moveForward() {
-        if(!incomingRoadList.isEmpty()){
-            incomingMap.get(incomingRoadList.get(currentIncoming)).moveForward();
-            switchLights();
-            }
-    }
-   
+
+	public void moveForward() {
+		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
+			IR ir = currentIR();
+			Vehicle v = ir.queue.peek();
+			if (v.getFaulty() == 0) {
+				v.moveToNextRoad();
+				ir.queue.removeFirst();
+			} else {
+				v.setFaultyTime(v.getFaulty() - 1);
+			}
+		}
+		updateLights();
+	}
 
 	/**
 	 * Returns Junction IniSection header
 	 */
 	protected String getReportHeader() {
-		return HEADER;
-           }
+		return "junction_report";
+	}
 
 	/**
 	 * Fill a Map with the Junction data
 	 */
 	protected void fillReportDetails(Map<String, String> out) {
 		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<Road, IncomingRoad> entry : incomingMap.entrySet()) {
+		for (Map.Entry<Road, IR> entry : incomingQueues.entrySet()) {
 			sb.append("(");
 			sb.append(entry.getKey().getId());
 			sb.append(",");
@@ -199,7 +186,7 @@ public class Junction extends SimulatedObject implements Describable {
 		StringBuilder sbRed = new StringBuilder();
 		sbGreen.append("[");
 		sbRed.append("[");
-		for (Map.Entry<Road, IncomingRoad> entry : incomingMap.entrySet()) {
+		for (Map.Entry<Road, IR> entry : incomingQueues.entrySet()) {
 
 			if (entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
 				sbGreen.append(describeGreenRed("Green", entry));
@@ -214,7 +201,7 @@ public class Junction extends SimulatedObject implements Describable {
 		out.put("Red", sbRed.toString());
 	}
 
-	public StringBuilder describeGreenRed(String color, Map.Entry<Road, IncomingRoad> entry) {
+	public StringBuilder describeGreenRed(String color, Map.Entry<Road, IR> entry) {
 		StringBuilder sb= new StringBuilder();
 		sb.append("(");
 		sb.append(entry.getKey().getId());

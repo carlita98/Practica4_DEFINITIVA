@@ -33,10 +33,8 @@ public class FullTest {
     public void testAdvanced() throws Exception {
         runTests("advanced", false);
     }
-    
-   /* @Test
+    @Test
     public void testError() throws Exception {
         runTests("err", true);
     }
-*/
 }

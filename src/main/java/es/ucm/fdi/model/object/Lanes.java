@@ -68,7 +68,7 @@ public class Lanes extends Road implements Describable {
 	 * Fill a Map with the HighWay data
 	 */
 	protected void fillReportDetails(Map<String, String> out) {
-                   out.put("type", type);
+		out.put("type", type);
 		super.fillReportDetails(out);
 	}
 }

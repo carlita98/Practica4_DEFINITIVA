@@ -11,297 +11,291 @@ import javax.swing.SwingUtilities;
 import es.ucm.fdi.ini.Ini;
 import es.ucm.fdi.ini.IniSection;
 import es.ucm.fdi.model.event.Event;
+import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.model.object.Road;
 import es.ucm.fdi.model.object.SimulatedObject;
 import es.ucm.fdi.util.MultiTreeMap;
 
 /**
  * The main class, it controls the performance of the TrafficSimulator
- *
+ * 
  * @author Carla Martínez, Beatriz Herguedas
  *
  */
+
 public class Simulator {
 
-    private MultiTreeMap<Integer, Event> eventList = new MultiTreeMap<>();
-    private int simulatorTime;
-    private RoadMap roadMap = new RoadMap();
-    private List<Listener> listeners = new ArrayList<>();
+	private MultiTreeMap<Integer, Event> eventList = new MultiTreeMap<>();
+	private int simulatorTime;
+	private RoadMap roadMap = new RoadMap();
+	private List<Listener> listeners = new ArrayList<>();
 
-    public List<Listener> getListeners() {
-        return listeners;
-    }
+	public List<Listener> getListeners() {
+		return listeners;
+	}
 
-    public MultiTreeMap<Integer, Event> getEventList() {
-        return eventList;
-    }
+	public MultiTreeMap<Integer, Event> getEventList() {
+		return eventList;
+	}
 
-    public RoadMap getRoadMap() {
-        return roadMap;
-    }
+	public RoadMap getRoadMap() {
+		return roadMap;
+	}
 
-    public int getSimulatorTime() {
-        return simulatorTime;
-    }
+	public int getSimulatorTime() {
+		return simulatorTime;
+	}
 
-    public void setSimulatorTime(int i) {
-        simulatorTime = i;
-    }
+	public void setSimulatorTime(int i) {
+		simulatorTime = i;
+	}
 
-    public void setEventList(MultiTreeMap<Integer, Event> l) {
-        eventList = l;
-    }
+	public void setEventList(MultiTreeMap<Integer, Event> l) {
+		eventList = l;
+	}
 
-    /**
-     *
-     * Constructor
-     */
-    public Simulator() {
-        simulatorTime = 0;
-    }
+	/**
+	 * 
+	 * Constructor
+	 */
+	public Simulator() {
+		simulatorTime = 0;
+	}
 
-    /**
-     * Inserts a new Event into the eventList
-     *
-     * @param e
-     */
-    public void insertEvent(Event e) {
-        if (e.getTime() >= simulatorTime) {
-            eventList.putValue(e.getTime(), e);
-            fireUpdateEvent(EventType.NEW_EVENT, null);
-        }
-    }
+	/**
+	 * Inserts a new Event into the eventList
+	 * 
+	 * @param e
+	 */
+	public void insertEvent(Event e) {
+		if (e.getTime() >= simulatorTime) {
+			eventList.putValue(e.getTime(), e);
+			fireUpdateEvent(EventType.NEW_EVENT, null);
+		}
+	}
 
-    /**
-     * Execute the simulation and threats the Exception
-     *
-     * @param simulatorSteps
-     * @param file
-     */
-    public void execute(int simulatorSteps, OutputStream file) {
-        int timeLimit = simulatorTime + simulatorSteps - 1;
+	/**
+	 * Execute the simulation and threats the Exception
+	 * 
+	 * @param simulatorSteps
+	 * @param file
+	 */
+	public void execute(int simulatorSteps, OutputStream file) {
+		int timeLimit = simulatorTime + simulatorSteps - 1;
 
-        try {
-            while (simulatorTime <= timeLimit) {
-                actualTimeExecute();
-                moveForward();
-                simulatorTime++;
-                generateReport(file, roadMap.getJunctions());
-                generateReport(file, roadMap.getRoads());
-                generateReport(file, roadMap.getVehicles());
-                fireUpdateEvent(EventType.ADVANCED, null);
-            }
-        } catch (SimulatorException e) {
+		try {
+			while (simulatorTime <= timeLimit) {
+				actualTimeExecute();
+				moveForward();
+				simulatorTime++;
+				generateReport(file, roadMap.getJunctions());
+				generateReport(file, roadMap.getRoads());
+				generateReport(file, roadMap.getVehicles());
+				fireUpdateEvent(EventType.ADVANCED, null);
+			}
+		} catch (SimulatorException e) {
 
-            Exception c = e;
-            fireUpdateEvent(EventType.ERROR, c.getMessage() + ".It happened at time: " + timeLimit + ".");
-            // System.out.println(c.getMessage() + ".It happened at time: " + timeLimit +
-            // ".");
+			Exception c = e;
+			fireUpdateEvent(EventType.ERROR, c.getMessage() + ".It happened at time: " + timeLimit + ".");
+			// System.out.println(c.getMessage() + ".It happened at time: " + timeLimit +
+			// ".");
 
-            while (c != null) {
-                c = (Exception) c.getCause();
-                if (c != null) {
-                    fireUpdateEvent(EventType.ERROR, "Caused by: " + c.getMessage() + ".");
-                    // System.out.println("Caused by: " + c.getMessage() + ".");
-                }
-            }
-        }
-    }
+			while (c != null) {
+				c = (Exception) c.getCause();
+				if (c != null) {
+					fireUpdateEvent(EventType.ERROR, "Caused by: " + c.getMessage() + ".");
+					// System.out.println("Caused by: " + c.getMessage() + ".");
+				}
+			}
+		}
+	}
 
-    /**
-     * Execute the corresponding events to that time
-     *
-     * @throws SimulatorException
-     */
-    public void actualTimeExecute() throws SimulatorException {
-        if (eventList.containsKey(simulatorTime)) {
-            for (Event e : eventList.get(simulatorTime)) {
-                e.execute(roadMap);
-            }
-        }
-    }
+	/**
+	 * Execute the corresponding events to that time
+	 * 
+	 * @throws SimulatorException
+	 */
+	public void actualTimeExecute() throws SimulatorException {
+		if (eventList.containsKey(simulatorTime)) {
+			for (Event e : eventList.get(simulatorTime)) {
+				e.execute(roadMap);
+			}
+		}
+	}
 
-    /**
-     * Call moveForward method for roads and junctions into the RoadMap
-     */
-    public void moveForward() {
-        roadMap.getRoads().forEach((Road r) -> {
-            r.moveForward();
-        });
+	/**
+	 * Call moveForward method for roads and junctions into the RoadMap
+	 */
+	public void moveForward() {
 
-        roadMap.getJunctions().forEach((j) -> {
-            j.moveForward();
-        });
-    }
+		for (Road r : roadMap.getRoads()) {
+			r.moveForward();
+		}
 
-    /**
-     * Changes the Map <String, String> from report method to an IniSection
-     *
-     * @param map
-     * @return IniSection
-     */
-    public IniSection changeToIni(LinkedHashMap<String, String> map) {
-        IniSection s = new IniSection(map.get(""));
-        for (String key : map.keySet()) {
-            if (!key.isEmpty()) {
-                s.setValue(key, map.get(key));
-            }
-        }
-        return s;
-    }
+		for (Junction j : roadMap.getJunctions()) {
+			j.moveForward();
+		}
+	}
 
-    /**
-     * Generate the inform using an IniSection, first generate the Junctions
-     * reports, then the Roads and finally Vehicles
-     *
-     * @param output
-     */
-    public void generateReport(OutputStream output, List<? extends SimulatedObject> l) {
-        try {
-            LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+	/**
+	 * Changes the Map <String, String> from report method to an IniSection
+	 * 
+	 * @param map
+	 * @return IniSection
+	 */
+	public IniSection changeToIni(LinkedHashMap<String, String> map) {
+		IniSection s = new IniSection(map.get(""));
+		for (String key : map.keySet()) {
+			if (!key.isEmpty()) {
+				s.setValue(key, map.get(key));
+			}
+		}
+		return s;
+	}
 
-            Ini ini = new Ini();
-            for (SimulatedObject j : l) {
-                j.report(map);
-                map.put("time", "" + simulatorTime);
+	/**
+	 * Generate the inform using an IniSection, first generate the Junctions
+	 * reports, then the Roads and finally Vehicles
+	 * 
+	 * @param output
+	 */
+	public void generateReport(OutputStream output, List<? extends SimulatedObject> l) {
+		try {
+			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
-                if (output != null) {
-                    ini.addsection(changeToIni(map));
-                }
-                map.clear();
-            }
-            ini.store(output);
+			Ini ini = new Ini();
+			for (SimulatedObject j : l) {
+				j.report(map);
+				map.put("time", "" + simulatorTime);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+				if (output != null) {
+					ini.addsection(changeToIni(map));
+				}
+				map.clear();
+			}
+			ini.store(output);
 
-    /**
-     * Reset the simulator
-     */
-    public void reset() {
-        simulatorTime = 0;
-        roadMap = new RoadMap();
-        eventList = new MultiTreeMap<>();
-        fireUpdateEvent(EventType.RESET, null);
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /**
-     * Interface implemented by the listeners
-     *
-     */
-    public interface Listener {
+	/**
+	 * Reset the simulator
+	 */
+	public void reset() {
+		simulatorTime = 0;
+		roadMap = new RoadMap();
+		eventList = new MultiTreeMap<>();
+		fireUpdateEvent(EventType.RESET, null);
+	}
 
-        void registered(UpdateEvent ue);
+	/**
+	 * Interface implemented by the listeners
+	 *
+	 */
+	public interface Listener {
+		void registered(UpdateEvent ue);
 
-        void reset(UpdateEvent ue);
+		void reset(UpdateEvent ue);
 
-        void newEvent(UpdateEvent ue);
+		void newEvent(UpdateEvent ue);
 
-        void advanced(UpdateEvent ue);
+		void advanced(UpdateEvent ue);
 
-        void error(UpdateEvent ue, String error);
-    }
+		void error(UpdateEvent ue, String error);
+	}
 
-    /**
-     * Different type of listeners
-     *
-     */
-    public enum EventType {
-        REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR;
-    }
+	/**
+	 * Different type of listeners
+	 *
+	 */
+	public enum EventType {
+		REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR;
+	}
 
-    /**
-     * Provides the listeners the necessary information of the simulator
-     *
-     */
-    public class UpdateEvent {
+	/**
+	 * Provides the listeners the necessary information of the simulator
+	 *
+	 */
+	public class UpdateEvent {
+		EventType type;
 
-        EventType type;
+		public UpdateEvent(EventType type) {
+			super();
+			this.type = type;
+		}
 
-        public UpdateEvent(EventType type) {
-            super();
-            this.type = type;
-        }
+		public EventType getEvent() {
+			return type;
+		}
 
-        public EventType getEvent() {
-            return type;
-        }
+		public RoadMap getRoadMap() {
+			return roadMap;
+		}
 
-        public RoadMap getRoadMap() {
-            return roadMap;
-        }
+		public List<Event> getEventQueue() {
+			return eventList.valuesList();
+		}
 
-        public List<Event> getEventQueue() {
-            return eventList.valuesList();
-        }
+		public int getCurrentTime() {
+			return simulatorTime;
+		}
+	}
 
-        public int getCurrentTime() {
-            return simulatorTime;
-        }
-    }
+	/**
+	 * Adds the listener to the simulator list
+	 * 
+	 * @param l
+	 */
+	public void addSimulatorListener(Listener l) {
+		listeners.add(l);
+		UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
+		SwingUtilities.invokeLater(() -> l.registered(ue));
+	}
 
-    /**
-     * Adds the listener to the simulator list
-     *
-     * @param l
-     */
-    public void addSimulatorListener(Listener l) {
-        listeners.add(l);
-        UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
-        SwingUtilities.invokeLater(() -> l.registered(ue));
-    }
+	/**
+	 * Removes the listener from the simulator list
+	 * 
+	 * @param l
+	 */
+	public void removeListener(Listener l) {
+		listeners.remove(l);
+	}
 
-    /**
-     * Removes the listener from the simulator list
-     *
-     * @param l
-     */
-    public void removeListener(Listener l) {
-        listeners.remove(l);
-    }
+	/**
+	 * Calls the necessary methods from the listeners
+	 * 
+	 * @param type
+	 * @param error
+	 */
+	public void fireUpdateEvent(EventType type, String error) {
 
-    /**
-     * Calls the necessary methods from the listeners
-     *
-     * @param type
-     * @param error
-     */
-    public void fireUpdateEvent(EventType type, String error) {
+		UpdateEvent ue = new UpdateEvent(type);
 
-        UpdateEvent updateEvent = new UpdateEvent(type);
+		if (type == EventType.RESET) {
 
-        if (null != type) {
-            switch (type) {
-                case RESET:
-                    listeners.forEach((listener) -> {
-                        SwingUtilities.invokeLater(()
-                                -> listener.reset(updateEvent));
-                    });
-                    break;
-                case NEW_EVENT:
-                    listeners.forEach((listener) -> {
-                        SwingUtilities.invokeLater(()
-                                -> listener.newEvent(updateEvent));
-                    });
-                    break;
-                case ADVANCED:
-                    listeners.forEach((listener) -> {
-                        SwingUtilities.invokeLater(()
-                                -> listener.advanced(updateEvent));
-                    });
-                    break;
-                case ERROR:
-                    listeners.forEach((listener) -> {
-                        SwingUtilities.invokeLater(()
-                                -> listener.error(updateEvent, error));
-                    });
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+			for (Listener e : listeners) {
+				SwingUtilities.invokeLater(() -> e.reset(ue));
+			}
+
+		} else if (type == EventType.NEW_EVENT) {
+
+			for (Listener e : listeners) {
+				SwingUtilities.invokeLater(() -> e.newEvent(ue));
+			}
+
+		} else if (type == EventType.ADVANCED) {
+
+			for (Listener e : listeners) {
+				SwingUtilities.invokeLater(() -> e.advanced(ue));
+			}
+		} else if (type == EventType.ERROR) {
+
+			for (Listener e : listeners) {
+				SwingUtilities.invokeLater(() -> e.error(ue, error));
+			}
+		}
+	}
 
 }

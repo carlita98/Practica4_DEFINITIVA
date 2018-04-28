@@ -2,7 +2,7 @@ package es.ucm.fdi.model.object;
 
 import java.util.Map.Entry;
 
-import es.ucm.fdi.model.object.JunctionWithTimeSlice.IncomingRoadWithTimeSlice;
+import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
 
 public class MostCrowdedJunction extends JunctionWithTimeSlice {
 
@@ -11,33 +11,28 @@ public class MostCrowdedJunction extends JunctionWithTimeSlice {
 	}
 
 	public void addInRoadQueue(Road r) {
-		incomingMap.put(r, new IncomingRoadWithTimeSlice(0, 0));
+		incomingQueues.put(r, new IRWithTimeSlice(1, -1));
 	}
 
-	public void switchLights() {
-            IncomingRoadWithTimeSlice ir = currentIR();
-            if(ir.timeIsOver()){
-                // red light
-                updateCurrentIR(); // incomingRoad (index) changed
-                ir = currentIR();
-                ir.intervalTime = Math.max(ir.getNumberOfVehicles()/2, 1);
-                ir.timeUnits = 0;
-            }
+	public void updatedLights() {
+		IRWithTimeSlice ir = currentIR();
+		if (ir.timeInterval == ir.timeUnits) {
+			ir.timeUnits = 0;
+			int max = -1;
+			int BefCurrentIncoming = currentIncoming;
+			for (Entry<Road, IRWithTimeSlice> entry : incomingQueues.entrySet()) {
+				if (max < entry.getValue().queue.size()
+						&& incomingRoadList.indexOf(entry.getKey()) != BefCurrentIncoming) {
+					max = entry.getValue().queue.size();
+					currentIncoming = incomingRoadList.indexOf(entry.getKey());
+				}
+			}
+			currentIR().timeInterval = Math.max(max / 2, 1);
+		}
+		/*
+		 * if (ir.timeUnits == -1) { int max =
+		 * incomingQueues.get(incomingRoadList.get(0)).getQueue().size();
+		 * ir.timeInterval = Math.max(max / 2, 1); }
+		 */
 	}
-        
-        private void updateCurrentIR(){
-             int myBestRoad = (currentIncoming + 1) % incomingRoadList.size();
-            for(int i = 0, j = myBestRoad; i < incomingRoadList.size()-1; i++, 
-                    j = (j+1)% incomingRoadList.size()){
-                if(incomingMap.get(incomingRoadList.get(myBestRoad)).getNumberOfVehicles()
-                  == incomingMap.get(incomingRoadList.get(j)).getNumberOfVehicles() ){
-                    myBestRoad = Math.min(myBestRoad, j);
-                }
-                else if(incomingMap.get(incomingRoadList.get(myBestRoad)).getNumberOfVehicles()
-                  < incomingMap.get(incomingRoadList.get(j)).getNumberOfVehicles() ){
-                     myBestRoad = j;
-                }
-            }
-            currentIncoming = myBestRoad;
-         }
 }
