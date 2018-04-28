@@ -18,7 +18,11 @@ import es.ucm.fdi.view.Describable;
 public class Junction extends SimulatedObject implements Describable {
         
         private final String HEADER = "junction_report";
-        
+    
+    /**
+     * Internal class for the queue of vehicles in every single 
+     * incomingRoad.
+     */
 	protected class IncomingRoad {
             
 		protected ArrayDeque<Vehicle> queue = new ArrayDeque<>();
@@ -26,24 +30,33 @@ public class Junction extends SimulatedObject implements Describable {
 		public ArrayDeque<Vehicle> getQueue() {
 			return queue;
 		}
-            
-                public int getNumberOfVehicles(){
-                    return queue.size();
+        /**
+         * Get the number of vehicles into an incomingRoad
+         * @return int
+         */
+        public int getNumberOfVehicles(){
+            return queue.size();
+        }
+        /**
+         * Gets the first vehicle into the vehicle queue.
+         * If it is not faulty it calls moveToNextRoad of that vehicle.
+         * If it is faulty it decrease the faulty time.   
+         * @return true if the first car was move to the next road.
+         */
+        public boolean moveForward() {
+            boolean moved = false;
+            if (!queue.isEmpty()) {
+                Vehicle v = queue.peek();
+                if (v.getFaulty() == 0) {
+                    moved = true;
+                    v.moveToNextRoad();
+                    queue.removeFirst();
+                } else {
+                    v.setFaultyTime(v.getFaulty() - 1);
                 }
-            public boolean moveForward() {
-                boolean moved = false;
-                if (!queue.isEmpty()) {
-                    Vehicle v = queue.peek();
-                    if (v.getFaulty() == 0) {
-                        moved = true;
-                        v.moveToNextRoad();
-                        queue.removeFirst();
-                    } else {
-                        v.setFaultyTime(v.getFaulty() - 1);
-                    }
-                }
-                return moved;
             }
+            return moved;
+        }
 
 
 	}
@@ -64,11 +77,10 @@ public class Junction extends SimulatedObject implements Describable {
         
 	/**
 	 * Get the Road with the green traffic light
-	 * 
 	 * @return
 	 */
 	public IncomingRoad currentIR() {
-		// Devuelve la IncomingRoad de la carretera que tiene el semáforo en verde
+		//Returns the IncomingRoad of the Road with the green traffic light
 		return incomingMap.get(incomingRoadList.get(currentIncoming));
 	}
 
@@ -79,7 +91,7 @@ public class Junction extends SimulatedObject implements Describable {
 
 	public void addIncoming(Road r) {
 		incomingRoadList.add(outgoingRoadList.size(), r);
-                currentIncoming = incomingMap.size();
+        currentIncoming = incomingMap.size();
 	}
 
 	public void addInRoadQueue(Road r) {
@@ -119,18 +131,18 @@ public class Junction extends SimulatedObject implements Describable {
 	}
 
 	/**
-	 * 
+	 * Adds a vehicle into the vehicle queue of its ActualRoad
 	 * @param v
 	 */
 	public void carIntoIR(Vehicle v) {
-		if (!incomingMap.get(v.getActualRoad()).queue.contains(v))
+		if (!incomingMap.get(v.getActualRoad()).queue.contains(v) ) {
 			incomingMap.get(v.getActualRoad()).queue.addLast(v);
+		}
 	}
 
 	/**
 	 * Choose the next road with green traffic light
 	 */
-
 	public void switchLights() {
 		try {
 			currentIncoming = (currentIncoming + 1) % incomingRoadList.size();
@@ -140,13 +152,14 @@ public class Junction extends SimulatedObject implements Describable {
 	}
 
 	/**
-	 * Move the first car in the queue if the traffic light is green
+	 * Move the first car in the queue if the traffic light is green.
+	 * Changes the lights.
 	 */
     public void moveForward() {
         if(!incomingRoadList.isEmpty()){
             incomingMap.get(incomingRoadList.get(currentIncoming)).moveForward();
             switchLights();
-            }
+        }
     }
    
 
@@ -214,6 +227,12 @@ public class Junction extends SimulatedObject implements Describable {
 		out.put("Red", sbRed.toString());
 	}
 
+	/**
+	 * Describes the junction to show then into the interface Table
+	 * @param color
+	 * @param entry
+	 * @return
+	 */
 	public StringBuilder describeGreenRed(String color, Map.Entry<Road, IncomingRoad> entry) {
 		StringBuilder sb= new StringBuilder();
 		sb.append("(");

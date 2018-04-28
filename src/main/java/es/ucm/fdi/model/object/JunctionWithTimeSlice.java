@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import es.ucm.fdi.model.object.Junction.IncomingRoad;
+
 public class JunctionWithTimeSlice extends Junction {
         
 	protected String type;
@@ -21,7 +23,20 @@ public class JunctionWithTimeSlice extends Junction {
 		super(id);
 		this.type = type;
 	}
-
+	/**
+	 * Adds a vehicle into the vehicle queue of its ActualRoad
+	 * @param v
+	 */
+	public void carIntoIR(Vehicle v) {
+		if (!incomingMap.get(v.getActualRoad()).queue.contains(v) ) {
+			incomingMap.get(v.getActualRoad()).queue.addLast(v);
+		}
+	}
+	
+	/**
+	 * Internal class, it extends IncomingRoad
+	 * Contains intervalTime, timeUnits, fullyUsed and parcialUsed.
+	 */
 	protected class IncomingRoadWithTimeSlice extends IncomingRoad {
 		public int intervalTime;
 		public int timeUnits;
@@ -31,41 +46,62 @@ public class JunctionWithTimeSlice extends Junction {
 			this.intervalTime = timeInterval;
 			this.timeUnits = timeUnits;
 		}
-                public boolean moveForward() {
-                    boolean moved = super.moveForward();
-                    partiallyUsed = partiallyUsed || moved;
-                    fullyUsed = fullyUsed && moved;
-                    timeUnits++;
-                    return moved;
-                }
-                public void reset(){
-                    partiallyUsed = false;
-                    fullyUsed = true;
-                }
-                public boolean isFullyUsed(){
-                    return fullyUsed;
-                }
-                public boolean isPartiallyUsed(){
-                    return partiallyUsed;
-                }
-                
-                public boolean timeIsOver(){
-                    return timeUnits >= intervalTime;
-                }
+		/**
+		 * Moves the first car into the queue calling super.moveForward().
+		 * Changes the values of partiallyUsed and fullyUsed.
+		 * Increases the used timeUnits.
+		 */
+        public boolean moveForward() {
+            boolean moved = super.moveForward();
+            partiallyUsed = partiallyUsed || moved;
+            fullyUsed = fullyUsed && moved;
+            timeUnits++;
+            return moved;
+        }
+        /**
+         * Sets partiallyUsed and fullyUsed to false
+         */
+        public void reset(){
+            partiallyUsed = false;
+            fullyUsed = true;
+        }
+        public boolean isFullyUsed(){
+            return fullyUsed;
+        }
+        public boolean isPartiallyUsed(){
+            return partiallyUsed;
+        }
+        /**
+         * Returns true if timeUnits is bigger or equal to intervalTime
+         * @return
+         */
+        public boolean timeIsOver(){
+            return timeUnits >= intervalTime;
+        }
 	}
 
+	/**
+	 * Get the Road with the green traffic light
+	 * @return
+	 */
 	public IncomingRoadWithTimeSlice currentIR() {
-		// Devuelve la IncomingRoad de la carretera que tiene el semáforo en verde
+		//Returns the IncomingRoad of the Road with the green traffic light
 		return incomingMap.get(incomingRoadList.get(currentIncoming));
 	}
-         public void moveForward() {
-            if(!incomingRoadList.isEmpty()){
-            switchLights();
-           incomingMap.get(incomingRoadList.get(currentIncoming)).moveForward();
-
-            }
+	/**
+	 * Move the first car in the queue if the traffic light is green.
+	 * Changes the lights.
+	 */
+     public void moveForward() {
+        if(!incomingRoadList.isEmpty()){
+	       switchLights();
+	       incomingMap.get(incomingRoadList.get(currentIncoming)).moveForward();
+        }
     }
 
+	/**
+	 * Describes the junction to insert it into the interface junction table
+	 */
 	protected void fillReportDetails(Map<String, String> out) {
 
 		StringBuilder sb = new StringBuilder();
