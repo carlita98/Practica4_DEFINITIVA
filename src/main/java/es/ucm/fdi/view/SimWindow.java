@@ -3,11 +3,8 @@ package es.ucm.fdi.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,10 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -28,12 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -41,7 +33,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import es.ucm.fdi.control.Controller;
@@ -50,7 +41,6 @@ import es.ucm.fdi.model.Simulator.EventType;
 import es.ucm.fdi.model.Simulator.Listener;
 import es.ucm.fdi.model.Simulator.UpdateEvent;
 import es.ucm.fdi.model.event.Event;
-import es.ucm.fdi.util.MultiTreeMap;
 import es.ucm.fdi.view.dialog.MyDialogWindow;
 import es.ucm.fdi.view.graph.GraphLayout;
 
@@ -117,7 +107,6 @@ public class SimWindow extends JFrame implements Listener {
 
 	//PopupMenu
 	private PopUpMenu eventsEditor = new PopUpMenu();
-	private MyDialogWindow dialog;
 	private JTextArea reportsArea; 
 	private TableModelTraffic eventsView;
 	private TableModelTraffic vehiclesTable;
@@ -219,7 +208,7 @@ public class SimWindow extends JFrame implements Listener {
 		generateReport = new SimulatorAction(Command.GenerateReport.getName(), "report.png", "Generar informes", KeyEvent.VK_G,
 				"control G", () -> {
 					downLabel.setText(Command.GenerateReport.toString());
-					dialog = new MyDialogWindow (ctrl, outReport);
+					new MyDialogWindow (ctrl, outReport);
 					reportsArea.setText(outReport.toString());
 				});
 

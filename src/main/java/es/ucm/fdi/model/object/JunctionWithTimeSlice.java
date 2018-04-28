@@ -4,19 +4,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
-
 public class JunctionWithTimeSlice extends Junction {
-
+        
 	protected String type;
-	protected Map<Road, IRWithTimeSlice> incomingQueues = new LinkedHashMap<>();
+	protected Map<Road, IncomingRoadWithTimeSlice> incomingMap = new LinkedHashMap<>();
 
-	public Map<Road, IRWithTimeSlice> getIncomingQueues() {
-		return incomingQueues;
+	public Map<Road, IncomingRoadWithTimeSlice> getIncomingQueues() {
+		return incomingMap;
 	}
 
-	public void setIncomingQueues(Map<Road, IRWithTimeSlice> incomingQueues) {
-		this.incomingQueues = incomingQueues;
+	public void setIncomingQueues(Map<Road, IncomingRoadWithTimeSlice> incomingQueues) {
+		this.incomingMap = incomingQueues;
 	}
 
 	public JunctionWithTimeSlice(String id, String type) {
@@ -24,71 +22,60 @@ public class JunctionWithTimeSlice extends Junction {
 		this.type = type;
 	}
 
-	public class IRWithTimeSlice extends IR {
-		int timeInterval;
-		int timeUnits;
-
-		public IRWithTimeSlice() {
-			super();
-		}
-
-		public IRWithTimeSlice(int timeInterval, int timeUnits) {
-			super();
-			this.timeInterval = timeInterval;
+	protected class IncomingRoadWithTimeSlice extends IncomingRoad {
+		public int intervalTime;
+		public int timeUnits;
+                private boolean fullyUsed = true;
+                private boolean partiallyUsed = false;
+		public IncomingRoadWithTimeSlice(int timeInterval, int timeUnits) {
+			this.intervalTime = timeInterval;
 			this.timeUnits = timeUnits;
 		}
-
-		public int getTimeInterval() {
-			return timeInterval;
-		}
-
-		public void setTimeInterval(int timeInterval) {
-			this.timeInterval = timeInterval;
-		}
-
-		public int getTimeUnits() {
-			return timeUnits;
-		}
-
-		public void setTimeUnits(int timeUnits) {
-			this.timeUnits = timeUnits;
-		}
+                public boolean moveForward() {
+                    boolean moved = super.moveForward();
+                    partiallyUsed = partiallyUsed || moved;
+                    fullyUsed = fullyUsed && moved;
+                    timeUnits++;
+                    return moved;
+                }
+                public void reset(){
+                    partiallyUsed = false;
+                    fullyUsed = true;
+                }
+                public boolean isFullyUsed(){
+                    return fullyUsed;
+                }
+                public boolean isPartiallyUsed(){
+                    return partiallyUsed;
+                }
+                
+                public boolean timeIsOver(){
+                    return timeUnits >= intervalTime;
+                }
 	}
 
-	public IRWithTimeSlice currentIR() {
-		// Devuelve la IR de la carretera que tiene el semáforo en verde
-		return incomingQueues.get(incomingRoadList.get(currentIncoming));
+	public IncomingRoadWithTimeSlice currentIR() {
+		// Devuelve la IncomingRoad de la carretera que tiene el semáforo en verde
+		return incomingMap.get(incomingRoadList.get(currentIncoming));
 	}
+         public void moveForward() {
+            if(!incomingRoadList.isEmpty()){
+            switchLights();
+           incomingMap.get(incomingRoadList.get(currentIncoming)).moveForward();
 
-	public void updatedLights() {
-	}
-
-	public void moveForward() {
-		IRWithTimeSlice ir = currentIR();
-		// Moves first car in the queue
-		if (!incomingRoadList.isEmpty() && !incomingQueues.get(incomingRoadList.get(currentIncoming)).queue.isEmpty()) {
-			Vehicle v = ir.queue.peek();
-			if (v.getFaulty() == 0) {
-				v.moveToNextRoad();
-				ir.queue.removeFirst();
-			} else {
-				v.setFaultyTime(v.getFaulty() - 1);
-			}
-		}
-		// Update lights
-		ir.timeUnits++;
-		updatedLights();
-	}
+            }
+    }
 
 	protected void fillReportDetails(Map<String, String> out) {
 
 		StringBuilder sb = new StringBuilder();
-		for (Entry<Road, IRWithTimeSlice> entry : incomingQueues.entrySet()) {
+		for (Entry<Road, IncomingRoadWithTimeSlice> entry : incomingMap.entrySet()) {
 			sb.append("(");
 			sb.append(entry.getKey().getId());
 			sb.append(",");
 			if (entry.getKey().equals(incomingRoadList.get(currentIncoming))) {
-				int dif = (currentIR().timeInterval - currentIR().timeUnits);
+                            // we count the current as the green light (so we have to add 1)
+				int dif = (currentIR().intervalTime - currentIR().timeUnits + 1); 
 				sb.append("green:");
 				sb.append(dif);
 				sb.append(",");

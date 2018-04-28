@@ -1,20 +1,12 @@
 package es.ucm.fdi.view.dialog;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import es.ucm.fdi.control.Controller;
-import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.object.Junction;
 import es.ucm.fdi.model.object.Road;
 import es.ucm.fdi.model.object.SimulatedObject;

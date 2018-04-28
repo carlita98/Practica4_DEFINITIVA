@@ -1,18 +1,14 @@
 package es.ucm.fdi.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 public class TableModelTraffic extends JPanel {
 	private ListOfMapsTableModel tablemodel;

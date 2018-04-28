@@ -3,8 +3,6 @@ package es.ucm.fdi.util;
 import es.ucm.fdi.launcher.Main;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.fail;
 
 /**

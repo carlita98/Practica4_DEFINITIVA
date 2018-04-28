@@ -1,7 +1,5 @@
 package es.ucm.fdi.model.event;
 
-import java.util.Map;
-
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.SimulatorException;
 import es.ucm.fdi.view.Describable;
