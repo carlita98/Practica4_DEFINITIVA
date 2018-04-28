@@ -2,7 +2,7 @@ package es.ucm.fdi.model.object;
 
 import java.util.Map.Entry;
 
-import es.ucm.fdi.model.object.JunctionWithTimeSlice.IRWithTimeSlice;
+import es.ucm.fdi.model.object.JunctionWithTimeSlice.IncomingRoadWithTimeSlice;
 
 public class RoundRobinJunction extends JunctionWithTimeSlice {
 
@@ -16,23 +16,21 @@ public class RoundRobinJunction extends JunctionWithTimeSlice {
 	}
 	
 	public void addInRoadQueue(Road r) {
-		incomingQueues.put(r, new IRWithTimeSlice(maxTimeSlice, -1));
+		incomingMap.put(r, new IncomingRoadWithTimeSlice(maxTimeSlice, 0));
 	}
 
-	public void updatedLights() {
-		IRWithTimeSlice ir = currentIR();
-		if (ir.timeInterval == ir.timeUnits) {
-			if (numVehicles(ir) >= ir.timeUnits) {
-				ir.timeInterval = Math.min(ir.timeInterval + 1, maxTimeSlice);
-			} else if (numVehicles(ir) == 0) {
-				ir.timeInterval = Math.max(ir.timeInterval - 1, minTimeSlice);
-			}
+	public void switchLights() {
+		IncomingRoadWithTimeSlice ir = currentIR();
+		if (ir.timeIsOver()){
+                        // red light
+                        if(ir.isFullyUsed()){
+                            ir.intervalTime = Math.min(ir.intervalTime + 1, maxTimeSlice);
+                        }
+                        else if(!ir.isPartiallyUsed()){ // no vehicles through the road
+                            ir.intervalTime = Math.max(ir.intervalTime-1, minTimeSlice);
+                        }
+                        // else do nothing
 			ir.timeUnits = 0;
-			super.updateLights();
 		}
-	}
-
-	public int numVehicles(IRWithTimeSlice ir) {
-		return ir.getQueue().size();
 	}
 }
