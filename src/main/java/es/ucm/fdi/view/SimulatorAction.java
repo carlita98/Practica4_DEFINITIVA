@@ -24,8 +24,7 @@ public class SimulatorAction extends AbstractAction {
 	 * @param name
 	 *            to use in menus (via toString), and as identifier when
 	 *            registering.
-	 * @param iconName
-	 *            used to locate an icon
+	 * @param iconName used to locate an icon
 	 * @param tooltip
 	 *            to display when hovered-over
 	 * @param mnemonic

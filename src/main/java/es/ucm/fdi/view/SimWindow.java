@@ -44,46 +44,50 @@ import es.ucm.fdi.model.event.Event;
 import es.ucm.fdi.view.dialog.MyDialogWindow;
 import es.ucm.fdi.view.graph.GraphLayout;
 
+/**
+ * Creates and initializes a gui interface to control the TrafficSimulator
+ * @see TrafficSimulator
+ */
+
 public class SimWindow extends JFrame implements Listener {
-	//The view uses controller and roadmap
+	//The view uses Controller and RoadMap
 	private Controller ctrl;
-	
-	//Sitios para controlar excepciones cargar y salvar 
-	//Name columns for the tables 
+	 
+	//Column names for the tables 
 	private static final String[] eventsViewColumns = { "#", "Time", "Type" };
 	private static final String[] vehicleTableColumns = { "ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary" };
 	private static final String[] roadTableColumns = { "ID", "Source", "Target", "Length", "Max Speed", "Vehicles" };
 	private static final String[] junctionTableColumns = { "ID", "Green", "Red" };
 	
-	//Grap for the roadmap
+	//Graph for the RoadMap
 	private GraphLayout graph;
 
 	//JLabel placed in the south zone of the screen
 	private JLabel downLabel;
 	
-	//Show the Error Message
+	//To show the Error Message
 	private JOptionPane showError;
 
-	//Writes Reports
-	//To call Controller Execute
+	//To write Reports
 	private OutputStream out = new ByteArrayOutputStream();
-	//To generate the parcial reports
+	
+	//To generate the partial reports
 	private OutputStream outReport = new ByteArrayOutputStream();
 	
-	// Panel
+	//Panel
 	private JPanel supPanel = new JPanel ();
 	private JPanel infLeftPanel = new JPanel ();
 	private JPanel infRightPanel = new JPanel (new BorderLayout());
 	private JPanel infPanel = new JPanel();
 	private JSplitPane main;
 
-	// Spinner and TextField
+	//Spinner and TextField
 	private JSpinner steps =  new JSpinner();
 	private JTextField time  = new JTextField();
 	private JLabel stepsLabel =  new JLabel(" Steps: ");
 	private JLabel timeLabel = new JLabel(" Time: ");
 
-	//Buttoms, Menu and ToolBar
+	//Buttons, Menu and ToolBar
 	private SimulatorAction load;
 	private SimulatorAction save;
 	private SimulatorAction clear;
@@ -112,7 +116,14 @@ public class SimWindow extends JFrame implements Listener {
 	private TableModelTraffic vehiclesTable;
 	private TableModelTraffic roadsTable;
 	private TableModelTraffic junctionsTable;
-
+	
+	/**
+	 * Class constructor
+	 * @param ctrl an instantiation of the current controller used in TrafficSimulator
+	 * @param inFileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public SimWindow(Controller ctrl, String inFileName) throws FileNotFoundException, IOException {
 		super("Traffic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,8 +133,13 @@ public class SimWindow extends JFrame implements Listener {
 		ctrl.getSim().addSimulatorListener(this);
 	}
 
+	/**
+	 * Creates the window's layout
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void addPanel() throws FileNotFoundException, IOException {
-		//Creates the main window distribution
+		
 		supPanel.setLayout(new BoxLayout(supPanel, BoxLayout.X_AXIS));
 		addEventsEditor();
 		addEventsView();
@@ -152,6 +168,11 @@ public class SimWindow extends JFrame implements Listener {
 		add(main);
 	}
 
+	/**
+	 * Initializes the main window panel adding the components
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void initGUI() throws FileNotFoundException, IOException {
 		addBar();
 		addMenuBar();
@@ -162,8 +183,11 @@ public class SimWindow extends JFrame implements Listener {
 		main.setDividerLocation(.33);
 	}
 
+	/**
+	 * Defines actions and adds the action to the toolBar
+	 */
 	private void addBar() {
-		// instantiate actions
+		//Instantiate actions
 		load = new SimulatorAction(Command.Load.getName(), "open.png", "Open files", KeyEvent.VK_O, "control O", () -> {
 			downLabel.setText(Command.Load.toString());
 			load();
@@ -257,8 +281,11 @@ public class SimWindow extends JFrame implements Listener {
 
 	}
 
+	/**
+	 * Adds actions to MenuBar, and Bar to Window
+	 */
 	private void addMenuBar() {
-		// add actions to menubar, and bar to window
+		
 		menuFile.add(load);
 		menuFile.add(save);
 		menuFile.add(saveReport);
@@ -277,42 +304,63 @@ public class SimWindow extends JFrame implements Listener {
 		setJMenuBar(menuBar);
 	}
 
+	/**
+	 * Adds the event editor TextBox component to the main panel
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void addEventsEditor() throws FileNotFoundException, IOException {
 		eventsEditor.get_editor().setEditable(true);
 
 		if (currentFile != null) {
 			eventsEditor.get_editor().setText(readFile(currentFile));
-			eventsEditor.get_editor().setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
+			eventsEditor.get_editor().setBorder(BorderFactory.createTitledBorder
+					(BorderFactory.createLineBorder(Color.black, 2),
 					"Events: " + currentFile.getName()));
 		} else
 			eventsEditor.get_editor().setBorder(
 					BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events"));
 	}
 
+	/**
+	 * Adds the TextBox report area to the main panel
+	 */
 	private void addReportsArea() {
 		reportsArea = new JTextArea(40, 30);
 		reportsArea.setEditable(false);
-		reportsArea
-				.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Reports"));
+		reportsArea.setBorder(BorderFactory.
+				createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Reports"));
 	}
 
+	/**
+	 * Adds the events view table to the main panel
+	 */
 	private void addEventsView() {
 		eventsView = new TableModelTraffic(eventsViewColumns, events);
 		eventsView.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events Queue"));
 	}
 
+	/**
+	 * Adds the vehicle table to the main panel
+	 */
 	private void addVehicleTable() {
 		vehiclesTable = new TableModelTraffic(vehicleTableColumns, ctrl.getSim().getRoadMap().getVehiclesRO());
 		vehiclesTable.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
 	}
 
+	/**
+	 * Adds the road table to the main panel
+	 */
 	private void addRoadsTable() {
 		roadsTable = new TableModelTraffic(roadTableColumns, ctrl.getSim().getRoadMap().getRoadsRO());
 		roadsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
 	}
 
+	/**
+	 * Adds the junction table to the main panel
+	 */
 	private void addJunctionsTable() {
 		junctionsTable = new TableModelTraffic(junctionTableColumns, ctrl.getSim().getRoadMap().getJunctionsRO());
 		junctionsTable.setBorder(
@@ -322,6 +370,9 @@ public class SimWindow extends JFrame implements Listener {
 	public void registered(UpdateEvent ue) {
 	}
 
+	/**
+	 * Resets the values of the components to the first iteration of the simulator
+	 */
 	public void reset(UpdateEvent ue) {
 		events = ue.getEventQueue();
 		eventsView.setElements(events);
@@ -338,6 +389,9 @@ public class SimWindow extends JFrame implements Listener {
 		graph.generateGraph();
 	}
 
+	/**
+	 * Generates a new event from a given UpdateEvent
+	 */
 	public void newEvent(UpdateEvent ue) {
 		events = ue.getEventQueue();
 		eventsView.setElements(events);
@@ -347,6 +401,9 @@ public class SimWindow extends JFrame implements Listener {
 		graph.generateGraph();
 	}
 
+	/**
+	 * Updates the components when simulator advances
+	 */
 	public void advanced(UpdateEvent ue) {
 		vehiclesTable.updated();
 		roadsTable.updated();
@@ -357,6 +414,9 @@ public class SimWindow extends JFrame implements Listener {
 		graph.generateGraph();
 	}
 
+	/**
+	 * Given an error shows the error message and then resets the simulator
+	 */
 	public void error(UpdateEvent ue, String error) {
 		showError.showMessageDialog(this, error);
 		ctrl.getSim().reset();
@@ -365,6 +425,11 @@ public class SimWindow extends JFrame implements Listener {
 		graph.generateGraph();
 	}
 
+	/**
+	 * Creates a filter, opens a window that allows the user to choose the file wanted, 
+	 * and if its extension matches the filter, loads the file into the eventsEditor. If not, 
+	 * shows an error message
+	 */
 	public void load()  {
 		JFileChooser choose = new JFileChooser();
 		FileNameExtensionFilter fil = new FileNameExtensionFilter("Files .ini", "ini");
@@ -387,6 +452,12 @@ public class SimWindow extends JFrame implements Listener {
 		}
 	}
 
+	/**
+	 * Creates a filter, opens a window that allows the user to choose the where to save
+	 * the file, and if its extension matches the filter, saves the file into the folder chosen.
+	 * If there is any problem, shows an error message
+	 * @param area
+	 */
 	public void save(JTextArea area){
 		JFileChooser choose = new JFileChooser();
 		FileNameExtensionFilter fil = new FileNameExtensionFilter("Files .ini", "ini");
@@ -405,11 +476,16 @@ public class SimWindow extends JFrame implements Listener {
 		}
 	}
 
+	/**
+	 * Creates an Ini file and loads there the given file
+	 * @param file
+	 * @return 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public String readFile(File file) throws FileNotFoundException, IOException {
 		Ini read = new Ini();
 		read.load(new FileInputStream(file));
 		return read.toString();
 	}
-
-
 }

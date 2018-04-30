@@ -9,17 +9,23 @@ import javax.swing.JFrame;
 import es.ucm.fdi.model.RoadMap;
 import es.ucm.fdi.model.object.*;
 
+/**
+ * Graphic component that designs a graph and generates it
+ */
 public class GraphLayout extends JFrame{
 	
 	public GraphComponent _graphComp = new GraphComponent();
 	private RoadMap rm;
 	
-	
+	/**
+	 * Constructor of the class
+	 * @param rm
+	 * @throws HeadlessException
+	 */
 	public GraphLayout(RoadMap rm) throws HeadlessException {
 		super();
 		this.rm = rm;
 	}
-
 
 	public GraphComponent get_graphComp() {
 		return _graphComp;
@@ -29,7 +35,9 @@ public class GraphLayout extends JFrame{
 		this.rm = rm;
 	}
 
-
+	/**
+	 * Generates a graph using the RoadMap
+	 */
 	public void generateGraph() {
 
 		Graph g = new Graph();
@@ -37,7 +45,7 @@ public class GraphLayout extends JFrame{
 		for (Junction j : rm.getJunctions()) {
 			Node n = new Node(j.getId());
 			js.put(j, n);
-			// <-- para convertir Junction a Node en aristas
+			//To convert Junction into Node in edges
 			g.addNode(n);
 		}
 		for (Road r: rm.getRoadsRO()) {
