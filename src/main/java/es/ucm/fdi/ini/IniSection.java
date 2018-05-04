@@ -35,9 +35,9 @@ public class IniSection {
 
 	/**
 	 * Creates and INI section
-	 * 
+	 * The tag of the INI section
 	 * @param tag
-	 *            The tag of the INI section
+	 * 
 	 */
 	public IniSection(String tag) {
 		_tag = tag;
@@ -137,10 +137,6 @@ public class IniSection {
 		return Collections.unmodifiableMap(_attr);
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public List<String> getKeys() {
 		return Collections.unmodifiableList(_keys);
 	}
@@ -149,14 +145,18 @@ public class IniSection {
 	 * To be equal they must have the same keys, the order is not important, and
 	 * value of all keys are equal.
 	 */
-	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		
+		if (obj == null){
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		
+		if (getClass() != obj.getClass()){
 			return false;
+		}
 		IniSection other = (IniSection) obj;
 
 		// we require to have the same number of keys, we don't force it to be
@@ -166,6 +166,7 @@ public class IniSection {
 		}
 
 		for (String key : this.getKeys()) {
+			
 			if (!this.getValue(key).equals(other.getValue(key))) {
 				return false;
 			}
@@ -174,7 +175,6 @@ public class IniSection {
 		return true;
 	}
 
-	@Override
 	public String toString() {
 		String s = "";
 
@@ -194,7 +194,7 @@ public class IniSection {
 
 			s += key + " = " + _attr.get(key) + System.lineSeparator();
 		}
+		
 		return s;
 	}
-
 }
