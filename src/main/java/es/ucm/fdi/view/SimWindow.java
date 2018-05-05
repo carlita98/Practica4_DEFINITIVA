@@ -234,6 +234,7 @@ public class SimWindow extends JFrame implements Listener {
 					downLabel.setText(Command.GenerateReport.toString());
 					new MyDialogWindow (ctrl, outReport);
 					reportsArea.setText(outReport.toString());
+					outReport =  new ByteArrayOutputStream();
 				});
 
 		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), "delete_report.png", "Eliminar informes", KeyEvent.VK_E,

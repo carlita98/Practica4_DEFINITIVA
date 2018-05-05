@@ -169,7 +169,8 @@ public class Main {
 		InputStream inFile = new FileInputStream(_inFile);
 		OutputStream outFile = _outFile != null ? new FileOutputStream(_outFile) : System.out;
 		Controller control = new Controller (_timeLimit, inFile, outFile);		
-		
+		BatchListener blistener = new BatchListener ();
+		control.getSim().addSimulatorListener(blistener);
 		try{
 			control.run();
 		}catch(FileNotFoundException e){

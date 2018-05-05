@@ -62,15 +62,16 @@ public class MyDialogWindow extends JFrame{
 		//Add the selected objects into a List <SimulatedObject>
 		else {
 			List <SimulatedObject> l = new ArrayList<>();
-			for(String v : dialog.getSelectedVehicles()) {
-				l.add(ctrl.getSim().getRoadMap().getVehicle(v));
+			for(String j : dialog.getSelectedJunctions()) {
+				l.add(ctrl.getSim().getRoadMap().getJunction(j));
 			}
 			for(String r : dialog.getSelectedRoads()) {
 				l.add(ctrl.getSim().getRoadMap().getRoad(r));
 			}
-			for(String j : dialog.getSelectedJunctions()) {
-				l.add(ctrl.getSim().getRoadMap().getJunction(j));
+			for(String v : dialog.getSelectedVehicles()) {
+				l.add(ctrl.getSim().getRoadMap().getVehicle(v));
 			}
+			
 			//Generate report of the chosen list of SimulatedObject
 			ctrl.getSim().generateReport(out, l);
 		}

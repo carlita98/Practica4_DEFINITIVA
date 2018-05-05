@@ -2,14 +2,17 @@
 id = j1
 time = 1
 queues = 
+
 [junction_report]
 id = j2
 time = 1
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 1
 state = (v1,10)
+
 [vehicle_report]
 id = v1
 time = 1
@@ -17,18 +20,22 @@ speed = 10
 kilometrage = 10
 faulty = 0
 location = (r1,10)
+
 [junction_report]
 id = j1
 time = 2
 queues = 
+
 [junction_report]
 id = j2
 time = 2
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 2
 state = (v1,10)
+
 [vehicle_report]
 id = v1
 time = 2
@@ -36,18 +43,22 @@ speed = 0
 kilometrage = 10
 faulty = 2
 location = (r1,10)
+
 [junction_report]
 id = j1
 time = 3
 queues = 
+
 [junction_report]
 id = j2
 time = 3
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 3
 state = (v1,10),(v2,10)
+
 [vehicle_report]
 id = v1
 time = 3
@@ -55,6 +66,7 @@ speed = 0
 kilometrage = 10
 faulty = 1
 location = (r1,10)
+
 [vehicle_report]
 id = v2
 time = 3
@@ -62,18 +74,22 @@ speed = 10
 kilometrage = 10
 faulty = 0
 location = (r1,10)
+
 [junction_report]
 id = j1
 time = 4
 queues = 
+
 [junction_report]
 id = j2
 time = 4
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 4
 state = (v1,10),(v2,10)
+
 [vehicle_report]
 id = v1
 time = 4
@@ -81,6 +97,7 @@ speed = 0
 kilometrage = 10
 faulty = 0
 location = (r1,10)
+
 [vehicle_report]
 id = v2
 time = 4
@@ -88,18 +105,22 @@ speed = 0
 kilometrage = 10
 faulty = 2
 location = (r1,10)
+
 [junction_report]
 id = j1
 time = 5
 queues = 
+
 [junction_report]
 id = j2
 time = 5
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 5
 state = (v1,20),(v2,10),(v3,10)
+
 [vehicle_report]
 id = v1
 time = 5
@@ -107,6 +128,7 @@ speed = 10
 kilometrage = 20
 faulty = 0
 location = (r1,20)
+
 [vehicle_report]
 id = v2
 time = 5
@@ -114,6 +136,7 @@ speed = 0
 kilometrage = 10
 faulty = 1
 location = (r1,10)
+
 [vehicle_report]
 id = v3
 time = 5
@@ -121,18 +144,22 @@ speed = 10
 kilometrage = 10
 faulty = 0
 location = (r1,10)
+
 [junction_report]
 id = j1
 time = 6
 queues = 
+
 [junction_report]
 id = j2
 time = 6
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 6
 state = (v1,30),(v3,20),(v2,10)
+
 [vehicle_report]
 id = v1
 time = 6
@@ -140,6 +167,7 @@ speed = 10
 kilometrage = 30
 faulty = 0
 location = (r1,30)
+
 [vehicle_report]
 id = v2
 time = 6
@@ -147,6 +175,7 @@ speed = 0
 kilometrage = 10
 faulty = 0
 location = (r1,10)
+
 [vehicle_report]
 id = v3
 time = 6
@@ -154,18 +183,22 @@ speed = 10
 kilometrage = 20
 faulty = 0
 location = (r1,20)
+
 [junction_report]
 id = j1
 time = 7
 queues = 
+
 [junction_report]
 id = j2
 time = 7
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 7
 state = (v1,40),(v3,30),(v2,20)
+
 [vehicle_report]
 id = v1
 time = 7
@@ -173,6 +206,7 @@ speed = 10
 kilometrage = 40
 faulty = 0
 location = (r1,40)
+
 [vehicle_report]
 id = v2
 time = 7
@@ -180,6 +214,7 @@ speed = 10
 kilometrage = 20
 faulty = 0
 location = (r1,20)
+
 [vehicle_report]
 id = v3
 time = 7
@@ -187,18 +222,22 @@ speed = 10
 kilometrage = 30
 faulty = 0
 location = (r1,30)
+
 [junction_report]
 id = j1
 time = 8
 queues = 
+
 [junction_report]
 id = j2
 time = 8
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 8
 state = (v1,50),(v3,40),(v2,30)
+
 [vehicle_report]
 id = v1
 time = 8
@@ -206,6 +245,7 @@ speed = 10
 kilometrage = 50
 faulty = 0
 location = (r1,50)
+
 [vehicle_report]
 id = v2
 time = 8
@@ -213,6 +253,7 @@ speed = 10
 kilometrage = 30
 faulty = 0
 location = (r1,30)
+
 [vehicle_report]
 id = v3
 time = 8
@@ -220,18 +261,22 @@ speed = 10
 kilometrage = 40
 faulty = 0
 location = (r1,40)
+
 [junction_report]
 id = j1
 time = 9
 queues = 
+
 [junction_report]
 id = j2
 time = 9
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 9
 state = (v1,60),(v3,50),(v2,40)
+
 [vehicle_report]
 id = v1
 time = 9
@@ -239,6 +284,7 @@ speed = 10
 kilometrage = 60
 faulty = 0
 location = (r1,60)
+
 [vehicle_report]
 id = v2
 time = 9
@@ -246,6 +292,7 @@ speed = 10
 kilometrage = 40
 faulty = 0
 location = (r1,40)
+
 [vehicle_report]
 id = v3
 time = 9
@@ -253,18 +300,22 @@ speed = 10
 kilometrage = 50
 faulty = 0
 location = (r1,50)
+
 [junction_report]
 id = j1
 time = 10
 queues = 
+
 [junction_report]
 id = j2
 time = 10
 queues = (r1,green,[])
+
 [road_report]
 id = r1
 time = 10
 state = (v1,70),(v3,60),(v2,50)
+
 [vehicle_report]
 id = v1
 time = 10
@@ -272,6 +323,7 @@ speed = 10
 kilometrage = 70
 faulty = 0
 location = (r1,70)
+
 [vehicle_report]
 id = v2
 time = 10
@@ -279,6 +331,7 @@ speed = 10
 kilometrage = 50
 faulty = 0
 location = (r1,50)
+
 [vehicle_report]
 id = v3
 time = 10
@@ -286,3 +339,4 @@ speed = 10
 kilometrage = 60
 faulty = 0
 location = (r1,60)
+
