@@ -248,7 +248,7 @@ public class SimWindow extends JFrame implements Listener {
 		time.setEditable(false);
 
 		generateReport = new SimulatorAction(Command.GenerateReport.getName(),
-				"report.png", "Generar informes", KeyEvent.VK_G,"control G", 
+				"report.png", "Generate report", KeyEvent.VK_G,"control G", 
 				() -> {
 					downLabel.setText(Command.GenerateReport.toString());
 					new MyDialogWindow (ctrl, outReport);
@@ -257,21 +257,21 @@ public class SimWindow extends JFrame implements Listener {
 				});
 
 		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), 
-				"delete_report.png", "Eliminar informes", KeyEvent.VK_E,"control E", 
+				"delete_report.png", "Delete report", KeyEvent.VK_E,"control E", 
 				() -> {
 					downLabel.setText(Command.DeleteReport.toString());
 					reportsArea.setText(null);
 				});
 
 		saveReport = new SimulatorAction(Command.SaveReport.getName(),
-				"save_report.png", "Guardar informe", KeyEvent.VK_M,"control M", 
+				"save_report.png", "Save report", KeyEvent.VK_M,"control M", 
 				() -> {
 					downLabel.setText(Command.SaveReport.toString());
 					save(reportsArea);
 				});
 
 		exit = new SimulatorAction(Command.Exit.getName(), 
-				"exit.png", "Salir de la aplicacion", KeyEvent.VK_X, "control X",
+				"exit.png", "Exit the simulation", KeyEvent.VK_X, "control X",
 				() -> {
 					downLabel.setText(Command.Exit.toString());
 					System.exit(0);
@@ -473,7 +473,6 @@ public class SimWindow extends JFrame implements Listener {
 			currentFile = fc.getSelectedFile();
 			try {
 				ctrl.setInputFile(new FileInputStream(currentFile));
-				System.out.println("Loading: " + currentFile.getName());
 				eventsEditor.get_editor().setText(readFile(currentFile));
 				eventsEditor.get_editor().setBorder(
 						BorderFactory.createTitledBorder
