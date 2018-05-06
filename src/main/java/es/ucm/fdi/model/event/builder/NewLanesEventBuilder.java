@@ -19,11 +19,18 @@ public class NewLanesEventBuilder extends NewRoadEventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewLanesEvent(parseInt(sec, "time", 0), sec.getValue("id"), sec.getValue("src"),
-					sec.getValue("dest"), parseInt(sec, "max_speed", 1), parseInt(sec, "length", 1),
-					sec.getValue("type"), parseInt(sec, "lanes", 1));
+			return new NewLanesEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"), 
+					sec.getValue("src"),
+					sec.getValue("dest"), 
+					parseInt(sec, "max_speed", 1), 
+					parseInt(sec, "length", 1),
+					sec.getValue("type"), 
+					parseInt(sec, "lanes", 1));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewHighWayEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewHighWayEvent", i);
 		}
 	}
 }

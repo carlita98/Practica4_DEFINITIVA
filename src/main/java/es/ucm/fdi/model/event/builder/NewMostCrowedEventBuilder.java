@@ -19,9 +19,12 @@ public class NewMostCrowedEventBuilder extends NewJunctionEventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewMostCrowedEvent(parseInt(sec, "time", 0), sec.getValue("id"));
+			return new NewMostCrowedEvent(
+					parseInt(sec, "time", 0),
+					sec.getValue("id"));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewRoundRobinEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewRoundRobinEvent", i);
 		}
 	}
 }

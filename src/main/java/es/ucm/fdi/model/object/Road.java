@@ -102,7 +102,8 @@ public class Road extends SimulatedObject implements Describable {
 	 * @return entire
 	 */
 	public int calculateBaseSpeed() {
-		return Math.min(maxSpeed, (maxSpeed / Math.max(vehicleList.sizeOfValues(), 1) + 1));
+		return Math.min(maxSpeed, (maxSpeed /
+				Math.max(vehicleList.sizeOfValues(), 1) + 1));
 	}
 
 	/**
@@ -113,7 +114,8 @@ public class Road extends SimulatedObject implements Describable {
 	public void executeMoveForward(int baseSpeed) {
 		boolean faultycar = false;
 		boolean thisCar = false;
-		MultiTreeMap<Integer, Vehicle> updated = new MultiTreeMap<Integer, Vehicle>((a, b) -> b - a);
+		MultiTreeMap<Integer, Vehicle> updated = 
+				new MultiTreeMap<Integer, Vehicle>((a, b) -> b - a);
 		for (Vehicle v : vehicleList.innerValues()) {
 			if (v.getFaulty() > 0) {
 				faultycar = true;

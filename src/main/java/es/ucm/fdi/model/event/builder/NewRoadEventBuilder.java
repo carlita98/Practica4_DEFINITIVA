@@ -19,10 +19,16 @@ public class NewRoadEventBuilder implements EventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewRoadEvent(parseInt(sec, "time", 0), sec.getValue("id"), sec.getValue("src"),
-					sec.getValue("dest"), parseInt(sec, "max_speed", 1), parseInt(sec, "length", 1));
+			return new NewRoadEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"), 
+					sec.getValue("src"),
+					sec.getValue("dest"), 
+					parseInt(sec, "max_speed", 1), 
+					parseInt(sec, "length", 1));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewRoadEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewRoadEvent", i);
 		}
 	}
 

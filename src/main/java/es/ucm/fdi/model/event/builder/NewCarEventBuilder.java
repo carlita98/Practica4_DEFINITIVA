@@ -18,12 +18,19 @@ public class NewCarEventBuilder extends NewVehicleEventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewCarEvent(parseInt(sec, "time", 0), sec.getValue("id"), parseInt(sec, "max_speed", 1),
-					parseIdList(sec, "itinerary"), sec.getValue("type"), parseInt(sec, "resistance", 1),
-					parseDoub(sec, "fault_probability", 0), parseInt(sec, "max_fault_duration", 1),
+			return new NewCarEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"), 
+					parseInt(sec, "max_speed", 1),
+					parseIdList(sec, "itinerary"), 
+					sec.getValue("type"), 
+					parseInt(sec, "resistance", 1),
+					parseDoub(sec, "fault_probability", 0), 
+					parseInt(sec, "max_fault_duration", 1),
 					parseInt(sec, "seed", 1));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewCarEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewCarEvent", i);
 		}
 	}
 }

@@ -47,7 +47,8 @@ public class NewBikeEvent extends NewVehicleEvent {
 			m.addVehicle(v);
 
 		} catch (NoSuchElementException e) {
-			throw new IllegalArgumentException("There has been a problem while adding bike ", e);
+			throw new IllegalArgumentException(
+					"There has been a problem while adding bike ", e);
 		}
 	}
 }

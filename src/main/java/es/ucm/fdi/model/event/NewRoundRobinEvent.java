@@ -39,7 +39,8 @@ public class NewRoundRobinEvent extends NewJunctionEvent {
 		try {
 			m.addJunction(new RoundRobinJunction(id, maxTimeSlice, minTimeSlice, "rr"));
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding RoundRobin ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding RoundRobin ", e);
 		}
 	}
 }

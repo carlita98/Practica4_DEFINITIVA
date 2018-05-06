@@ -92,17 +92,21 @@ public class Simulator {
 				fireUpdateEvent(EventType.ADVANCED, null);
 			}
 		} catch (SimulatorException e) {
-
 			Exception c = e;
-			fireUpdateEvent(EventType.ERROR, c.getMessage() + ".It happened at time: " + timeLimit + ".");
-			// System.out.println(c.getMessage() + ".It happened at time: " + timeLimit +
-			// ".");
-
+			StringBuilder sb = new StringBuilder();
+			sb.append( c.getMessage());
+			sb.append(".It happened at time: ");
+			sb.append(timeLimit);
+			sb.append(".");
+			fireUpdateEvent(EventType.ERROR, sb.toString());
 			while (c != null) {
 				c = (Exception) c.getCause();
 				if (c != null) {
-					fireUpdateEvent(EventType.ERROR, "Caused by: " + c.getMessage() + ".");
-					// System.out.println("Caused by: " + c.getMessage() + ".");
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("Caused by: ");
+					sb.append( c.getMessage());
+					sb.append(".");
+					fireUpdateEvent(EventType.ERROR, sb.toString());
 				}
 			}
 		}
@@ -159,8 +163,8 @@ public class Simulator {
 	 */
 	public void generateReport(OutputStream output, List<? extends SimulatedObject> l) {
 		try {
-			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-
+			LinkedHashMap<String, String> map = 
+					new LinkedHashMap<String, String>();
 			Ini ini = new Ini();
 			for (SimulatedObject j : l) {
 				j.report(map);

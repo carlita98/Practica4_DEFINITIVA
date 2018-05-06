@@ -25,7 +25,8 @@ public class Lanes extends Road implements Describable {
 	 * @param type
 	 * @param lanes
 	 */
-	public Lanes(String id, int maxSpeed, int length, String type, int lanes, Junction source, Junction target) {
+	public Lanes(String id, int maxSpeed, int length, 
+			String type, int lanes, Junction source, Junction target) {
 		super(id, maxSpeed, length, source, target);
 		this.type = type;
 		this.lanes = lanes;
@@ -37,7 +38,8 @@ public class Lanes extends Road implements Describable {
 	 * @return entire
 	 */
 	public int calculateBaseSpeed() {
-		return Math.min(maxSpeed, (maxSpeed * lanes) / Math.max(vehicleList.sizeOfValues(), 1) + 1);
+		return Math.min(maxSpeed, (maxSpeed * lanes) /
+				Math.max(vehicleList.sizeOfValues(), 1) + 1);
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class Lanes extends Road implements Describable {
 	 * Fill a Map with the HighWay data
 	 */
 	protected void fillReportDetails(Map<String, String> out) {
-                   out.put("type", type);
+        out.put("type", type);
 		super.fillReportDetails(out);
 	}
 }

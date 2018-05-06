@@ -37,7 +37,8 @@ public class NewJunctionEvent extends Event implements Describable {
 		try {
 			m.addJunction(new Junction(id));
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding Junction ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding Junction ", e);
 		}
 	}
 

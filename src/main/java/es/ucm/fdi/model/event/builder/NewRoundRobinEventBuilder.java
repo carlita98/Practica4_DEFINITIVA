@@ -19,10 +19,14 @@ public class NewRoundRobinEventBuilder extends NewJunctionEventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewRoundRobinEvent(parseInt(sec, "time", 0), sec.getValue("id"),
-					parseInt(sec, "max_time_slice", 1), parseInt(sec, "min_time_slice", 1));
+			return new NewRoundRobinEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"),
+					parseInt(sec, "max_time_slice", 1), 
+					parseInt(sec, "min_time_slice", 1));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewRoundRobinEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewRoundRobinEvent", i);
 		}
 	}
 }

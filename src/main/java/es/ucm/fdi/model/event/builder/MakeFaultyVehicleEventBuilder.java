@@ -20,10 +20,13 @@ public class MakeFaultyVehicleEventBuilder implements EventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new MakeFaultyVehicleEvent(parseInt(sec, "time", 0), parseIdList(sec, "vehicles"),
+			return new MakeFaultyVehicleEvent(
+					parseInt(sec, "time", 0),
+					parseIdList(sec, "vehicles"),
 					parseInt(sec, "duration", 1));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating MakeFaultyVehicleEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating MakeFaultyVehicleEvent", i);
 		}
 	}
 

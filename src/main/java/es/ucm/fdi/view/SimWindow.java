@@ -54,10 +54,14 @@ public class SimWindow extends JFrame implements Listener {
 	private Controller ctrl;
 	 
 	//Column names for the tables 
-	private static final String[] eventsViewColumns = { "#", "Time", "Type" };
-	private static final String[] vehicleTableColumns = { "ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary" };
-	private static final String[] roadTableColumns = { "ID", "Source", "Target", "Length", "Max Speed", "Vehicles" };
-	private static final String[] junctionTableColumns = { "ID", "Green", "Red" };
+	private static final String[] eventsViewColumns = {
+			"#", "Time", "Type" };
+	private static final String[] vehicleTableColumns = {
+			"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary" };
+	private static final String[] roadTableColumns = { 
+			"ID", "Source", "Target", "Length", "Max Speed", "Vehicles" };
+	private static final String[] junctionTableColumns = { 
+			"ID", "Green", "Red" };
 	
 	//Graph for the RoadMap
 	private GraphLayout graph;
@@ -124,7 +128,8 @@ public class SimWindow extends JFrame implements Listener {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public SimWindow(Controller ctrl, String inFileName) throws FileNotFoundException, IOException {
+	public SimWindow(Controller ctrl, String inFileName)
+			throws FileNotFoundException, IOException {
 		super("Traffic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.ctrl = ctrl;
@@ -188,39 +193,52 @@ public class SimWindow extends JFrame implements Listener {
 	 */
 	private void addBar() {
 		//Instantiate actions
-		load = new SimulatorAction(Command.Load.getName(), "open.png", "Open files", KeyEvent.VK_O, "control O", () -> {
-			downLabel.setText(Command.Load.toString());
-			load();
-		});
+		load = new SimulatorAction(Command.Load.getName(), 
+			"open.png", "Open files", KeyEvent.VK_O, "control O", 
+			() -> {
+				downLabel.setText(Command.Load.toString());
+				load();
+			});
 
-		save = new SimulatorAction(Command.Save.getName(), "save.png", "Save Events file", KeyEvent.VK_S, "control S",
+		save = new SimulatorAction(Command.Save.getName(), 
+				"save.png", "Save Events file", KeyEvent.VK_S, "control S",
 				() -> {
 					downLabel.setText(Command.Save.toString());
 					save(eventsEditor.get_editor());
 				});
 
-		clear = new SimulatorAction(Command.Clear.getName(), "clear.png", "Clear Events", KeyEvent.VK_C, "control C", () -> {
-			downLabel.setText(Command.Clear.toString());
-			eventsEditor.get_editor().setText(null);
-		});
+		clear = new SimulatorAction(Command.Clear.getName(), 
+				"clear.png", "Clear Events", KeyEvent.VK_C, "control C", 
+				() -> {
+					downLabel.setText(Command.Clear.toString());
+					eventsEditor.get_editor().setText(null);
+				});
 
-		event = new SimulatorAction(Command.Event.getName(), "events.png", "Insert Events", KeyEvent.VK_I, "control I", () -> {
-				downLabel.setText(Command.Event.toString());
-				ctrl.getSim().reset();
-				ctrl.setInputFile(new ByteArrayInputStream(eventsEditor.get_editor().getText().getBytes()));
-				ctrl.loadEvents();
-		});
+		event = new SimulatorAction(Command.Event.getName(), 
+				"events.png", "Insert Events", KeyEvent.VK_I, "control I", 
+				() -> {
+					downLabel.setText(Command.Event.toString());
+					ctrl.getSim().reset();
+					ctrl.setInputFile(new ByteArrayInputStream
+							(eventsEditor.get_editor().getText().getBytes()));
+					ctrl.loadEvents();
+				});
 
-		run = new SimulatorAction(Command.Run.getName(), "play.png", "Execute the simulation", KeyEvent.VK_E, "control E", () -> {
-			downLabel.setText(Command.Run.toString());
-			ctrl.getSim().execute((Integer) steps.getValue(), out);
-		});
+		run = new SimulatorAction(Command.Run.getName(), 
+				"play.png", "Execute the simulation", KeyEvent.VK_E, "control E", 
+				() -> {
+					downLabel.setText(Command.Run.toString());
+					ctrl.getSim().execute((Integer) steps.getValue(), out);
+				});
 
-		reset = new SimulatorAction(Command.Reset.getName(), "reset.png", "Reset", KeyEvent.VK_R, "control R", () -> {
-			downLabel.setText(Command.Reset.toString());
-			ctrl.getSim().reset();
-		});
+		reset = new SimulatorAction(Command.Reset.getName(), 
+				"reset.png", "Reset", KeyEvent.VK_R, "control R", 
+				() -> {
+					downLabel.setText(Command.Reset.toString());
+					ctrl.getSim().reset();
+				});
 
+		//Create the Spinner
 		SpinnerModel model = new SpinnerNumberModel(1,0,1000000000,1);
 		steps.setModel(model);
 		steps.setPreferredSize(new Dimension(100, 10));
@@ -229,31 +247,35 @@ public class SimWindow extends JFrame implements Listener {
 		time.setText("0");
 		time.setEditable(false);
 
-		generateReport = new SimulatorAction(Command.GenerateReport.getName(), "report.png", "Generar informes", KeyEvent.VK_G,
-				"control G", () -> {
+		generateReport = new SimulatorAction(Command.GenerateReport.getName(),
+				"report.png", "Generar informes", KeyEvent.VK_G,"control G", 
+				() -> {
 					downLabel.setText(Command.GenerateReport.toString());
 					new MyDialogWindow (ctrl, outReport);
 					reportsArea.setText(outReport.toString());
 					outReport =  new ByteArrayOutputStream();
 				});
 
-		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), "delete_report.png", "Eliminar informes", KeyEvent.VK_E,
-				"control E", () -> {
+		deleteReport = new SimulatorAction(Command.DeleteReport.getName(), 
+				"delete_report.png", "Eliminar informes", KeyEvent.VK_E,"control E", 
+				() -> {
 					downLabel.setText(Command.DeleteReport.toString());
 					reportsArea.setText(null);
 				});
 
-		saveReport = new SimulatorAction(Command.SaveReport.getName(), "save_report.png", "Guardar informe", KeyEvent.VK_M,
-				"control M", () -> {
+		saveReport = new SimulatorAction(Command.SaveReport.getName(),
+				"save_report.png", "Guardar informe", KeyEvent.VK_M,"control M", 
+				() -> {
 					downLabel.setText(Command.SaveReport.toString());
-						save(reportsArea);
+					save(reportsArea);
 				});
 
-		exit = new SimulatorAction(Command.Exit.getName(), "exit.png", "Salir de la aplicacion", KeyEvent.VK_X, "control X",
+		exit = new SimulatorAction(Command.Exit.getName(), 
+				"exit.png", "Salir de la aplicacion", KeyEvent.VK_X, "control X",
 				() -> {
 					downLabel.setText(Command.Exit.toString());
 					System.exit(0);
-					});
+				});
 
 		//Add the action to the toolBar
 		toolBar.add(load);
@@ -320,7 +342,8 @@ public class SimWindow extends JFrame implements Listener {
 					"Events: " + currentFile.getName()));
 		} else
 			eventsEditor.get_editor().setBorder(
-					BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events"));
+					BorderFactory.createTitledBorder
+					(BorderFactory.createLineBorder(Color.black, 2), "Events"));
 	}
 
 	/**
@@ -329,8 +352,9 @@ public class SimWindow extends JFrame implements Listener {
 	private void addReportsArea() {
 		reportsArea = new JTextArea(40, 30);
 		reportsArea.setEditable(false);
-		reportsArea.setBorder(BorderFactory.
-				createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Reports"));
+		reportsArea.setBorder(
+				BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.black, 2), "Reports"));
 	}
 
 	/**
@@ -339,33 +363,41 @@ public class SimWindow extends JFrame implements Listener {
 	private void addEventsView() {
 		eventsView = new TableModelTraffic(eventsViewColumns, events);
 		eventsView.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Events Queue"));
+				BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.black, 2), "Events Queue"));
 	}
 
 	/**
 	 * Adds the vehicle table to the main panel
 	 */
 	private void addVehicleTable() {
-		vehiclesTable = new TableModelTraffic(vehicleTableColumns, ctrl.getSim().getRoadMap().getVehiclesRO());
+		vehiclesTable = new TableModelTraffic(vehicleTableColumns, 
+				ctrl.getSim().getRoadMap().getVehiclesRO());
 		vehiclesTable.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
+				BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.black, 2), "Vehicles"));
 	}
 
 	/**
 	 * Adds the road table to the main panel
 	 */
 	private void addRoadsTable() {
-		roadsTable = new TableModelTraffic(roadTableColumns, ctrl.getSim().getRoadMap().getRoadsRO());
-		roadsTable.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
+		roadsTable = new TableModelTraffic(roadTableColumns, 
+				ctrl.getSim().getRoadMap().getRoadsRO());
+		roadsTable.setBorder(
+				BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.black, 2), "Roads"));
 	}
 
 	/**
 	 * Adds the junction table to the main panel
 	 */
 	private void addJunctionsTable() {
-		junctionsTable = new TableModelTraffic(junctionTableColumns, ctrl.getSim().getRoadMap().getJunctionsRO());
+		junctionsTable = new TableModelTraffic(junctionTableColumns, 
+				ctrl.getSim().getRoadMap().getJunctionsRO());
 		junctionsTable.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Junctions"));
+				BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.black, 2), "Junctions"));
 	}
 
 	public void registered(UpdateEvent ue) {
@@ -443,10 +475,13 @@ public class SimWindow extends JFrame implements Listener {
 				ctrl.setInputFile(new FileInputStream(currentFile));
 				System.out.println("Loading: " + currentFile.getName());
 				eventsEditor.get_editor().setText(readFile(currentFile));
-				eventsEditor.get_editor().setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
+				eventsEditor.get_editor().setBorder(
+						BorderFactory.createTitledBorder
+						(BorderFactory.createLineBorder(Color.black, 2),
 						"Events: " + currentFile.getName()));
 			} catch (Exception e) {
-				ctrl.getSim().fireUpdateEvent(EventType.ERROR, "There was a problem with file" + currentFile.getName());
+				ctrl.getSim().fireUpdateEvent
+					(EventType.ERROR, "There was a problem with file" + currentFile.getName());
 			}
 		} else {
 			downLabel.setText("Load cancelled by user.");
@@ -470,7 +505,8 @@ public class SimWindow extends JFrame implements Listener {
 			try {
 				Files.write(outFile.toPath(), area.getText().getBytes("UTF-8"));
 			} catch (Exception e) {	
-				ctrl.getSim().fireUpdateEvent(EventType.ERROR, "There was a problem with file" + outFile.getName());
+				ctrl.getSim().fireUpdateEvent
+					(EventType.ERROR, "There was a problem with file" + outFile.getName());
 			}
 		} else {
 			downLabel.setText("Save cancelled by user.");

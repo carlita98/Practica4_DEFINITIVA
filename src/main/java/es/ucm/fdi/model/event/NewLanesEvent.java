@@ -31,7 +31,8 @@ public class NewLanesEvent extends NewRoadEvent {
 	 * @param type
 	 * @param lanes
 	 */
-	public NewLanesEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, int length,
+	public NewLanesEvent(int time, String id, String idJunctionIni,
+			String idJunctionDest, int maxSpeed, int length,
 			String type, int lanes) {
 
 		super(time, id, idJunctionIni, idJunctionDest, maxSpeed, length);
@@ -44,14 +45,16 @@ public class NewLanesEvent extends NewRoadEvent {
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try {
-			Road r = new Lanes(id, maxSpeed, length, type, lanes, m.getJunction(idJunctionIni),
+			Road r = new Lanes(id, maxSpeed, length, type, lanes, 
+					m.getJunction(idJunctionIni),
 					m.getJunction(idJunctionDest));
 			m.addRoad(r);
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);
 			m.getJunction(idJunctionDest).addInRoadQueue(r);
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding HighWay", e);
+			throw new SimulatorException(
+					"There has been a problem while adding HighWay", e);
 		}
 	}
 }

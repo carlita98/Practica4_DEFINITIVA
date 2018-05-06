@@ -36,7 +36,8 @@ public class NewCarEvent extends NewVehicleEvent {
 	 * @param maxFaultDuration
 	 * @param seed
 	 */
-	public NewCarEvent(int time, String id, int maxSpeed, ArrayList<String> itinerary, String type, int resistance,
+	public NewCarEvent(int time, String id, int maxSpeed, 
+			ArrayList<String> itinerary, String type, int resistance,
 			double faultyProbability, int maxFaultDuration, long seed) {
 
 		super(time, id, maxSpeed, itinerary);
@@ -61,11 +62,13 @@ public class NewCarEvent extends NewVehicleEvent {
 				jList.add(m.getJunction(itinerary.get(i)));
 			}
 
-			Vehicle v = new Car(id, maxSpeed, jList, type, resistance, faultyProbability, maxFaultDuration, seed);
+			Vehicle v = new Car(id, maxSpeed, jList, type, 
+					resistance, faultyProbability, maxFaultDuration, seed);
 			m.addVehicle(v);
 
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding Car ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding Car ", e);
 		}
 	}
 

@@ -32,7 +32,8 @@ public class NewMostCrowedEvent extends NewJunctionEvent {
 		try {
 			m.addJunction(new MostCrowdedJunction(id, "mc"));
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding RoundRobin ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding RoundRobin ", e);
 		}
 	}
 }

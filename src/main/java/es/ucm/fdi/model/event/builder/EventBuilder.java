@@ -25,7 +25,8 @@ public interface EventBuilder {
 			new MakeFaultyVehicleEventBuilder(), 
 			new NewRoundRobinEventBuilder(),
 			new NewMostCrowedEventBuilder(), 
-			new NewJunctionEventBuilder() };
+			new NewJunctionEventBuilder() 
+	};
 
 	/**
 	 * Method implemented by the different Builders, it declares if the iniSection
@@ -60,7 +61,8 @@ public interface EventBuilder {
 		int n = 0;
 		n = Integer.parseInt(sec.getValue(key));
 		if (n < min) {
-			throw new IllegalArgumentException("The value of the attribute is out of range");
+			throw new IllegalArgumentException(
+					"The value of the attribute is out of range");
 		} else {
 			return n;
 		}
@@ -80,7 +82,8 @@ public interface EventBuilder {
 		double n = 0;
 		n = Double.parseDouble(sec.getValue(key));
 		if (n < min) {
-			throw new IllegalArgumentException("The value of the attribute is out of range");
+			throw new IllegalArgumentException(
+					"The value of the attribute is out of range");
 		} else {
 			return n;
 		}

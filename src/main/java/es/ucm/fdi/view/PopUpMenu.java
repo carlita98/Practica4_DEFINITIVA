@@ -110,9 +110,11 @@ public class PopUpMenu{
 		for (Template t : templates) {
 			JMenuItem menuItem = new JMenuItem(t.getOption());
 			menuItem.addActionListener(new ActionListener() {
+				
 				public void actionPerformed(ActionEvent e) {
 					_editor.insert(t.toString(), _editor.getCaretPosition());
 				}
+				
 			});
 			subMenu.add(menuItem);
 		}

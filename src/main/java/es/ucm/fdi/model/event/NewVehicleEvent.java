@@ -28,7 +28,8 @@ public class NewVehicleEvent extends Event implements Describable {
 	 * @param maxSpeed
 	 * @param itinerary
 	 */
-	public NewVehicleEvent(int time, String id, int maxSpeed, ArrayList<String> itinerary) {
+	public NewVehicleEvent(int time, String id, 
+			int maxSpeed, ArrayList<String> itinerary) {
 		super(time);
 		this.id = id;
 		this.maxSpeed = maxSpeed;
@@ -46,7 +47,8 @@ public class NewVehicleEvent extends Event implements Describable {
 		try {
 			m.addVehicle(new Vehicle(id, maxSpeed, jList));
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding Vehicle ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding Vehicle ", e);
 		}
 	}
 

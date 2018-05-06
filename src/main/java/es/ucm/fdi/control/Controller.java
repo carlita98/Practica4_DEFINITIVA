@@ -31,7 +31,8 @@ public class Controller {
 	 * @param outputFile
 	 * @throws FileNotFoundException
 	 */
-	public Controller(int time, InputStream inputFile, OutputStream outputFile) throws FileNotFoundException {
+	public Controller(int time, InputStream inputFile, 
+			OutputStream outputFile) throws FileNotFoundException {
 		this.time = time;
 		this.inputFile = inputFile;
 		this.outputFile = outputFile;
@@ -71,13 +72,14 @@ public class Controller {
 		for (EventBuilder eb : EventBuilder.bs) {
 			try {
 				e = eb.parse(sec);
-
 				if (e != null) {
 					break;
 				}
-
 			} catch (IllegalArgumentException i) {
-				throw new IllegalArgumentException("There has been a problem parsing a Section" + sec, i);
+				StringBuilder sb = new StringBuilder();
+				sb.append("There has been a problem parsing a Section");
+				sb.append(sec);
+				throw new IllegalArgumentException(sb.toString(), i);
 			}
 		}
 
@@ -98,17 +100,18 @@ public class Controller {
 			for (IniSection sec : read.getSections()) {
 				try {
 					Event newEvent = parseSection(sec);
-
 					if (newEvent != null) {
 						sim.insertEvent(newEvent);
 					}
-
 				} catch (IllegalArgumentException i) {
-					getSim().fireUpdateEvent(EventType.ERROR, i.getMessage());
+					StringBuilder sb = new StringBuilder();
+					sb.append("Error in the simulation\n");
+					sb.append(i.getMessage());
+					getSim().fireUpdateEvent(EventType.ERROR, sb.toString());
 				}
 			}
 		} catch (IOException e) {
-			getSim().fireUpdateEvent(EventType.ERROR, "La IniSection no es correcta");
+			getSim().fireUpdateEvent(EventType.ERROR,"Error in the simulation\n");
 		}
 		
 	}

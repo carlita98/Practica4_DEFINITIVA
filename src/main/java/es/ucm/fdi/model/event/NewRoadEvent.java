@@ -33,7 +33,8 @@ public class NewRoadEvent extends Event implements Describable {
 	 * @param maxSpeed
 	 * @param length
 	 */
-	public NewRoadEvent(int time, String id, String idJunctionIni, String idJunctionDest, int maxSpeed, int length) {
+	public NewRoadEvent(int time, String id, String idJunctionIni, 
+			String idJunctionDest, int maxSpeed, int length) {
 
 		super(time);
 		this.id = id;
@@ -48,13 +49,16 @@ public class NewRoadEvent extends Event implements Describable {
 	 */
 	public void execute(RoadMap m) throws SimulatorException {
 		try {
-			Road r = new Road(id, maxSpeed, length, m.getJunction(idJunctionIni), m.getJunction(idJunctionDest));
+			Road r = new Road(id, maxSpeed, length,
+					m.getJunction(idJunctionIni),
+					m.getJunction(idJunctionDest));
 			m.addRoad(r);
 			m.getJunction(idJunctionIni).addOutcoming(r);
 			m.getJunction(idJunctionDest).addIncoming(r);
 			m.getJunction(idJunctionDest).addInRoadQueue(r);
 		} catch (NoSuchElementException e) {
-			throw new SimulatorException("There has been a problem while adding Road ", e);
+			throw new SimulatorException(
+					"There has been a problem while adding Road ", e);
 		}
 	}
 

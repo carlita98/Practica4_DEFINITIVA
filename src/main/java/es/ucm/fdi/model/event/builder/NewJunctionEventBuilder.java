@@ -19,9 +19,12 @@ public class NewJunctionEventBuilder implements EventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewJunctionEvent(parseInt(sec, "time", 0), sec.getValue("id"));
+			return new NewJunctionEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewJunctionEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewJunctionEvent", i);
 		}
 	}
 }

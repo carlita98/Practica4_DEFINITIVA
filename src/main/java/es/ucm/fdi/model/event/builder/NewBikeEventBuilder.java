@@ -20,10 +20,15 @@ public class NewBikeEventBuilder implements EventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewBikeEvent(parseInt(sec, "time", 0), sec.getValue("id"), parseInt(sec, "max_speed", 1),
-					parseIdList(sec, "itinerary"), sec.getValue("type"));
+			return new NewBikeEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"), 
+					parseInt(sec, "max_speed", 1),
+					parseIdList(sec, "itinerary"), 
+					sec.getValue("type"));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewBikeEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewBikeEvent", i);
 		}
 	}
 

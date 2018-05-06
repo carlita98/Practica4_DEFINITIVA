@@ -53,7 +53,8 @@ public class GraphLayout extends JFrame{
 			if (r.getTarget().getIncomingRoadList().get(r.getTarget().getCurrentIncoming()) == r) {
 				green = true;
 			}
-			Edge e = new Edge(r.getId(), js.get(r.getSource()), js.get(r.getTarget()), r.getLength(), green);	
+			Edge e = new Edge(r.getId(), js.get(r.getSource()), 
+					js.get(r.getTarget()), r.getLength(), green);	
 			for(Vehicle v: r.getVehicleList().innerValues()) {
 				e.addDot( new Dot(v.getId() , v.getRoadLocation()));
 			}

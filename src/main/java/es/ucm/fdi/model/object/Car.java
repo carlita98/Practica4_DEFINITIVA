@@ -43,8 +43,9 @@ public class Car extends Vehicle implements Describable {
 		this.maxFaultDuration = maxFaultDuration;
 		if (seed == System.currentTimeMillis()) {
 			this.seed = new Random().nextInt(1000);
-		} else
+		} else {
 			this.seed = seed;
+		}
 		randomNum = new Random(this.seed);
 		distanceSinceFaulty = 0;
 	}
@@ -56,7 +57,8 @@ public class Car extends Vehicle implements Describable {
 		if (faulty > 0) {
 			distanceSinceFaulty = 0;
 			super.moveForward();
-		} else if (faulty == 0 && distanceSinceFaulty > resistance && randomNum.nextDouble() < faultyProbability) {
+		} else if (faulty == 0 && distanceSinceFaulty > resistance 
+				&& randomNum.nextDouble() < faultyProbability) {
 			super.setFaultyTime(randomNum.nextInt(maxFaultDuration) + 1);
 			distanceSinceFaulty = 0;
 			super.moveForward();

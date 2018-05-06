@@ -20,10 +20,14 @@ public class NewVehicleEventBuilder implements EventBuilder {
 		}
 		try {
 			//Creates a new Event
-			return new NewVehicleEvent(parseInt(sec, "time", 0), sec.getValue("id"), parseInt(sec, "max_speed", 1),
+			return new NewVehicleEvent(
+					parseInt(sec, "time", 0), 
+					sec.getValue("id"),
+					parseInt(sec, "max_speed", 1),
 					parseIdList(sec, "itinerary"));
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("There has been a problem creating NewVehicleEvent", i);
+			throw new IllegalArgumentException(
+					"There has been a problem creating NewVehicleEvent", i);
 		}
 	}
 

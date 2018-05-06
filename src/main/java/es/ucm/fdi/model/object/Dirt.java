@@ -22,7 +22,8 @@ public class Dirt extends Road implements Describable {
 	 * @param length
 	 * @param type
 	 */
-	public Dirt(String id, int maxSpeed, int length, String type, Junction source, Junction target) {
+	public Dirt(String id, int maxSpeed, int length, 
+			String type, Junction source, Junction target) {
 		super(id, maxSpeed, length, source, target);
 		this.type = type;
 	}
@@ -43,7 +44,8 @@ public class Dirt extends Road implements Describable {
 	 */
 	public void executeMoveForward(int baseSpeed) {
 		int counter = 0;
-		MultiTreeMap<Integer, Vehicle> updated = new MultiTreeMap<Integer, Vehicle>((a, b) -> b - a);
+		MultiTreeMap<Integer, Vehicle> updated = 
+				new MultiTreeMap<Integer, Vehicle>((a, b) -> b - a);
 		for (Vehicle v : vehicleList.innerValues()) {
 			if (v.getFaulty() > 0) {
 				counter++;
